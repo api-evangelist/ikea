@@ -13,6 +13,10 @@ modified: '2026-05-16'
 specificationVersion: '0.19'
 apis: []
 common:
+  - type: GitHubOrganization
+    url: https://github.com/IKEA
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/ikea
   - type: Website
     url: https://www.ikea.com/
   - type: CorporateSite
