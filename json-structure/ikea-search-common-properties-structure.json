@@ -1,0 +1,21 @@
+{
+  "type": "object",
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ikea/refs/heads/main/json-structure/ikea-search-common-properties-structure.json",
+  "name": "CommonProperties",
+  "description": "Common properties returned in search responses",
+  "properties": {
+    "usergroup": {
+      "type": "string",
+      "example": "[]"
+    },
+    "testActivationTriggers": {
+      "type": "object",
+      "example": {}
+    }
+  },
+  "required": [
+    "usergroup",
+    "testActivationTriggers"
+  ]
+}

@@ -1,0 +1,599 @@
+openapi: 3.1.1
+info:
+  title: IKEA Product Catalog API
+  summary: Unofficial API for fetching IKEA categories and navigation data
+  description: |
+    This is an **unofficial** OpenAPI specification for the IKEA Product Catalog API.
+
+    ## FAQ
+
+    **Q: Why is this API called Product Catalog?**
+
+    **A:** The API described here is referring to the products and categories of the
+    main IKEA website. In one if the API responses, `catalogRefs` was returned,
+    so using this seemed like a good match for the name.
+
+    ## Swagger UI
+
+    This API can be tested using swagger-ui at [./swagger-ui.html](swagger-ui.html) as long as the
+    CORS header `Access-Control-Allow-Origin` are configured as `*`.
+    At the moment of writing this is only the case for the [IKEA Search API](../search/index.html).
+
+    ## Other APIs
+
+    * [IKEA Product Catalog API](../product-catalog/index.html)
+    * [IKEA Search API](../search/index.html)
+    * [IKEA Sales Item API](../sales-item/index.html)
+    * [IKEA After Purchase Ordering API](../after-purchase-ordering/index.html)
+
+    ## ⚠️ Disclaimer
+
+    * This project is based on publicly available information and analysis of network requests.
+    * It is not affiliated with, endorsed by, or supported by IKEA.
+    * Endpoints, schemas, and behaviors may change at any time and may not reflect official or supported APIs.
+    * Use this specification at your own risk.
+
+    ### See also
+
+    This section lists resources used during the creation of these APIs to exent and check validity of the API.
+    These are not in any special order but useful as references.
+
+    * [OpenAPI Spec for api.salesitem.ingka.com](https://github.com/shrabdut123/cart-multi-agent/blob/a10dc96ac7a1fd98701afebe2cde585e6d9a6a08/service_coordinator_agent/salesitem_api.yaml#L13) - Very verbose OpenAPI Spec with detailed resources referring to inside IKEA knowledge.
+    * [DavisChappins/ikeaStockChecker](https://github.com/DavisChappins/ikeaStockChecker/blob/45fa92f26ac2b37d03c37eb34e0c618c4a8477e8/ikea_stock_scanner.py#L11) - Use of `api.salesitem.ingka.com` endpoint.
+    * [Mirzaei81/ikeaScraper](https://github.com/Mirzaei81/ikeaScraper/blob/cdeef5c9fb76660b18a8e569d7213828ffe5f9d2/app.py#L74) - Use of `api.salesitem.ingka.com` endpoint.
+    * [Ephigenia/ikea-availability-checker/postman/schemas/ikea-ingka-api.yaml](https://github.com/Ephigenia/ikea-availability-checker/blob/c7fe2f9bc8306c01783f8d22329d34ed76a582c9/postman/schemas/ikea-ingka-api.yaml) - This contains resources related to the `api.salesitem.ingka.com` (Sales Item API)
+    * [vrslev/ikea-api-client/src/ikea_api/endpoints/search.py](https://github.com/vrslev/ikea-api-client/blob/ce70c8d743302a465931bdb6a9f7b0bc5c1d882f/src/ikea_api/endpoints/search.py#L14C1-L14C117) - Use of the Search API and some other endpoints.
+  version: 0.1.0
+  license:
+    name: MIT License
+    url: https://opensource.org/licenses/MIT
+  contact:
+    name: Unofficial IKEA OpenAPI Maintainer
+    url: https://github.com/idelsink/ikea-openapi
+servers:
+- url: https://www.ikea.com/{country}/{language}
+  description: IKEA main website
+  variables:
+    country:
+      default: gb
+      description: Country code (e.g., de, gb, fr, us)
+    language:
+      default: en
+      description: Language code (e.g., en, de, fr)
+tags:
+- name: Categories
+  description: Everything about Categories
+- name: Products
+  description: Everything about Products
+- name: Stores
+  description: Everything about Stores
+paths:
+  /meta-data/informera/stores-detailed.json:
+    get:
+      summary: IKEA Get Information for All Stores
+      description: Returns information about all IKEA stores in the requested region
+      operationId: getStores
+      tags:
+      - Stores
+      responses:
+        '200':
+          description: Successful response with store details
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Store'
+              examples:
+                GetStores200Example:
+                  summary: Default getStores 200 response
+                  value:
+                  - name: IKEA Berlin - Tempelhof
+                    lat: '52.46958147'
+                    lng: '13.36625688'
+                    address:
+                      street: Sachsendamm 47
+                      zipCode: '10829'
+                      city: Berlin,Tempelhof
+                      timezone: Europe/Berlin
+                      stateProvinceCode: DEBE
+                      displayAddress: Sachsendamm 47, Berlin,Tempelhof
+                    homeShoppingUnit: false
+                    openCloseDates:
+                      openingDate: '2003-11-27T00:00:00Z'
+                    hours: &id001
+                      normal:
+                      - close: '20:00'
+                        day: MON
+                        open: '10:00'
+                      - close: '20:00'
+                        day: THU
+                        open: '10:00'
+                    displayName: Berlin-Tempelhof
+                  x-microcks-default: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /meta-data/navigation/catalog-products-slim.json:
+    get:
+      summary: IKEA Get Categories and Subcategories
+      description: Returns the complete category hierarchy including all main categories and their nested subcategories
+      operationId: getCategories
+      tags:
+      - Categories
+      responses:
+        '200':
+          description: Successful response with category tree
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+              examples:
+                GetCategories200Example:
+                  summary: Default getCategories 200 response
+                  value:
+                  - id: st001
+                    name: Storage furniture
+                    url: /gb/en/cat/storage-furniture-st001/
+                    im: https://www.ikea.com/images/4e/83/4e83f2c50f6d1cf0e3d90e78662de08b.png?f=sg
+                    subs:
+                    - id: example
+                      name: Storage furniture
+                      url: /gb/en/cat/storage-furniture-st001/
+                      im: https://www.ikea.com/images/4e/83/4e83f2c50f6d1cf0e3d90e78662de08b.png?f=sg
+                      subs:
+                      - example
+                  x-microcks-default: true
+        '404':
+          description: Categories not found
+        '500':
+          description: Server error
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /products/{productIdSuffix}/{productId}.json:
+    get:
+      summary: IKEA Find Product by Id
+      description: Returns a single product
+      operationId: getProductById
+      tags:
+      - Products
+      parameters:
+      - $ref: '#/components/parameters/productIdSuffix'
+      - $ref: '#/components/parameters/productId'
+      responses:
+        '200':
+          description: Successful response with product details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDetails'
+              examples:
+                GetProductById200Example:
+                  summary: Default getProductById 200 response
+                  value:
+                    catalogRefs:
+                      products:
+                        elements:
+                        - id: '43632'
+                          name: Fitted wardrobes
+                          url: https://www.ikea.com/de/en/cat/fitted-wardrobes-43632/
+                        id: products
+                        name: Products
+                        url: https://www.ikea.com/de/en/cat/products-products/
+                    currencyCode: EUR
+                    experimental: &id002 {}
+                    globalId: '00263850'
+                    id: '00263850'
+                    mainImage:
+                      alt: A white ikea PAX wardrobe with open doors, revealing shelves and a basket.
+                      id: 1197448_PE903536
+                      imageFileName: 1197448_PE903536_S5.JPG
+                      type: MAIN_PRODUCT_IMAGE
+                      url: https://www.ikea.com/de/en/images/products/pax-forsand-wardrobe-white-white__1197448_pe903536_s5.jpg
+                    name: PAX / FORSAND
+                    pipUrl: https://www.ikea.com/de/en/p/pax-forsand-wardrobe-white-white-s09502728/
+                  x-microcks-default: true
+        '400':
+          description: Bad Request
+        '404':
+          description: Product could not be found
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Store:
+      type: object
+      description: Store details
+      required:
+      - name
+      - lat
+      - lng
+      - address
+      - homeShoppingUnit
+      - openCloseDates
+      - hours
+      - displayName
+      - extras
+      - hideStore
+      - treatAsStore
+      - displayNameAlternate
+      - weekStartDay
+      - id
+      - buClassification
+      properties:
+        name:
+          type: string
+          description: Store name
+          example: IKEA Berlin - Tempelhof
+        lat:
+          type: string
+          description: Store latitude
+          example: '52.46958147'
+        lng:
+          type: string
+          description: Store longitude
+          example: '13.36625688'
+        address:
+          type: object
+          description: Store Address
+          required:
+          - street
+          - zipCode
+          - city
+          - timezone
+          - displayAddress
+          properties:
+            street:
+              type: string
+              description: Street
+              example: Sachsendamm 47
+            zipCode:
+              type: string
+              description: ZIP code / Postal code
+              example: '10829'
+            city:
+              type: string
+              description: City
+              example: Berlin,Tempelhof
+            timezone:
+              type: string
+              description: Timezone
+              example: Europe/Berlin
+            stateProvinceCode:
+              type: string
+              description: Stage and State/province code
+              example: DEBE
+            displayAddress:
+              type: string
+              description: Display Address
+              example: Sachsendamm 47, Berlin,Tempelhof
+        homeShoppingUnit:
+          type: boolean
+          example: false
+        openCloseDates:
+          type: object
+          properties:
+            openingDate:
+              type: string
+              format: date-time
+              example: '2003-11-27T00:00:00Z'
+        hours:
+          type: object
+          description: Various unit opening hours
+          additionalProperties:
+            description: |
+              Opening hour schedule name observed values:
+                * `normal`
+                * `exceptions`
+                * `restaurant`
+                * `bistro`
+                * `cafe`
+                * `clickncollect`
+                * `swedishFoodMarket`
+                * `smaland`
+                * `closed`
+            type: array
+            items:
+              type: object
+              description: Opening hours for unit
+              properties:
+                close:
+                  type: string
+                  format: time
+                  description: Closing time in HH:mm format
+                  example: '17:00'
+                day:
+                  type: string
+                  description: Day of the week (abbreviated, uppercase)
+                  enum:
+                  - MON
+                  - TUE
+                  - WED
+                  - THU
+                  - FRI
+                  - SAT
+                  - SUN
+                  example: MON
+                open:
+                  type: string
+                  format: time
+                  description: Opening time in HH:mm format
+                  example: '09:00'
+          example: *id001
+        displayName:
+          type: string
+          description: Store Display Name
+          example: Berlin-Tempelhof
+        externalPickupPoint:
+          type: object
+          example:
+            hours: []
+        extras:
+          type: object
+          example:
+            normal:
+              body: From September 1, 2025, our store will be open Monday through Saturday from 10:00 a.m. to 8:00 p.m.
+              heading: New opening hours from September 1, 2025..
+        hideStore:
+          type: boolean
+          description: Show or Hide the store
+          example: false
+        placeId:
+          type: string
+          description: Place ID
+          example: ChIJw7UyJQVQqEcRzw0vmZtAbTg
+        storePageUrl:
+          type: string
+          format: uri
+          description: Store Page URL
+          example: https://www.ikea.com/de/de/stores/berlin-tempelhof/
+        treatAsStore:
+          type: boolean
+          example: false
+        displayNameAlternate:
+          type: string
+          description: Alternate Store Display Name
+          example: IKEA Berlin-Tempelhof
+        weekStartDay:
+          type: string
+          example: MON
+        id:
+          type: string
+          description: Store ID
+          example: '421'
+        buClassification:
+          type: object
+          required:
+          - code
+          - name
+          properties:
+            code:
+              type: string
+              example: STORE
+            name:
+              type: string
+              example: IKEA STORE
+    categoryId:
+      type: string
+      description: Category identifier (UUID, code like 'st001', or numeric ID)
+      example: st001
+      examples:
+      - st001
+      - 4a552556-db67-4fab-afb0-11433eda6784
+    Category:
+      type: object
+      description: Category details
+      required:
+      - id
+      - name
+      - url
+      properties:
+        id:
+          $ref: '#/components/schemas/categoryId'
+        name:
+          type: string
+          description: Category display name
+          example: Storage furniture
+        url:
+          type: string
+          format: iri-reference
+          description: Relative path to the category
+          example: /gb/en/cat/storage-furniture-st001/
+        im:
+          type: string
+          format: uri
+          description: Category image URL
+          example: https://www.ikea.com/images/4e/83/4e83f2c50f6d1cf0e3d90e78662de08b.png?f=sg
+        subs:
+          type: array
+          description: |
+            Array of Category objects (recursive).
+            Each subcategory has the same structure as this schema.
+            Maximum depth observed: 4 levels.
+          items:
+            $ref: '#/components/schemas/Category'
+    productId:
+      type: string
+      description: Product identifier
+      example: '00263850'
+    ProductDetails:
+      type: object
+      description: |
+        Product details
+
+        > Note: This Schema does not describe all of the properties returned or does not have a description for all properties. It only describes a sub-set of them.
+      required:
+      - catalogRefs
+      - currencyCode
+      - experimental
+      - globalId
+      - id
+      - mainImage
+      - name
+      - pipUrl
+      - price
+      - priceExclTax
+      - priceExclTaxNumeral
+      - priceNumeral
+      - revampPrice
+      - typeName
+      - validDesignText
+      properties:
+        catalogRefs:
+          type: object
+          required:
+          - products
+          properties:
+            products:
+              type: object
+              required:
+              - elements
+              - id
+              - name
+              - url
+              properties:
+                elements:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                    - id
+                    - name
+                    - url
+                    properties:
+                      id:
+                        type: string
+                        example: '43632'
+                      name:
+                        type: string
+                        example: Fitted wardrobes
+                      url:
+                        type: string
+                        format: uri
+                        example: https://www.ikea.com/de/en/cat/fitted-wardrobes-43632/
+                id:
+                  type: string
+                  example: products
+                name:
+                  type: string
+                  example: Products
+                url:
+                  type: string
+                  format: uri
+                  example: https://www.ikea.com/de/en/cat/products-products/
+        currencyCode:
+          type: string
+          example: EUR
+        experimental:
+          type: object
+          example: *id002
+        globalId:
+          $ref: '#/components/schemas/productId'
+        id:
+          $ref: '#/components/schemas/productId'
+        mainImage:
+          type: object
+          required:
+          - alt
+          - id
+          - imageFileName
+          - type
+          - url
+          properties:
+            alt:
+              type: string
+              example: A white ikea PAX wardrobe with open doors, revealing shelves and a basket.
+            id:
+              type: string
+              example: 1197448_PE903536
+            imageFileName:
+              type: string
+              example: 1197448_PE903536_S5.JPG
+            type:
+              type: string
+              example: MAIN_PRODUCT_IMAGE
+            url:
+              type: string
+              format: uri
+              example: https://www.ikea.com/de/en/images/products/pax-forsand-wardrobe-white-white__1197448_pe903536_s5.jpg
+        name:
+          type: string
+          description: Product name
+          example: PAX / FORSAND
+        pipUrl:
+          type: string
+          format: uri
+          example: https://www.ikea.com/de/en/p/pax-forsand-wardrobe-white-white-s09502728/
+        price:
+          type: string
+          description: Product price
+          example: 560.00€
+        priceExclTax:
+          type: string
+          example: 470.58€
+        priceExclTaxNumeral:
+          type: number
+          example: 470.58
+        priceNumeral:
+          type: number
+          example: 560
+        revampPrice:
+          type: object
+        typeName:
+          type: string
+          example: wardrobe
+        validDesignText:
+          type: string
+          example: white/white
+  parameters:
+    productIdSuffix:
+      in: path
+      name: productIdSuffix
+      required: true
+      description: |
+        Product ID Suffix (last 3 digits of Product ID)
+        Value can be:
+          *  zero (`0`) or
+          * Product ID Suffix (`406`)
+      schema:
+        type: string
+        pattern: ^(0|[0-9]{3})$
+        maxLength: 3
+      examples:
+        empty:
+          summary: Empty value (0)
+          value: '0'
+        billy:
+          summary: BILLY Bookcase (00263850)
+          value: '850'
+        besta:
+          summary: BESTÅ Shelf unit with doors (s59047406)
+          value: '406'
+    productId:
+      name: productId
+      in: path
+      required: true
+      description: |
+        Product identifier
+        Value can be:
+          *  zero (`0`),
+          * product identifier (`00263850`) or
+          * product identifier with `s` prefix (`s59047406`)
+      schema:
+        type: string
+        pattern: ^(0|s[0-9]{8}|[0-9]{8})$
+        maxLength: 9
+      examples:
+        empty:
+          summary: Empty value (0)
+          value: '0'
+        billy:
+          summary: BILLY Bookcase (00263850)
+          value: '00263850'
+        besta:
+          summary: BESTÅ Shelf unit with doors (s59047406)
+          value: s59047406

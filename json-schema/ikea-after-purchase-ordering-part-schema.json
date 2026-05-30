@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ikea/refs/heads/main/json-schema/ikea-after-purchase-ordering-part-schema.json",
+  "title": "Part",
+  "description": "Replacement part",
+  "type": "object",
+  "properties": {
+    "itemId": {
+      "type": "string",
+      "description": "Part identifier - typically 5-8 digit number, may include suffix like `/1` or `-1`",
+      "example": "100001"
+    },
+    "partName": {
+      "type": "string",
+      "description": "Part name",
+      "example": "KEY HEXAGON 4MM SSH L48 ZN"
+    },
+    "partDescription": {
+      "type": "string",
+      "description": "Part description",
+      "example": "S-SHAPE, WIDTH=20, LENGTH=48, HARDENED HRC 52 +5/-10"
+    },
+    "categoryId": {
+      "type": "string",
+      "description": "Category identifier",
+      "example": "P1201"
+    },
+    "subCategoryId": {
+      "type": "string",
+      "description": "Subcategory identifier",
+      "example": "12101"
+    },
+    "replacementId": {
+      "type": "string",
+      "description": "Part identifier - typically 5-8 digit number, may include suffix like `/1` or `-1`",
+      "example": "100001"
+    },
+    "stock": {
+      "type": "integer",
+      "description": "Stock status",
+      "example": 352
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "AVAILABLE",
+        "NOT_AVAILABLE",
+        "ORDER_AT_CSC",
+        "OUT_OF_STOCK",
+        "DISCONTINUED_WITH_REPLACEMENTID"
+      ],
+      "description": "Part Status:\n  * `AVAILABLE` - Part is available\n  * `NOT_AVAILABLE` - Part is not available\n  * `ORDER_AT_CSC` - Order at the Customer Service Center\n  * `OUT_OF_STOCK` - Part is out of stock\n  * `DISCONTINUED_WITH_REPLACEMENTID` - Part is discontinued and replaced by provided id.\n",
+      "example": "AVAILABLE"
+    }
+  },
+  "required": [
+    "itemId",
+    "partName",
+    "categoryId",
+    "subCategoryId",
+    "replacementId",
+    "status"
+  ]
+}

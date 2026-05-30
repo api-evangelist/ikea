@@ -1,0 +1,19 @@
+[
+  {
+    "id": "st001",
+    "name": "Storage furniture",
+    "url": "/gb/en/cat/storage-furniture-st001/",
+    "im": "https://www.ikea.com/images/4e/83/4e83f2c50f6d1cf0e3d90e78662de08b.png?f=sg",
+    "subs": [
+      {
+        "id": "example",
+        "name": "Storage furniture",
+        "url": "/gb/en/cat/storage-furniture-st001/",
+        "im": "https://www.ikea.com/images/4e/83/4e83f2c50f6d1cf0e3d90e78662de08b.png?f=sg",
+        "subs": [
+          "example"
+        ]
+      }
+    ]
+  }
+]

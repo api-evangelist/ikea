@@ -1,0 +1,55 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: IKEA Product Catalog API - Products
+  description: 'IKEA Product Catalog API - Products. 1 operation(s). Lead operation: IKEA Find Product by Id. Self-contained Naftiko capability covering one IKEA business surface (community / unofficial
+    spec).'
+  tags:
+  - IKEA
+  - Products
+  - Unofficial API
+  - Opensource
+  created: '2026-05-30'
+  modified: '2026-05-30'
+binds:
+- namespace: env
+  description: Environment-bound configuration (country, language, API tokens if any).
+consumes:
+- name: product-catalog
+  description: Inlined consume block for the unofficial IKEA Products surface.
+  base:
+    url: https://www.ikea.com/{country}/{language}
+    variables:
+      country:
+        default: gb
+        description: Country code (e.g., de, gb, fr, us)
+      language:
+        default: en
+        description: Language code (e.g., en, de, fr)
+  auth:
+    type: none
+    description: Community IKEA storefront endpoints currently require no authentication. The DIRIGERA hub uses bearer tokens but is not covered by this capability.
+  operations:
+  - name: getProductById
+    method: GET
+    path: /products/{productIdSuffix}/{productId}.json
+    summary: IKEA Find Product by Id
+    description: Returns a single product
+exposers:
+  rest:
+    name: product-catalog-products-rest
+    description: REST exposer for the Products capability — passes through to the underlying IKEA endpoint.
+    base:
+      path: /products
+    resources:
+    - path: /products/{productIdSuffix}/{productId}.json
+      method: GET
+      operation: getProductById
+      summary: IKEA Find Product by Id
+  mcp:
+    name: product-catalog-products-mcp
+    description: MCP exposer for the Products capability — each operation is exposed as a verb-noun MCP tool.
+    tools:
+    - name: getProductById
+      title: IKEA Find Product by Id
+      description: Returns a single product
+      operation: getProductById

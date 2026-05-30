@@ -1,0 +1,351 @@
+# Spectral ruleset for the IKEA community OpenAPI specifications.
+#
+# These rules are derived from the patterns observed across the four
+# unofficial IKEA OpenAPI specs (Product Catalog, Search, Sales Item,
+# After Purchase Ordering) maintained by idelsink/ikea-openapi and
+# profiled in this repository. They enforce a single, opinionated style
+# for any future IKEA community spec contributed here.
+#
+# The IKEA storefront APIs are reverse-engineered REST surfaces that
+# return JSON, served over HTTPS by IKEA-operated subdomains
+# (www.ikea.com, sik.search.blue.cdtapps.com, api.salesitem.ingka.com,
+# api.aporo.ingka.com). They are read-only (GET) and require no
+# authentication. The DIRIGERA hub API is not covered here because no
+# OpenAPI for it exists yet.
+
+extends:
+  - spectral:oas
+
+rules:
+  # ---------------------------------------------------------------
+  # INFO / METADATA
+  # ---------------------------------------------------------------
+  ikea-info-title-prefix:
+    description: info.title must start with "IKEA " so the spec is identifiable.
+    message: 'info.title should start with "IKEA " (got "{{value}}")'
+    severity: error
+    given: $.info.title
+    then:
+      function: pattern
+      functionOptions:
+        match: '^IKEA( |$)'
+
+  ikea-info-description-required:
+    description: info.description is required and should be at least 40 chars and call out that the spec is unofficial.
+    message: 'info.description must be at least 40 characters and document that the spec is unofficial.'
+    severity: error
+    given: $.info
+    then:
+      - field: description
+        function: truthy
+      - field: description
+        function: length
+        functionOptions:
+          min: 40
+
+  ikea-info-version-semver:
+    description: info.version must follow semantic versioning (MAJOR.MINOR.PATCH).
+    severity: error
+    given: $.info.version
+    then:
+      function: pattern
+      functionOptions:
+        match: '^\d+\.\d+\.\d+$'
+
+  ikea-info-license-required:
+    description: A license must be declared on every IKEA community spec.
+    severity: error
+    given: $.info.license
+    then:
+      - field: name
+        function: truthy
+      - field: url
+        function: truthy
+
+  ikea-info-contact-required:
+    description: A contact entry must be declared so consumers can reach the maintainer.
+    severity: warn
+    given: $.info.contact
+    then:
+      field: url
+      function: truthy
+
+  # ---------------------------------------------------------------
+  # OPENAPI VERSION
+  # ---------------------------------------------------------------
+  ikea-openapi-version:
+    description: All IKEA community specs must use OpenAPI 3.1.x.
+    message: 'OpenAPI version must be 3.1.x (got {{value}})'
+    severity: error
+    given: $.openapi
+    then:
+      function: pattern
+      functionOptions:
+        match: '^3\.1\.\d+$'
+
+  # ---------------------------------------------------------------
+  # SERVERS
+  # ---------------------------------------------------------------
+  ikea-servers-defined:
+    description: At least one server must be defined.
+    severity: error
+    given: $
+    then:
+      field: servers
+      function: truthy
+
+  ikea-servers-https:
+    description: All server URLs must use HTTPS.
+    severity: error
+    given: $.servers[*].url
+    then:
+      function: pattern
+      functionOptions:
+        match: '^https://'
+
+  ikea-servers-description-required:
+    description: Every server entry must have a description.
+    severity: warn
+    given: $.servers[*]
+    then:
+      field: description
+      function: truthy
+
+  # ---------------------------------------------------------------
+  # PATHS — NAMING CONVENTIONS
+  # ---------------------------------------------------------------
+  ikea-paths-kebab-or-template:
+    description: Path segments must be kebab-case or curly-brace path parameters.
+    message: 'Path "{{path}}" segments should be kebab-case (lowercase, hyphen-separated) or {param}.'
+    severity: warn
+    given: $.paths.*~
+    then:
+      function: pattern
+      functionOptions:
+        match: '^(/(([a-z0-9][a-z0-9\-\.]*)|(\{[a-zA-Z0-9_]+\})))+$'
+
+  ikea-paths-no-trailing-slash:
+    description: Paths must not end with a trailing slash.
+    severity: warn
+    given: $.paths.*~
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: '.+/$'
+
+  ikea-paths-no-query-string:
+    description: Paths must not contain query strings; use parameters instead.
+    severity: error
+    given: $.paths.*~
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: '\?'
+
+  # ---------------------------------------------------------------
+  # OPERATIONS
+  # ---------------------------------------------------------------
+  ikea-operation-summary-required:
+    description: Every operation must have a summary.
+    severity: error
+    given: $.paths.*[get,post,put,patch,delete]
+    then:
+      field: summary
+      function: truthy
+
+  ikea-operation-summary-ikea-prefix:
+    description: Operation summaries must start with "IKEA " (Title Case Summaries convention).
+    message: 'Summary "{{value}}" should start with "IKEA ".'
+    severity: warn
+    given: $.paths.*[get,post,put,patch,delete].summary
+    then:
+      function: pattern
+      functionOptions:
+        match: '^IKEA( |$)'
+
+  ikea-operation-description-required:
+    description: Every operation must have a description.
+    severity: warn
+    given: $.paths.*[get,post,put,patch,delete]
+    then:
+      field: description
+      function: truthy
+
+  ikea-operation-id-required:
+    description: Every operation must have an operationId.
+    severity: error
+    given: $.paths.*[get,post,put,patch,delete]
+    then:
+      field: operationId
+      function: truthy
+
+  ikea-operation-id-camel-case:
+    description: operationId must be camelCase.
+    message: 'operationId "{{value}}" should be camelCase.'
+    severity: warn
+    given: $.paths.*[get,post,put,patch,delete].operationId
+    then:
+      function: pattern
+      functionOptions:
+        match: '^[a-z][a-zA-Z0-9]+$'
+
+  ikea-operation-id-verb-prefix:
+    description: operationId should start with a CRUD verb (get/list/find/create/update/delete/search).
+    severity: warn
+    given: $.paths.*[get,post,put,patch,delete].operationId
+    then:
+      function: pattern
+      functionOptions:
+        match: '^(get|list|find|search|create|update|delete|put|patch|add|remove)'
+
+  ikea-operation-tags-required:
+    description: Every operation must declare at least one tag.
+    severity: warn
+    given: $.paths.*[get,post,put,patch,delete]
+    then:
+      field: tags
+      function: truthy
+
+  # ---------------------------------------------------------------
+  # TAGS
+  # ---------------------------------------------------------------
+  ikea-global-tags-defined:
+    description: Global tags array must be defined and non-empty.
+    severity: warn
+    given: $
+    then:
+      field: tags
+      function: truthy
+
+  ikea-tag-description-required:
+    description: Each global tag must have a description.
+    severity: warn
+    given: $.tags[*]
+    then:
+      field: description
+      function: truthy
+
+  ikea-tag-name-title-case:
+    description: Tag names should be Title Case (e.g. "Products", "Spare Parts").
+    severity: warn
+    given: $.tags[*].name
+    then:
+      function: pattern
+      functionOptions:
+        match: '^[A-Z][A-Za-z0-9 ]*$'
+
+  # ---------------------------------------------------------------
+  # PARAMETERS
+  # ---------------------------------------------------------------
+  ikea-parameter-description-required:
+    description: Every parameter must have a description.
+    severity: warn
+    given: $..parameters[*]
+    then:
+      field: description
+      function: truthy
+
+  ikea-parameter-name-camel-case:
+    description: Query/path/header parameter names should be camelCase.
+    message: 'Parameter name "{{value}}" should be camelCase.'
+    severity: warn
+    given: $..parameters[*].name
+    then:
+      function: pattern
+      functionOptions:
+        match: '^[a-z][a-zA-Z0-9]*$'
+
+  # ---------------------------------------------------------------
+  # RESPONSES
+  # ---------------------------------------------------------------
+  ikea-response-2xx-required:
+    description: Every operation must declare at least one 2xx response.
+    severity: error
+    given: $.paths.*[get,post,put,patch,delete].responses
+    then:
+      function: pattern
+      functionOptions:
+        match: '2\d\d'
+        keyedBy: ''
+
+  ikea-response-description-required:
+    description: Every response must have a description.
+    severity: error
+    given: $.paths.*[get,post,put,patch,delete].responses[*]
+    then:
+      field: description
+      function: truthy
+
+  ikea-response-json-content:
+    description: Successful responses should provide application/json content.
+    severity: warn
+    given: $.paths.*[get,post,put,patch,delete].responses[?(@property.match(/^2/))]
+    then:
+      field: content
+      function: truthy
+
+  # ---------------------------------------------------------------
+  # SCHEMAS
+  # ---------------------------------------------------------------
+  ikea-schema-property-camel-case:
+    description: Schema property names should be camelCase (matches the IKEA storefront JSON convention).
+    message: 'Property "{{property}}" should be camelCase.'
+    severity: warn
+    given: $.components.schemas.*.properties.*~
+    then:
+      function: pattern
+      functionOptions:
+        match: '^[a-z][a-zA-Z0-9]*$'
+
+  ikea-schema-property-description:
+    description: Top-level schema properties should have a description.
+    severity: warn
+    given: $.components.schemas.*.properties.*
+    then:
+      field: description
+      function: truthy
+
+  ikea-schema-type-required:
+    description: Schemas must declare a type (object/array/string/etc).
+    severity: warn
+    given: $.components.schemas.*
+    then:
+      function: defined
+      field: type
+
+  # ---------------------------------------------------------------
+  # HTTP METHOD CONVENTIONS
+  # ---------------------------------------------------------------
+  ikea-get-no-request-body:
+    description: GET operations must not declare a request body.
+    severity: error
+    given: $.paths.*.get
+    then:
+      field: requestBody
+      function: falsy
+
+  ikea-delete-no-request-body:
+    description: DELETE operations must not declare a request body.
+    severity: error
+    given: $.paths.*.delete
+    then:
+      field: requestBody
+      function: falsy
+
+  # ---------------------------------------------------------------
+  # GENERAL QUALITY
+  # ---------------------------------------------------------------
+  ikea-no-empty-description:
+    description: Descriptions must not be empty strings.
+    severity: warn
+    given: $..description
+    then:
+      function: truthy
+
+  ikea-examples-encouraged:
+    description: Operations should have at least one example on a successful response (Microcks-friendly).
+    severity: info
+    given: $.paths.*[get,post,put,patch,delete].responses[?(@property.match(/^2/))].content.*
+    then:
+      function: defined
+      field: examples

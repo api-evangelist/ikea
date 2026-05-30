@@ -1,0 +1,186 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "ikea": "https://ikea.api-evangelist.com/schema/",
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "Category": "ikea:Category",
+    "name": {
+      "@id": "schema:name",
+      "@type": "xsd:string"
+    },
+    "key": {
+      "@id": "ikea:key",
+      "@type": "xsd:string"
+    },
+    "url": {
+      "@id": "schema:url",
+      "@type": "xsd:string"
+    },
+    "imageUrl": {
+      "@id": "ikea:imageUrl",
+      "@type": "xsd:string"
+    },
+    "CommonProperties": "ikea:CommonProperties",
+    "usergroup": {
+      "@id": "ikea:usergroup",
+      "@type": "xsd:string"
+    },
+    "testActivationTriggers": {
+      "@id": "ikea:testActivationTriggers"
+    },
+    "itemType": {
+      "@id": "ikea:itemType",
+      "@type": "xsd:string"
+    },
+    "MoreProductsEnvelope": "ikea:MoreProductsEnvelope",
+    "productWindow": {
+      "@id": "ikea:productWindow",
+      "@container": "@list"
+    },
+    "ProductListPageEnvelope": "ikea:ProductListPageEnvelope",
+    "category": {
+      "@id": "schema:category"
+    },
+    "productCount": {
+      "@id": "ikea:productCount",
+      "@type": "xsd:integer"
+    },
+    "plannerWindow": {
+      "@id": "ikea:plannerWindow",
+      "@container": "@list"
+    },
+    "plannerCount": {
+      "@id": "ikea:plannerCount",
+      "@type": "xsd:integer"
+    },
+    "filters2": {
+      "@id": "ikea:filters2",
+      "@container": "@list"
+    },
+    "dynamicFiltersV1": {
+      "@id": "ikea:dynamicFiltersV1",
+      "@container": "@list"
+    },
+    "dynamicFilters": {
+      "@id": "ikea:dynamicFilters",
+      "@container": "@list"
+    },
+    "sortOrders": {
+      "@id": "ikea:sortOrders"
+    },
+    "Product": "ikea:Product",
+    "typeName": {
+      "@id": "ikea:typeName",
+      "@type": "xsd:string"
+    },
+    "itemMeasureReferenceText": {
+      "@id": "ikea:itemMeasureReferenceText",
+      "@type": "xsd:string"
+    },
+    "mainImageUrl": {
+      "@id": "ikea:mainImageUrl",
+      "@type": "xsd:anyURI"
+    },
+    "pipUrl": {
+      "@id": "ikea:pipUrl",
+      "@type": "xsd:anyURI"
+    },
+    "filterClass": {
+      "@id": "ikea:filterClass",
+      "@type": "xsd:string"
+    },
+    "allProductImage": {
+      "@id": "ikea:allProductImage",
+      "@container": "@list"
+    },
+    "id": {
+      "@id": "ikea:id",
+      "@type": "xsd:string"
+    },
+    "itemNoGlobal": {
+      "@id": "ikea:itemNoGlobal",
+      "@type": "xsd:string"
+    },
+    "onlineSellable": {
+      "@id": "ikea:onlineSellable",
+      "@type": "xsd:boolean"
+    },
+    "lastChance": {
+      "@id": "ikea:lastChance",
+      "@type": "xsd:boolean"
+    },
+    "gprDescription": {
+      "@id": "ikea:gprDescription"
+    },
+    "colors": {
+      "@id": "ikea:colors",
+      "@container": "@list"
+    },
+    "tag": {
+      "@id": "ikea:tag",
+      "@type": "xsd:string"
+    },
+    "tagText": {
+      "@id": "ikea:tagText",
+      "@type": "xsd:string"
+    },
+    "quickFacts": {
+      "@id": "ikea:quickFacts",
+      "@container": "@list"
+    },
+    "features": {
+      "@id": "ikea:features",
+      "@container": "@list"
+    },
+    "availability": {
+      "@id": "ikea:availability",
+      "@container": "@list"
+    },
+    "ratingValue": {
+      "@id": "ikea:ratingValue",
+      "@type": "xsd:float"
+    },
+    "ratingCount": {
+      "@id": "ikea:ratingCount",
+      "@type": "xsd:integer"
+    },
+    "itemNo": {
+      "@id": "ikea:itemNo",
+      "@type": "xsd:string"
+    },
+    "salesPrice": {
+      "@id": "ikea:salesPrice"
+    },
+    "contextualImageUrl": {
+      "@id": "ikea:contextualImageUrl",
+      "@type": "xsd:anyURI"
+    },
+    "contextualImageAlt": {
+      "@id": "ikea:contextualImageAlt",
+      "@type": "xsd:string"
+    },
+    "mainImageAlt": {
+      "@id": "ikea:mainImageAlt",
+      "@type": "xsd:string"
+    },
+    "businessStructure": {
+      "@id": "ikea:businessStructure"
+    },
+    "categoryPath": {
+      "@id": "ikea:categoryPath",
+      "@container": "@list"
+    },
+    "validDesignText": {
+      "@id": "ikea:validDesignText",
+      "@type": "xsd:string"
+    },
+    "heroBackoffData": {
+      "@id": "ikea:heroBackoffData"
+    },
+    "optimizelyAttributes": {
+      "@id": "ikea:optimizelyAttributes"
+    }
+  }
+}

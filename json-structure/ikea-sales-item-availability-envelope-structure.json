@@ -1,0 +1,295 @@
+{
+  "type": "object",
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ikea/refs/heads/main/json-structure/ikea-sales-item-availability-envelope-structure.json",
+  "name": "AvailabilityEnvelope",
+  "description": "Availability envelope containing availabilities, sales Sales Locations and errors.",
+  "properties": {
+    "availabilities": {
+      "type": "array",
+      "description": "List of product availabilities",
+      "items": {
+        "type": "object",
+        "description": "Availability of a Product",
+        "properties": {
+          "availableForCashCarry": {
+            "type": "boolean",
+            "example": true
+          },
+          "availableForClickCollect": {
+            "type": "boolean",
+            "example": false
+          },
+          "buyingOption": {
+            "type": "object",
+            "example": {
+              "clickCollect": {
+                "range": {
+                  "inRange": true
+                }
+              }
+            }
+          },
+          "childAvailabilities": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "description": "Availability of a Product",
+              "properties": {
+                "availableForCashCarry": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "availableForClickCollect": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "buyingOption": {
+                  "type": "object",
+                  "example": {
+                    "clickCollect": {
+                      "range": {
+                        "inRange": true
+                      }
+                    }
+                  }
+                },
+                "childAvailabilities": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Availability"
+                  },
+                  "example": []
+                },
+                "classUnitKey": {
+                  "type": "object",
+                  "description": "Class Unit Key gives context when invoking the AvailabilityClassifications API.\n",
+                  "properties": {
+                    "classUnitCode": {
+                      "type": "string",
+                      "minLength": 2,
+                      "maxLength": 5,
+                      "description": "`classUnitCode` is the unique identifier of a Class Unit when\ncombined with a `classUnitType`.\n\nA valid `classUnitCode` always has a pattern like `^([A-Z]|[0-9]){2,5}$`.\n\nThis can either be a:\n\n* **Retail Unit** - Retail Unit must be combined with a valid `classUnitCode`. For example, `SE` for Sweden or `DE` for Germany. A list of valid Class Units can be found [in CBD](https://iwww.cbdview.ikea.com/) (requires VPN or internal network).\n* **Store ID** - The 3-digit store ID. E.g. `066`.\n",
+                      "examples": [
+                        "GB",
+                        "DE",
+                        "066"
+                      ]
+                    },
+                    "classUnitType": {
+                      "type": "string",
+                      "description": "Class Unit Type:\n  * `RU` - Retail Unit - Retail Unit must be combined with a valid `classUnitCode`. For example, `SE` for Sweden or `DE` for Germany. A list of valid Retail Units can be found [in CBD](https://iwww.cbdview.ikea.com/) (requires VPN or internal network).\n  * `STO` - Store - The store availability for a given store\n",
+                      "enum": [
+                        "RU",
+                        "STO"
+                      ],
+                      "example": "RU"
+                    }
+                  }
+                },
+                "itemKey": {
+                  "type": "object",
+                  "description": "Item key (Product ID and Item type)",
+                  "properties": {
+                    "itemNo": {
+                      "$ref": "#/components/schemas/productId"
+                    },
+                    "itemType": {
+                      "$ref": "#/components/schemas/itemType"
+                    }
+                  }
+                }
+              }
+            },
+            "example": []
+          },
+          "classUnitKey": {
+            "type": "object",
+            "description": "Class Unit Key gives context when invoking the AvailabilityClassifications API.\n",
+            "properties": {
+              "classUnitCode": {
+                "type": "string",
+                "minLength": 2,
+                "maxLength": 5,
+                "description": "`classUnitCode` is the unique identifier of a Class Unit when\ncombined with a `classUnitType`.\n\nA valid `classUnitCode` always has a pattern like `^([A-Z]|[0-9]){2,5}$`.\n\nThis can either be a:\n\n* **Retail Unit** - Retail Unit must be combined with a valid `classUnitCode`. For example, `SE` for Sweden or `DE` for Germany. A list of valid Class Units can be found [in CBD](https://iwww.cbdview.ikea.com/) (requires VPN or internal network).\n* **Store ID** - The 3-digit store ID. E.g. `066`.\n",
+                "examples": [
+                  "GB",
+                  "DE",
+                  "066"
+                ]
+              },
+              "classUnitType": {
+                "type": "string",
+                "description": "Class Unit Type:\n  * `RU` - Retail Unit - Retail Unit must be combined with a valid `classUnitCode`. For example, `SE` for Sweden or `DE` for Germany. A list of valid Retail Units can be found [in CBD](https://iwww.cbdview.ikea.com/) (requires VPN or internal network).\n  * `STO` - Store - The store availability for a given store\n",
+                "enum": [
+                  "RU",
+                  "STO"
+                ],
+                "example": "RU"
+              }
+            }
+          },
+          "itemKey": {
+            "type": "object",
+            "description": "Item key (Product ID and Item type)",
+            "properties": {
+              "itemNo": {
+                "type": "string",
+                "description": "Product identifier",
+                "example": "00263850"
+              },
+              "itemType": {
+                "type": "string",
+                "description": "Item type code\n",
+                "enum": [
+                  "ART",
+                  "SPR"
+                ],
+                "example": "SPR"
+              }
+            }
+          }
+        }
+      }
+    },
+    "salesLocations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": null,
+        "properties": {
+          "childItems": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "itemKey": {
+                  "type": "object",
+                  "description": "Item key (Product ID and Item type)",
+                  "properties": {
+                    "itemNo": {
+                      "$ref": "#/components/schemas/productId"
+                    },
+                    "itemType": {
+                      "$ref": "#/components/schemas/itemType"
+                    }
+                  }
+                },
+                "salesLocations": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "example": {
+                      "type": "AISLE_AND_BIN",
+                      "aisleAndBin": {
+                        "aisle": "06",
+                        "bin": "01"
+                      },
+                      "division": "SELF_SERVE",
+                      "id": "060100",
+                      "recommendationRank": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "classUnitKey": {
+            "type": "object",
+            "description": "Class Unit Key gives context when invoking the AvailabilityClassifications API.\n",
+            "properties": {
+              "classUnitCode": {
+                "type": "string",
+                "minLength": 2,
+                "maxLength": 5,
+                "description": "`classUnitCode` is the unique identifier of a Class Unit when\ncombined with a `classUnitType`.\n\nA valid `classUnitCode` always has a pattern like `^([A-Z]|[0-9]){2,5}$`.\n\nThis can either be a:\n\n* **Retail Unit** - Retail Unit must be combined with a valid `classUnitCode`. For example, `SE` for Sweden or `DE` for Germany. A list of valid Class Units can be found [in CBD](https://iwww.cbdview.ikea.com/) (requires VPN or internal network).\n* **Store ID** - The 3-digit store ID. E.g. `066`.\n",
+                "examples": [
+                  "GB",
+                  "DE",
+                  "066"
+                ]
+              },
+              "classUnitType": {
+                "type": "string",
+                "description": "Class Unit Type:\n  * `RU` - Retail Unit - Retail Unit must be combined with a valid `classUnitCode`. For example, `SE` for Sweden or `DE` for Germany. A list of valid Retail Units can be found [in CBD](https://iwww.cbdview.ikea.com/) (requires VPN or internal network).\n  * `STO` - Store - The store availability for a given store\n",
+                "enum": [
+                  "RU",
+                  "STO"
+                ],
+                "example": "RU"
+              }
+            }
+          },
+          "itemKey": {
+            "type": "object",
+            "description": "Item key (Product ID and Item type)",
+            "properties": {
+              "itemNo": {
+                "type": "string",
+                "description": "Product identifier",
+                "example": "00263850"
+              },
+              "itemType": {
+                "type": "string",
+                "description": "Item type code\n",
+                "enum": [
+                  "ART",
+                  "SPR"
+                ],
+                "example": "SPR"
+              }
+            }
+          }
+        }
+      }
+    },
+    "errors": {
+      "type": "array",
+      "description": "List of errors",
+      "items": {
+        "type": "object",
+        "required": [
+          "code",
+          "message"
+        ],
+        "description": "Error object describing the reason of failure",
+        "properties": {
+          "code": {
+            "type": "int32",
+            "description": "Error Codes:\n  * `404` - Not found\n  * `405` - ClassUnitCode doesn't exist\n  * `602` - itemNos in query is required\n  * `604` - itemNos.`n` in query should be at least 8 chars long. Where `n` is the positional indicator for the parameter.\n  * `606` - expand.`n` in query should be one of [ChildItems Restocks StoresList SalesLocations DeliveryPrice CollectPrice DisplayLocations DeliveryTime FoodAvailabilities]. Where `n` is the positional indicator for the parameter.\n",
+            "example": 404
+          },
+          "details": {
+            "type": "object",
+            "description": "Additional error details. These change depending on the context of the query.",
+            "example": {
+              "classUnitCode": "DE",
+              "classUnitType": "RU",
+              "itemNo": "s59047406"
+            }
+          },
+          "message": {
+            "type": "string",
+            "description": "Error message indicating the failure",
+            "example": "Not found"
+          }
+        }
+      }
+    },
+    "timestamp": {
+      "type": "datetime",
+      "description": "ISO 8601 formatted timestamp with timezone",
+      "example": "2025-09-10T14:23:33.956Z"
+    },
+    "traceId": {
+      "type": "string",
+      "description": "Unique trace identifier for debugging and log correlation",
+      "example": "4119683959736817039"
+    }
+  },
+  "required": [
+    "availabilities",
+    "timestamp",
+    "traceId"
+  ]
+}

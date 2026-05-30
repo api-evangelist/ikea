@@ -1,0 +1,138 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "ikea": "https://ikea.api-evangelist.com/schema/",
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "Category": "ikea:Category",
+    "id": {
+      "@id": "ikea:id",
+      "@type": "xsd:string"
+    },
+    "name": {
+      "@id": "schema:name",
+      "@type": "xsd:string"
+    },
+    "url": {
+      "@id": "schema:url",
+      "@type": "xsd:string"
+    },
+    "im": {
+      "@id": "ikea:im",
+      "@type": "xsd:anyURI"
+    },
+    "subs": {
+      "@id": "ikea:subs",
+      "@container": "@list"
+    },
+    "ProductDetails": "ikea:ProductDetails",
+    "catalogRefs": {
+      "@id": "ikea:catalogRefs"
+    },
+    "currencyCode": {
+      "@id": "ikea:currencyCode",
+      "@type": "xsd:string"
+    },
+    "experimental": {
+      "@id": "ikea:experimental"
+    },
+    "globalId": {
+      "@id": "ikea:globalId",
+      "@type": "xsd:string"
+    },
+    "mainImage": {
+      "@id": "ikea:mainImage"
+    },
+    "pipUrl": {
+      "@id": "ikea:pipUrl",
+      "@type": "xsd:anyURI"
+    },
+    "price": {
+      "@id": "schema:price",
+      "@type": "xsd:string"
+    },
+    "priceExclTax": {
+      "@id": "ikea:priceExclTax",
+      "@type": "xsd:string"
+    },
+    "priceExclTaxNumeral": {
+      "@id": "ikea:priceExclTaxNumeral",
+      "@type": "xsd:decimal"
+    },
+    "priceNumeral": {
+      "@id": "ikea:priceNumeral",
+      "@type": "xsd:decimal"
+    },
+    "revampPrice": {
+      "@id": "ikea:revampPrice"
+    },
+    "typeName": {
+      "@id": "ikea:typeName",
+      "@type": "xsd:string"
+    },
+    "validDesignText": {
+      "@id": "ikea:validDesignText",
+      "@type": "xsd:string"
+    },
+    "Store": "ikea:Store",
+    "lat": {
+      "@id": "ikea:lat",
+      "@type": "xsd:string"
+    },
+    "lng": {
+      "@id": "ikea:lng",
+      "@type": "xsd:string"
+    },
+    "address": {
+      "@id": "schema:address"
+    },
+    "homeShoppingUnit": {
+      "@id": "ikea:homeShoppingUnit",
+      "@type": "xsd:boolean"
+    },
+    "openCloseDates": {
+      "@id": "ikea:openCloseDates"
+    },
+    "hours": {
+      "@id": "ikea:hours"
+    },
+    "displayName": {
+      "@id": "ikea:displayName",
+      "@type": "xsd:string"
+    },
+    "externalPickupPoint": {
+      "@id": "ikea:externalPickupPoint"
+    },
+    "extras": {
+      "@id": "ikea:extras"
+    },
+    "hideStore": {
+      "@id": "ikea:hideStore",
+      "@type": "xsd:boolean"
+    },
+    "placeId": {
+      "@id": "ikea:placeId",
+      "@type": "xsd:string"
+    },
+    "storePageUrl": {
+      "@id": "ikea:storePageUrl",
+      "@type": "xsd:anyURI"
+    },
+    "treatAsStore": {
+      "@id": "ikea:treatAsStore",
+      "@type": "xsd:boolean"
+    },
+    "displayNameAlternate": {
+      "@id": "ikea:displayNameAlternate",
+      "@type": "xsd:string"
+    },
+    "weekStartDay": {
+      "@id": "ikea:weekStartDay",
+      "@type": "xsd:string"
+    },
+    "buClassification": {
+      "@id": "ikea:buClassification"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "type": "string",
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ikea/refs/heads/main/json-structure/ikea-after-purchase-ordering-status-structure.json",
+  "name": "status",
+  "description": "Part Status:\n  * `AVAILABLE` - Part is available\n  * `NOT_AVAILABLE` - Part is not available\n  * `ORDER_AT_CSC` - Order at the Customer Service Center\n  * `OUT_OF_STOCK` - Part is out of stock\n  * `DISCONTINUED_WITH_REPLACEMENTID` - Part is discontinued and replaced by provided id.\n",
+  "enum": [
+    "AVAILABLE",
+    "NOT_AVAILABLE",
+    "ORDER_AT_CSC",
+    "OUT_OF_STOCK",
+    "DISCONTINUED_WITH_REPLACEMENTID"
+  ]
+}

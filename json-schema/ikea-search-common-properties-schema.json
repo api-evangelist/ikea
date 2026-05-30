@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ikea/refs/heads/main/json-schema/ikea-search-common-properties-schema.json",
+  "title": "CommonProperties",
+  "description": "Common properties returned in search responses",
+  "type": "object",
+  "properties": {
+    "usergroup": {
+      "type": "string",
+      "example": "[]"
+    },
+    "testActivationTriggers": {
+      "type": "object",
+      "example": {}
+    }
+  },
+  "required": [
+    "usergroup",
+    "testActivationTriggers"
+  ]
+}

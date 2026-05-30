@@ -1,0 +1,18 @@
+{
+  "type": "string",
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ikea/refs/heads/main/json-structure/ikea-sales-item-expand-option-structure.json",
+  "name": "expandOption",
+  "description": "On the returned data, expand:\n  * `ChildItems` - Child items, e.g. multiple packages that are part of the parent package\n  * `Restocks` - Restock items\n  * `StoresList` - List of stores\n  * `SalesLocations` - Sale locations\n  * `DeliveryPrice` - Deliver Price\n  * `CollectPrice` - Collect Price\n  * `DisplayLocations` - Display locations\n  * `DeliveryTime` - Delivery time\n  * `FoodAvailabilities` - Food availability\n",
+  "enum": [
+    "ChildItems",
+    "Restocks",
+    "StoresList",
+    "SalesLocations",
+    "DeliveryPrice",
+    "CollectPrice",
+    "DisplayLocations",
+    "DeliveryTime",
+    "FoodAvailabilities"
+  ]
+}

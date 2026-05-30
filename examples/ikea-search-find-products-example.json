@@ -1,0 +1,29 @@
+{
+  "usergroup": "[]",
+  "testActivationTriggers": {},
+  "productListPage": {
+    "category": {
+      "name": "example",
+      "key": "example",
+      "url": "example",
+      "imageUrl": "example"
+    },
+    "productWindow": [
+      "example"
+    ],
+    "productCount": 1,
+    "plannerWindow": [
+      {}
+    ],
+    "plannerCount": 1,
+    "filters2": [
+      {}
+    ],
+    "dynamicFiltersV1": [
+      {}
+    ],
+    "dynamicFilters": [
+      {}
+    ]
+  }
+}

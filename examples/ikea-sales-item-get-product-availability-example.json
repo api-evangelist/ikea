@@ -1,0 +1,55 @@
+{
+  "availabilities": [
+    {
+      "availableForCashCarry": true,
+      "availableForClickCollect": false,
+      "buyingOption": {
+        "clickCollect": {
+          "range": {
+            "inRange": true
+          }
+        }
+      },
+      "childAvailabilities": [],
+      "classUnitKey": {
+        "classUnitCode": "example",
+        "classUnitType": "example"
+      },
+      "itemKey": {
+        "itemNo": "example",
+        "itemType": "example"
+      }
+    }
+  ],
+  "salesLocations": [
+    {
+      "childItems": [
+        {
+          "itemKey": "example",
+          "salesLocations": "example"
+        }
+      ],
+      "classUnitKey": {
+        "classUnitCode": "example",
+        "classUnitType": "example"
+      },
+      "itemKey": {
+        "itemNo": "example",
+        "itemType": "example"
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 404,
+      "details": {
+        "classUnitCode": "DE",
+        "classUnitType": "RU",
+        "itemNo": "s59047406"
+      },
+      "message": "Not found"
+    }
+  ],
+  "timestamp": "2025-09-10T14:23:33.956Z",
+  "traceId": "4119683959736817039"
+}

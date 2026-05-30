@@ -1,0 +1,11 @@
+{
+  "type": "string",
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ikea/refs/heads/main/json-structure/ikea-search-item-type-structure.json",
+  "name": "itemType",
+  "description": "Item type code\n",
+  "enum": [
+    "ART",
+    "SPR"
+  ]
+}

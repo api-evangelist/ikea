@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ikea/refs/heads/main/json-schema/ikea-product-catalog-category-schema.json",
+  "title": "Category",
+  "description": "Category details",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Category identifier (UUID, code like 'st001', or numeric ID)",
+      "example": "st001",
+      "examples": [
+        "st001",
+        "4a552556-db67-4fab-afb0-11433eda6784"
+      ]
+    },
+    "name": {
+      "type": "string",
+      "description": "Category display name",
+      "example": "Storage furniture"
+    },
+    "url": {
+      "type": "string",
+      "format": "iri-reference",
+      "description": "Relative path to the category",
+      "example": "/gb/en/cat/storage-furniture-st001/"
+    },
+    "im": {
+      "type": "string",
+      "format": "uri",
+      "description": "Category image URL",
+      "example": "https://www.ikea.com/images/4e/83/4e83f2c50f6d1cf0e3d90e78662de08b.png?f=sg"
+    },
+    "subs": {
+      "type": "array",
+      "description": "Array of Category objects (recursive).\nEach subcategory has the same structure as this schema.\nMaximum depth observed: 4 levels.\n",
+      "items": {
+        "type": "object",
+        "description": "Category details",
+        "required": [
+          "id",
+          "name",
+          "url"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Category identifier (UUID, code like 'st001', or numeric ID)",
+            "example": "st001",
+            "examples": [
+              "st001",
+              "4a552556-db67-4fab-afb0-11433eda6784"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "description": "Category display name",
+            "example": "Storage furniture"
+          },
+          "url": {
+            "type": "string",
+            "format": "iri-reference",
+            "description": "Relative path to the category",
+            "example": "/gb/en/cat/storage-furniture-st001/"
+          },
+          "im": {
+            "type": "string",
+            "format": "uri",
+            "description": "Category image URL",
+            "example": "https://www.ikea.com/images/4e/83/4e83f2c50f6d1cf0e3d90e78662de08b.png?f=sg"
+          },
+          "subs": {
+            "type": "array",
+            "description": "Array of Category objects (recursive).\nEach subcategory has the same structure as this schema.\nMaximum depth observed: 4 levels.\n",
+            "items": {
+              "type": "object",
+              "description": "Category details",
+              "required": [
+                "id",
+                "name",
+                "url"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "Category identifier (UUID, code like 'st001', or numeric ID)",
+                  "example": "st001",
+                  "examples": [
+                    "st001",
+                    "4a552556-db67-4fab-afb0-11433eda6784"
+                  ]
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Category display name",
+                  "example": "Storage furniture"
+                },
+                "url": {
+                  "type": "string",
+                  "format": "iri-reference",
+                  "description": "Relative path to the category",
+                  "example": "/gb/en/cat/storage-furniture-st001/"
+                },
+                "im": {
+                  "type": "string",
+                  "format": "uri",
+                  "description": "Category image URL",
+                  "example": "https://www.ikea.com/images/4e/83/4e83f2c50f6d1cf0e3d90e78662de08b.png?f=sg"
+                },
+                "subs": {
+                  "type": "array",
+                  "description": "Array of Category objects (recursive).\nEach subcategory has the same structure as this schema.\nMaximum depth observed: 4 levels.\n",
+                  "items": {
+                    "$ref": "#/components/schemas/Category"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "url"
+  ]
+}

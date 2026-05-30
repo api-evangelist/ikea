@@ -1,0 +1,23 @@
+{
+  "type": "object",
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ikea/refs/heads/main/json-structure/ikea-sales-item-item-key-structure.json",
+  "name": "ItemKey",
+  "description": "Item key (Product ID and Item type)",
+  "properties": {
+    "itemNo": {
+      "type": "string",
+      "description": "Product identifier",
+      "example": "00263850"
+    },
+    "itemType": {
+      "type": "string",
+      "description": "Item type code\n",
+      "enum": [
+        "ART",
+        "SPR"
+      ],
+      "example": "SPR"
+    }
+  }
+}

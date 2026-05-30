@@ -1,0 +1,69 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "ikea": "https://ikea.api-evangelist.com/schema/",
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "Part": "ikea:Part",
+    "itemId": {
+      "@id": "ikea:itemId",
+      "@type": "xsd:string"
+    },
+    "partName": {
+      "@id": "ikea:partName",
+      "@type": "xsd:string"
+    },
+    "partDescription": {
+      "@id": "ikea:partDescription",
+      "@type": "xsd:string"
+    },
+    "categoryId": {
+      "@id": "ikea:categoryId",
+      "@type": "xsd:string"
+    },
+    "subCategoryId": {
+      "@id": "ikea:subCategoryId",
+      "@type": "xsd:string"
+    },
+    "replacementId": {
+      "@id": "ikea:replacementId",
+      "@type": "xsd:string"
+    },
+    "stock": {
+      "@id": "ikea:stock",
+      "@type": "xsd:integer"
+    },
+    "status": "ikea:status",
+    "ProductParts": "ikea:ProductParts",
+    "id": {
+      "@id": "ikea:id",
+      "@type": "xsd:string"
+    },
+    "productDesc": {
+      "@id": "ikea:productDesc",
+      "@type": "xsd:string"
+    },
+    "imageUrl": {
+      "@id": "ikea:imageUrl",
+      "@type": "xsd:anyURI"
+    },
+    "type": {
+      "@id": "ikea:type",
+      "@type": "xsd:string"
+    },
+    "items": {
+      "@id": "ikea:items",
+      "@container": "@list"
+    },
+    "SearchPart": "ikea:SearchPart",
+    "partColor": {
+      "@id": "ikea:partColor",
+      "@type": "xsd:string"
+    },
+    "partReplaceId": {
+      "@id": "ikea:partReplaceId",
+      "@type": "xsd:string"
+    }
+  }
+}

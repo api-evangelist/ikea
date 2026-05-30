@@ -1,0 +1,68 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: IKEA Search API - Products
+  description: 'IKEA Search API - Products. 2 operation(s). Lead operation: IKEA Get a Limited Set of Filtered Products. Self-contained Naftiko capability covering one IKEA business surface (community /
+    unofficial spec).'
+  tags:
+  - IKEA
+  - Products
+  - Unofficial API
+  - Opensource
+  created: '2026-05-30'
+  modified: '2026-05-30'
+binds:
+- namespace: env
+  description: Environment-bound configuration (country, language, API tokens if any).
+consumes:
+- name: search
+  description: Inlined consume block for the unofficial IKEA Products surface.
+  base:
+    url: https://sik.search.blue.cdtapps.com/{country}/{language}
+    variables:
+      country:
+        default: gb
+        description: Country code (e.g., de, gb, fr, us, no)
+      language:
+        default: en
+        description: Language code (e.g., en, de, fr)
+  auth:
+    type: none
+    description: Community IKEA storefront endpoints currently require no authentication. The DIRIGERA hub uses bearer tokens but is not covered by this capability.
+  operations:
+  - name: findProducts
+    method: GET
+    path: /product-list-page
+    summary: IKEA Get a Limited Set of Filtered Products
+    description: Returns a window of products that matches the filtered criteria.
+  - name: findProductsPaginated
+    method: GET
+    path: /product-list-page/more-products
+    summary: IKEA Get a Paginated Set of Filtered Products
+    description: Returns a window of paginated products that matches the filtered criteria.
+exposers:
+  rest:
+    name: search-products-rest
+    description: REST exposer for the Products capability — passes through to the underlying IKEA endpoint.
+    base:
+      path: /products
+    resources:
+    - path: /product-list-page
+      method: GET
+      operation: findProducts
+      summary: IKEA Get a Limited Set of Filtered Products
+    - path: /product-list-page/more-products
+      method: GET
+      operation: findProductsPaginated
+      summary: IKEA Get a Paginated Set of Filtered Products
+  mcp:
+    name: search-products-mcp
+    description: MCP exposer for the Products capability — each operation is exposed as a verb-noun MCP tool.
+    tools:
+    - name: findProducts
+      title: IKEA Get a Limited Set of Filtered Products
+      description: Returns a window of products that matches the filtered criteria.
+      operation: findProducts
+    - name: findProductsPaginated
+      title: IKEA Get a Paginated Set of Filtered Products
+      description: Returns a window of paginated products that matches the filtered criteria.
+      operation: findProductsPaginated

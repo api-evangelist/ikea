@@ -1,0 +1,85 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "ikea": "https://ikea.api-evangelist.com/schema/",
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "AvailabilityEnvelope": "ikea:AvailabilityEnvelope",
+    "availabilities": {
+      "@id": "ikea:availabilities",
+      "@container": "@list"
+    },
+    "salesLocations": {
+      "@id": "ikea:salesLocations",
+      "@container": "@list"
+    },
+    "errors": {
+      "@id": "ikea:errors",
+      "@container": "@list"
+    },
+    "timestamp": {
+      "@id": "ikea:timestamp",
+      "@type": "xsd:dateTime"
+    },
+    "traceId": {
+      "@id": "ikea:traceId",
+      "@type": "xsd:string"
+    },
+    "AvailabilityError": "ikea:AvailabilityError",
+    "code": {
+      "@id": "ikea:code",
+      "@type": "xsd:integer"
+    },
+    "details": {
+      "@id": "ikea:details"
+    },
+    "message": {
+      "@id": "ikea:message",
+      "@type": "xsd:string"
+    },
+    "Availability": "ikea:Availability",
+    "availableForCashCarry": {
+      "@id": "ikea:availableForCashCarry",
+      "@type": "xsd:boolean"
+    },
+    "availableForClickCollect": {
+      "@id": "ikea:availableForClickCollect",
+      "@type": "xsd:boolean"
+    },
+    "buyingOption": {
+      "@id": "ikea:buyingOption"
+    },
+    "childAvailabilities": {
+      "@id": "ikea:childAvailabilities",
+      "@container": "@list"
+    },
+    "classUnitKey": {
+      "@id": "ikea:classUnitKey"
+    },
+    "itemKey": {
+      "@id": "ikea:itemKey"
+    },
+    "ClassUnitKey": "ikea:ClassUnitKey",
+    "classUnitCode": {
+      "@id": "ikea:classUnitCode",
+      "@type": "xsd:string"
+    },
+    "classUnitType": {
+      "@id": "ikea:classUnitType",
+      "@type": "xsd:string"
+    },
+    "expandOption": "ikea:expandOption",
+    "ItemKey": "ikea:ItemKey",
+    "itemNo": {
+      "@id": "ikea:itemNo",
+      "@type": "xsd:string"
+    },
+    "itemType": "ikea:itemType",
+    "SalesLocation": "ikea:SalesLocation",
+    "childItems": {
+      "@id": "ikea:childItems",
+      "@container": "@list"
+    }
+  }
+}

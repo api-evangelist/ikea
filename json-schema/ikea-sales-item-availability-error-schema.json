@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ikea/refs/heads/main/json-schema/ikea-sales-item-availability-error-schema.json",
+  "title": "AvailabilityError",
+  "description": "Error object describing the reason of failure",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "integer",
+      "description": "Error Codes:\n  * `404` - Not found\n  * `405` - ClassUnitCode doesn't exist\n  * `602` - itemNos in query is required\n  * `604` - itemNos.`n` in query should be at least 8 chars long. Where `n` is the positional indicator for the parameter.\n  * `606` - expand.`n` in query should be one of [ChildItems Restocks StoresList SalesLocations DeliveryPrice CollectPrice DisplayLocations DeliveryTime FoodAvailabilities]. Where `n` is the positional indicator for the parameter.\n",
+      "example": 404
+    },
+    "details": {
+      "type": "object",
+      "description": "Additional error details. These change depending on the context of the query.",
+      "example": {
+        "classUnitCode": "DE",
+        "classUnitType": "RU",
+        "itemNo": "s59047406"
+      }
+    },
+    "message": {
+      "type": "string",
+      "description": "Error message indicating the failure",
+      "example": "Not found"
+    }
+  },
+  "required": [
+    "code",
+    "message"
+  ]
+}

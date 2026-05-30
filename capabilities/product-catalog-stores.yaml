@@ -1,0 +1,55 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: IKEA Product Catalog API - Stores
+  description: 'IKEA Product Catalog API - Stores. 1 operation(s). Lead operation: IKEA Get Information for All Stores. Self-contained Naftiko capability covering one IKEA business surface (community /
+    unofficial spec).'
+  tags:
+  - IKEA
+  - Stores
+  - Unofficial API
+  - Opensource
+  created: '2026-05-30'
+  modified: '2026-05-30'
+binds:
+- namespace: env
+  description: Environment-bound configuration (country, language, API tokens if any).
+consumes:
+- name: product-catalog
+  description: Inlined consume block for the unofficial IKEA Stores surface.
+  base:
+    url: https://www.ikea.com/{country}/{language}
+    variables:
+      country:
+        default: gb
+        description: Country code (e.g., de, gb, fr, us)
+      language:
+        default: en
+        description: Language code (e.g., en, de, fr)
+  auth:
+    type: none
+    description: Community IKEA storefront endpoints currently require no authentication. The DIRIGERA hub uses bearer tokens but is not covered by this capability.
+  operations:
+  - name: getStores
+    method: GET
+    path: /meta-data/informera/stores-detailed.json
+    summary: IKEA Get Information for All Stores
+    description: Returns information about all IKEA stores in the requested region
+exposers:
+  rest:
+    name: product-catalog-stores-rest
+    description: REST exposer for the Stores capability — passes through to the underlying IKEA endpoint.
+    base:
+      path: /stores
+    resources:
+    - path: /meta-data/informera/stores-detailed.json
+      method: GET
+      operation: getStores
+      summary: IKEA Get Information for All Stores
+  mcp:
+    name: product-catalog-stores-mcp
+    description: MCP exposer for the Stores capability — each operation is exposed as a verb-noun MCP tool.
+    tools:
+    - name: getStores
+      title: IKEA Get Information for All Stores
+      description: Returns information about all IKEA stores in the requested region
+      operation: getStores

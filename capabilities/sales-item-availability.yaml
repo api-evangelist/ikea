@@ -1,0 +1,48 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: IKEA Sales Item API - Availability
+  description: 'IKEA Sales Item API - Availability. 1 operation(s). Lead operation: IKEA Get Product Availability with Child Items. Self-contained Naftiko capability covering one IKEA business surface (community
+    / unofficial spec).'
+  tags:
+  - IKEA
+  - Availability
+  - Unofficial API
+  - Opensource
+  created: '2026-05-30'
+  modified: '2026-05-30'
+binds:
+- namespace: env
+  description: Environment-bound configuration (country, language, API tokens if any).
+consumes:
+- name: sales-item
+  description: Inlined consume block for the unofficial IKEA Availability surface.
+  base:
+    url: https://api.salesitem.ingka.com
+  auth:
+    type: none
+    description: Community IKEA storefront endpoints currently require no authentication. The DIRIGERA hub uses bearer tokens but is not covered by this capability.
+  operations:
+  - name: getProductAvailability
+    method: GET
+    path: /availabilities/{classUnitType}/{classUnitCode}
+    summary: IKEA Get Product Availability with Child Items
+    description: Returns availability information including child items and packages
+exposers:
+  rest:
+    name: sales-item-availability-rest
+    description: REST exposer for the Availability capability — passes through to the underlying IKEA endpoint.
+    base:
+      path: /availability
+    resources:
+    - path: /availabilities/{classUnitType}/{classUnitCode}
+      method: GET
+      operation: getProductAvailability
+      summary: IKEA Get Product Availability with Child Items
+  mcp:
+    name: sales-item-availability-mcp
+    description: MCP exposer for the Availability capability — each operation is exposed as a verb-noun MCP tool.
+    tools:
+    - name: getProductAvailability
+      title: IKEA Get Product Availability with Child Items
+      description: Returns availability information including child items and packages
+      operation: getProductAvailability

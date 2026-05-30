@@ -1,0 +1,34 @@
+[
+  {
+    "name": "IKEA Berlin - Tempelhof",
+    "lat": "52.46958147",
+    "lng": "13.36625688",
+    "address": {
+      "street": "Sachsendamm 47",
+      "zipCode": "10829",
+      "city": "Berlin,Tempelhof",
+      "timezone": "Europe/Berlin",
+      "stateProvinceCode": "DEBE",
+      "displayAddress": "Sachsendamm 47, Berlin,Tempelhof"
+    },
+    "homeShoppingUnit": false,
+    "openCloseDates": {
+      "openingDate": "2003-11-27T00:00:00Z"
+    },
+    "hours": {
+      "normal": [
+        {
+          "close": "20:00",
+          "day": "MON",
+          "open": "10:00"
+        },
+        {
+          "close": "20:00",
+          "day": "THU",
+          "open": "10:00"
+        }
+      ]
+    },
+    "displayName": "Berlin-Tempelhof"
+  }
+]

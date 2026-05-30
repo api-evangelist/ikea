@@ -1,0 +1,55 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: IKEA Product Catalog API - Categories
+  description: 'IKEA Product Catalog API - Categories. 1 operation(s). Lead operation: IKEA Get Categories and Subcategories. Self-contained Naftiko capability covering one IKEA business surface (community
+    / unofficial spec).'
+  tags:
+  - IKEA
+  - Categories
+  - Unofficial API
+  - Opensource
+  created: '2026-05-30'
+  modified: '2026-05-30'
+binds:
+- namespace: env
+  description: Environment-bound configuration (country, language, API tokens if any).
+consumes:
+- name: product-catalog
+  description: Inlined consume block for the unofficial IKEA Categories surface.
+  base:
+    url: https://www.ikea.com/{country}/{language}
+    variables:
+      country:
+        default: gb
+        description: Country code (e.g., de, gb, fr, us)
+      language:
+        default: en
+        description: Language code (e.g., en, de, fr)
+  auth:
+    type: none
+    description: Community IKEA storefront endpoints currently require no authentication. The DIRIGERA hub uses bearer tokens but is not covered by this capability.
+  operations:
+  - name: getCategories
+    method: GET
+    path: /meta-data/navigation/catalog-products-slim.json
+    summary: IKEA Get Categories and Subcategories
+    description: Returns the complete category hierarchy including all main categories and their nested subcategories
+exposers:
+  rest:
+    name: product-catalog-categories-rest
+    description: REST exposer for the Categories capability — passes through to the underlying IKEA endpoint.
+    base:
+      path: /categories
+    resources:
+    - path: /meta-data/navigation/catalog-products-slim.json
+      method: GET
+      operation: getCategories
+      summary: IKEA Get Categories and Subcategories
+  mcp:
+    name: product-catalog-categories-mcp
+    description: MCP exposer for the Categories capability — each operation is exposed as a verb-noun MCP tool.
+    tools:
+    - name: getCategories
+      title: IKEA Get Categories and Subcategories
+      description: Returns the complete category hierarchy including all main categories and their nested subcategories
+      operation: getCategories

@@ -1,0 +1,29 @@
+{
+  "catalogRefs": {
+    "products": {
+      "elements": [
+        {
+          "id": "43632",
+          "name": "Fitted wardrobes",
+          "url": "https://www.ikea.com/de/en/cat/fitted-wardrobes-43632/"
+        }
+      ],
+      "id": "products",
+      "name": "Products",
+      "url": "https://www.ikea.com/de/en/cat/products-products/"
+    }
+  },
+  "currencyCode": "EUR",
+  "experimental": {},
+  "globalId": "00263850",
+  "id": "00263850",
+  "mainImage": {
+    "alt": "A white ikea PAX wardrobe with open doors, revealing shelves and a basket.",
+    "id": "1197448_PE903536",
+    "imageFileName": "1197448_PE903536_S5.JPG",
+    "type": "MAIN_PRODUCT_IMAGE",
+    "url": "https://www.ikea.com/de/en/images/products/pax-forsand-wardrobe-white-white__1197448_pe903536_s5.jpg"
+  },
+  "name": "PAX / FORSAND",
+  "pipUrl": "https://www.ikea.com/de/en/p/pax-forsand-wardrobe-white-white-s09502728/"
+}

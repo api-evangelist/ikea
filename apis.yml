@@ -7,11 +7,120 @@ tags:
   - Retail
   - Home Furnishings
   - Consumer Products
-description: 'A Swedish multinational furniture and home goods retailer known for its affordable, ready-to-assemble products. Operates hundreds of stores worldwide and is the world''s largest furniture retailer with a distinctive showroom-based shopping experience. No public developer portal or open API catalogue was located on ikea.com or inter.ikea.com.'
+  - Opensource
+  - Community
+  - Unofficial API
+  - Smart Home
+description: 'A Swedish multinational furniture and home goods retailer known for its affordable, ready-to-assemble products. Operates hundreds of stores worldwide and is the world''s largest furniture retailer with a distinctive showroom-based shopping experience. IKEA does not publish an official public developer API or developer portal; the surfaces profiled here are community reverse-engineered specs of the IKEA storefront (Product Catalog, Search, Sales Item availability, After Purchase Ordering / spare parts) plus the local-network API of the DIRIGERA smart home hub. All artifacts are community-built and unofficial — they may change at any time and are not affiliated with, endorsed by, or supported by IKEA.'
 created: '2026-05-05'
-modified: '2026-05-16'
+modified: '2026-05-30'
 specificationVersion: '0.19'
-apis: []
+apis:
+  - aid: ikea:product-catalog
+    name: IKEA Product Catalog API (Unofficial)
+    description: 'Unofficial reverse-engineered specification for IKEA''s public storefront product catalog. Exposes store metadata (informera/stores-detailed.json), the global category and navigation tree (catalog-products-slim.json) and per-product detail endpoints under www.ikea.com/{country}/{language}. Authored and maintained by idelsink/ikea-openapi based on observed network traffic. This is not an official IKEA developer API.'
+    humanURL: https://github.com/idelsink/ikea-openapi
+    baseURL: https://www.ikea.com/{country}/{language}
+    tags:
+      - Product Catalog
+      - Categories
+      - Stores
+      - Products
+      - Unofficial API
+      - Opensource
+    properties:
+      - type: OpenAPI
+        url: https://raw.githubusercontent.com/api-evangelist/ikea/main/openapi/ikea-product-catalog-openapi.yml
+      - type: Documentation
+        url: https://ingmar.dels.ink/ikea-openapi/product-catalog/
+      - type: SourceCode
+        url: https://github.com/idelsink/ikea-openapi/tree/main/openapi/product-catalog
+  - aid: ikea:search
+    name: IKEA Search API (Unofficial)
+    description: 'Unofficial reverse-engineered specification for IKEA''s product search service hosted at sik.search.blue.cdtapps.com. Supports paginated product list pages and filtered search across IKEA''s storefront catalogue. This is the only one of the four idelsink specs that the IKEA-hosted endpoint exposes with permissive CORS, so it is the easiest to exercise from a browser. Authored and maintained by idelsink/ikea-openapi. Not an official IKEA developer API.'
+    humanURL: https://github.com/idelsink/ikea-openapi
+    baseURL: https://sik.search.blue.cdtapps.com/{country}/{language}
+    tags:
+      - Search
+      - Products
+      - Unofficial API
+      - Opensource
+    properties:
+      - type: OpenAPI
+        url: https://raw.githubusercontent.com/api-evangelist/ikea/main/openapi/ikea-search-openapi.yml
+      - type: Documentation
+        url: https://ingmar.dels.ink/ikea-openapi/search/
+      - type: SourceCode
+        url: https://github.com/idelsink/ikea-openapi/tree/main/openapi/search
+  - aid: ikea:sales-item
+    name: IKEA Sales Item API (Unofficial)
+    description: 'Unofficial reverse-engineered specification for IKEA''s real-time availability service hosted at api.salesitem.ingka.com. Returns per-store and per-class-unit availability and packaging information for IKEA articles. Used by community projects like ikea-availability-checker and ikeaStockChecker. Authored and maintained by idelsink/ikea-openapi. Not an official IKEA developer API.'
+    humanURL: https://github.com/idelsink/ikea-openapi
+    baseURL: https://api.salesitem.ingka.com
+    tags:
+      - Availability
+      - Stock
+      - Stores
+      - Sales Items
+      - Unofficial API
+      - Opensource
+    properties:
+      - type: OpenAPI
+        url: https://raw.githubusercontent.com/api-evangelist/ikea/main/openapi/ikea-sales-item-openapi.yml
+      - type: Documentation
+        url: https://ingmar.dels.ink/ikea-openapi/sales-item/
+      - type: SourceCode
+        url: https://github.com/idelsink/ikea-openapi/tree/main/openapi/sales-item
+  - aid: ikea:after-purchase-ordering
+    name: IKEA After Purchase Ordering API (Unofficial)
+    description: 'Unofficial reverse-engineered specification for IKEA''s spare-parts and After Purchase Ordering (APO) service. Lets shoppers look up replacement parts by partial or full part ID and browse the catalogue of orderable spare parts attached to IKEA products. Authored and maintained by idelsink/ikea-openapi. Not an official IKEA developer API.'
+    humanURL: https://github.com/idelsink/ikea-openapi
+    tags:
+      - After Purchase
+      - Spare Parts
+      - Aftermarket
+      - Unofficial API
+      - Opensource
+    properties:
+      - type: OpenAPI
+        url: https://raw.githubusercontent.com/api-evangelist/ikea/main/openapi/ikea-after-purchase-ordering-openapi.yml
+      - type: Documentation
+        url: https://ingmar.dels.ink/ikea-openapi/after-purchase-ordering/
+      - type: SourceCode
+        url: https://github.com/idelsink/ikea-openapi/tree/main/openapi/after-purchase-ordering
+  - aid: ikea:dirigera-hub
+    name: IKEA DIRIGERA Smart Home Hub API (Unofficial, Local)
+    description: 'The DIRIGERA hub is IKEA''s next-generation smart home gateway (replacing TRADFRI). It exposes a private, locally-served REST API on the LAN with bearer-token authentication (token obtained by pressing the action button on the hub). There is no public OpenAPI from IKEA; the community has produced several SDKs that document and consume the surface — Leggin/dirigera (Python), lpgera/dirigera (TypeScript), dvdgeisler/DirigeraClient (Java), bombsimon/dirigera-rs (Rust). Resources include lights, outlets, blinds, air purifiers, environment sensors, motion sensors, open/close sensors, scenes, rooms and an event listener websocket. Not an official IKEA developer API.'
+    humanURL: https://github.com/Leggin/dirigera
+    tags:
+      - Smart Home
+      - DIRIGERA
+      - IoT
+      - Local API
+      - Unofficial API
+      - Opensource
+    properties:
+      - type: SDK
+        title: Python Client (Leggin/dirigera)
+        url: https://github.com/Leggin/dirigera
+      - type: SDK
+        title: TypeScript Client (lpgera/dirigera)
+        url: https://github.com/lpgera/dirigera
+      - type: SDK
+        title: Java Client (dvdgeisler/DirigeraClient)
+        url: https://github.com/dvdgeisler/DirigeraClient
+      - type: SDK
+        title: Rust Client (bombsimon/dirigera-rs)
+        url: https://github.com/bombsimon/dirigera-rs
+      - type: Integrations
+        title: Home Assistant Integration (sanjoyg/dirigera_platform)
+        url: https://github.com/sanjoyg/dirigera_platform
+      - type: Integrations
+        title: Homebridge Plugin (uboness/homebridge-dirigera)
+        url: https://github.com/uboness/homebridge-dirigera
+      - type: Tools
+        title: Web UI (lpgera/dirigera-web)
+        url: https://github.com/lpgera/dirigera-web
 common:
   - type: GitHubOrganization
     url: https://github.com/IKEA
@@ -21,6 +130,53 @@ common:
     url: https://www.ikea.com/
   - type: CorporateSite
     url: https://www.inter.ikea.com/
+  - type: SDK
+    title: Python ikea_api (vrslev/ikea-api-client, archived)
+    url: https://pypi.org/project/ikea_api/
+  - type: SourceCode
+    title: Community OpenAPI Specs (idelsink/ikea-openapi)
+    url: https://github.com/idelsink/ikea-openapi
+  - type: SourceCode
+    title: IKEA 3D Assembly Dataset
+    url: https://github.com/IKEA/IKEA3DAssemblyDataset
+  - type: CodeExamples
+    title: ikea-availability-checker (Ephigenia)
+    url: https://github.com/Ephigenia/ikea-availability-checker
+  - type: CodeExamples
+    title: ikeaStockChecker (DavisChappins)
+    url: https://github.com/DavisChappins/ikeaStockChecker
+  - type: CodeExamples
+    title: ikeaScraper (Mirzaei81)
+    url: https://github.com/Mirzaei81/ikeaScraper
+features:
+  - name: Community Reverse-Engineered Specs
+    description: Four OpenAPI 3.1 specifications (Product Catalog, Search, Sales Item, After Purchase Ordering) maintained by idelsink/ikea-openapi with daily contract tests against IKEA endpoints.
+  - name: Real-Time Stock Availability
+    description: The Sales Item API surfaces per-store class-unit availability and packaging data used by stock-checker and price-tracker projects.
+  - name: Spare Parts Lookup
+    description: The After Purchase Ordering API exposes IKEA's spare-parts catalogue, letting shoppers search by partial part ID and pull part metadata.
+  - name: Local Smart Home Control
+    description: The DIRIGERA hub exposes a LAN-only REST API with token-based auth, allowing local-first automation of IKEA Home Smart devices without cloud round-trips.
+  - name: Multi-Language SDK Ecosystem
+    description: Community SDKs exist for Python, TypeScript, Java and Rust covering the DIRIGERA hub plus a Python client (archived) covering the storefront cart, order capture, search and stock APIs.
+use_cases:
+  - name: Stock and Price Monitoring
+    description: Track availability and price changes for specific IKEA products across stores and notify when restocks happen, using the Sales Item and Search APIs.
+  - name: Spare Parts Self-Service
+    description: Build assistants that look up replacement parts by part ID and link shoppers to IKEA's order flow without scraping HTML.
+  - name: Product Catalog Indexing
+    description: Mirror IKEA's category tree and store directory into search indexes, RAG pipelines or shopping aggregators using the Product Catalog API.
+  - name: Local Smart Home Automation
+    description: Drive IKEA DIRIGERA-paired lights, outlets, blinds and air purifiers from Home Assistant, Homebridge or custom scripts entirely on the LAN.
+  - name: Furniture Assembly Research
+    description: Use the IKEA 3D Assembly Dataset for academic work on instruction understanding, step segmentation, robotic assembly and computer vision.
+integrations:
+  - name: Home Assistant
+    description: The dirigera_platform custom component integrates DIRIGERA-paired devices into Home Assistant as native entities.
+  - name: Homebridge
+    description: The homebridge-dirigera plugin exposes DIRIGERA devices to Apple HomeKit via Homebridge.
+  - name: GNOME Shell
+    description: The vchlum/smart-home GNOME Shell extension can drive DIRIGERA devices alongside Hue, Nanoleaf and Shelly.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

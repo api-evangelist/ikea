@@ -1,0 +1,20 @@
+[
+  {
+    "id": "00263850",
+    "productDesc": "BILLY",
+    "imageUrl": "https://www.ikea.com/gb/en/images/products/billy-bookcase-white__0625599_pe692385_s2.jpg",
+    "type": "bookcase",
+    "items": [
+      {
+        "itemId": "example",
+        "partName": "example",
+        "partDescription": "example",
+        "categoryId": "example",
+        "subCategoryId": "example",
+        "replacementId": "example",
+        "stock": "example",
+        "status": "example"
+      }
+    ]
+  }
+]

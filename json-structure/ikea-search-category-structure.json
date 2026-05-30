@@ -1,0 +1,37 @@
+{
+  "type": "object",
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ikea/refs/heads/main/json-structure/ikea-search-category-structure.json",
+  "name": "Category",
+  "description": "Product Category",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Category name",
+      "example": "Sofa"
+    },
+    "key": {
+      "type": "string",
+      "description": "Category identifier (UUID, code like 'st001', or numeric ID)",
+      "example": "st001",
+      "examples": [
+        "st001",
+        "4a552556-db67-4fab-afb0-11433eda6784"
+      ]
+    },
+    "url": {
+      "type": "string",
+      "description": "URL to category",
+      "example": "https://www.ikea.com/gb/en/cat/sofa-fu003/"
+    },
+    "imageUrl": {
+      "type": "string",
+      "description": "Image for the category",
+      "example": "https://www.ikea.com/global/assets/range-categorisation/images/sofas-fu003.jpeg"
+    }
+  },
+  "required": [
+    "name",
+    "key"
+  ]
+}

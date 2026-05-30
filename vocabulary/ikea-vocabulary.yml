@@ -1,0 +1,342 @@
+vocabulary: "1.0.0"
+
+info:
+  provider: IKEA
+  description: >-
+    Vocabulary for the IKEA community / unofficial API surface profiled in
+    the api-evangelist/ikea repo. Covers the four reverse-engineered storefront
+    APIs (Product Catalog, Search, Sales Item, After Purchase Ordering)
+    maintained by idelsink/ikea-openapi, plus the DIRIGERA smart home hub
+    documented through community SDKs. IKEA does not publish an official
+    public developer API; all entries here are unofficial.
+  created: "2026-05-30"
+  modified: "2026-05-30"
+
+# -------------------------------------------------------------------------
+# OPERATIONAL DIMENSION (derived from OpenAPI specs)
+# -------------------------------------------------------------------------
+operational:
+  apis:
+    - id: product-catalog
+      namespace: ikea.product-catalog
+      title: IKEA Product Catalog API
+      version: 0.1.0
+      baseUrl: https://www.ikea.com/{country}/{language}
+      auth: none
+      status: community-active
+      source: https://github.com/idelsink/ikea-openapi
+    - id: search
+      namespace: ikea.search
+      title: IKEA Search API
+      version: 0.1.0
+      baseUrl: https://sik.search.blue.cdtapps.com/{country}/{language}
+      auth: none
+      status: community-active
+      source: https://github.com/idelsink/ikea-openapi
+    - id: sales-item
+      namespace: ikea.sales-item
+      title: IKEA Sales Item API
+      version: 0.1.0
+      baseUrl: https://api.salesitem.ingka.com
+      auth: none
+      status: community-active
+      source: https://github.com/idelsink/ikea-openapi
+    - id: after-purchase-ordering
+      namespace: ikea.after-purchase-ordering
+      title: IKEA After Purchase Ordering API
+      version: 0.1.0
+      baseUrl: https://api.aporo.ingka.com
+      auth: none
+      status: community-active
+      source: https://github.com/idelsink/ikea-openapi
+    - id: dirigera-hub
+      namespace: ikea.dirigera
+      title: IKEA DIRIGERA Smart Home Hub API
+      version: community
+      baseUrl: https://{hub-ip}:8443/v1
+      auth: bearer-token (button-pair)
+      status: community-active
+      source: https://github.com/Leggin/dirigera
+
+  resources:
+    - name: Store
+      api: product-catalog
+      actions: [getStores]
+      schemaRef: ikea-product-catalog-store-schema.json
+    - name: Category
+      api: product-catalog
+      actions: [getCategories]
+      schemaRef: ikea-product-catalog-category-schema.json
+    - name: ProductDetails
+      api: product-catalog
+      actions: [getProductById]
+      schemaRef: ikea-product-catalog-product-details-schema.json
+    - name: Product
+      api: search
+      actions: [findProducts, findProductsPaginated]
+      schemaRef: ikea-search-product-schema.json
+    - name: Availability
+      api: sales-item
+      actions: [getProductAvailability]
+      schemaRef: ikea-sales-item-availability-schema.json
+    - name: Part
+      api: after-purchase-ordering
+      actions: [getPartById, searchParts, getProductParts]
+      schemaRef: ikea-after-purchase-ordering-part-schema.json
+    - name: Device
+      api: dirigera-hub
+      actions: [listDevices, getDevice, setAttributes]
+      schemaRef: null
+    - name: Scene
+      api: dirigera-hub
+      actions: [listScenes, createScene, triggerScene]
+      schemaRef: null
+    - name: Room
+      api: dirigera-hub
+      actions: [listRooms, getRoom]
+      schemaRef: null
+
+  actions:
+    - verb: get
+      method: GET
+      pattern: read
+    - verb: list
+      method: GET
+      pattern: read
+    - verb: find
+      method: GET
+      pattern: query
+    - verb: search
+      method: GET
+      pattern: query
+    - verb: set
+      method: PATCH
+      pattern: write
+      scope: dirigera-hub
+    - verb: create
+      method: POST
+      pattern: write
+      scope: dirigera-hub
+    - verb: trigger
+      method: POST
+      pattern: write
+      scope: dirigera-hub
+
+  schemas:
+    catalog:
+      - Store
+      - Category
+      - ProductDetails
+    commerce:
+      - Product
+      - CommonProperties
+      - ProductListPageEnvelope
+      - MoreProductsEnvelope
+    inventory:
+      - Availability
+      - AvailabilityEnvelope
+      - ClassUnitKey
+      - ItemKey
+      - ItemType
+      - SalesLocation
+      - ExpandOption
+    aftermarket:
+      - Part
+      - SearchPart
+      - ProductParts
+      - Status
+
+  parameters:
+    locale:
+      - name: country
+        purpose: ISO-3166 alpha-2 country code for IKEA market
+        default: gb
+      - name: language
+        purpose: Language code (en, de, fr, ...)
+        default: en
+      - name: Accept-Language
+        purpose: HTTP header used by APO endpoints
+    identifiers:
+      - name: productId
+        purpose: IKEA article number (e.g. 00263850)
+      - name: productIdSuffix
+        purpose: Path-routing suffix for the Product Catalog API
+      - name: partId
+        purpose: Full spare-part identifier
+      - name: partialPartId
+        purpose: Prefix used to autocomplete spare-part identifiers
+      - name: classUnitType
+        purpose: Sales unit category (STO = store, etc.)
+      - name: classUnitCode
+        purpose: Sales unit identifier (store number, e.g. 038)
+    pagination:
+      - name: size
+        purpose: Page size for product list page
+      - name: start
+        purpose: Inclusive lower bound for paginated search
+      - name: end
+        purpose: Exclusive upper bound for paginated search
+    filters:
+      - name: category
+        purpose: Category id (UUID, st-code, numeric)
+
+  enums:
+    classUnitType:
+      - STO  # Store
+      - CDC  # Customer distribution centre
+    availabilityStatus:
+      - HIGH
+      - MEDIUM
+      - LOW
+      - OUT_OF_STOCK
+      - UNKNOWN
+
+  authentication:
+    - scheme: none
+      apis: [product-catalog, search, sales-item, after-purchase-ordering]
+      note: Public storefront endpoints; throttle via standard HTTP.
+    - scheme: bearer-token
+      apis: [dirigera-hub]
+      note: Token obtained by pressing the action button on the DIRIGERA hub during pairing.
+
+# -------------------------------------------------------------------------
+# CAPABILITY DIMENSION (derived from capabilities/*.yaml)
+# -------------------------------------------------------------------------
+capability:
+  workflows:
+    - id: product-catalog-products
+      file: capabilities/product-catalog-products.yaml
+      api: product-catalog
+      tools: 1
+      personas: [shopper, indexer]
+      domains: [catalog]
+    - id: product-catalog-categories
+      file: capabilities/product-catalog-categories.yaml
+      api: product-catalog
+      tools: 1
+      personas: [indexer]
+      domains: [catalog]
+    - id: product-catalog-stores
+      file: capabilities/product-catalog-stores.yaml
+      api: product-catalog
+      tools: 1
+      personas: [shopper, store-locator]
+      domains: [catalog]
+    - id: search-products
+      file: capabilities/search-products.yaml
+      api: search
+      tools: 2
+      personas: [shopper, indexer]
+      domains: [commerce]
+    - id: sales-item-availability
+      file: capabilities/sales-item-availability.yaml
+      api: sales-item
+      tools: 1
+      personas: [shopper, stock-monitor]
+      domains: [inventory]
+    - id: after-purchase-ordering-parts
+      file: capabilities/after-purchase-ordering-parts.yaml
+      api: after-purchase-ordering
+      tools: 3
+      personas: [shopper, support-agent]
+      domains: [aftermarket]
+
+  personas:
+    - id: shopper
+      name: IKEA Shopper
+      description: End consumer browsing the IKEA storefront, checking stock and ordering spare parts.
+      workflows:
+        - product-catalog-products
+        - product-catalog-stores
+        - search-products
+        - sales-item-availability
+        - after-purchase-ordering-parts
+    - id: indexer
+      name: Catalog Indexer
+      description: Bot or pipeline that mirrors the IKEA catalogue into a search index, RAG store or aggregator.
+      workflows:
+        - product-catalog-products
+        - product-catalog-categories
+        - search-products
+    - id: stock-monitor
+      name: Stock and Price Monitor
+      description: Service that polls availability and notifies users when items come back in stock or change price.
+      workflows:
+        - sales-item-availability
+        - search-products
+    - id: support-agent
+      name: Customer Support Agent
+      description: Human or AI agent helping a customer locate the right spare part for assembled IKEA furniture.
+      workflows:
+        - after-purchase-ordering-parts
+    - id: store-locator
+      name: Store Locator
+      description: Front-end that surfaces IKEA store addresses, hours and capabilities.
+      workflows:
+        - product-catalog-stores
+
+  domains:
+    - id: catalog
+      name: Product Catalog
+      description: IKEA product, category and store metadata.
+    - id: commerce
+      name: Commerce / Search
+      description: Search and browse experience over the IKEA product catalogue.
+    - id: inventory
+      name: Inventory and Availability
+      description: Real-time stock data per IKEA store / class unit.
+    - id: aftermarket
+      name: After Purchase Ordering
+      description: Spare parts catalogue and replacement-part ordering.
+    - id: smart-home
+      name: IKEA Home Smart
+      description: DIRIGERA hub and IKEA Home Smart device control (covered by community SDKs, not a hosted REST API).
+
+  namespaces:
+    consumed:
+      - ikea.product-catalog
+      - ikea.search
+      - ikea.sales-item
+      - ikea.after-purchase-ordering
+      - ikea.dirigera
+    rest_exposed:
+      - /products
+      - /categories
+      - /stores
+      - /availability
+      - /parts
+    mcp_exposed:
+      - getProductById
+      - getCategories
+      - getStores
+      - findProducts
+      - findProductsPaginated
+      - getProductAvailability
+      - getPartById
+      - searchParts
+      - getProductParts
+
+# -------------------------------------------------------------------------
+# CROSS-REFERENCE (operational <-> capability)
+# -------------------------------------------------------------------------
+cross_reference:
+  - resource: Product
+    operations: [findProducts, findProductsPaginated, getProductById]
+    workflows: [product-catalog-products, search-products]
+    personas: [shopper, indexer, stock-monitor]
+  - resource: Availability
+    operations: [getProductAvailability]
+    workflows: [sales-item-availability]
+    personas: [shopper, stock-monitor]
+  - resource: Part
+    operations: [getPartById, searchParts, getProductParts]
+    workflows: [after-purchase-ordering-parts]
+    personas: [shopper, support-agent]
+  - resource: Store
+    operations: [getStores]
+    workflows: [product-catalog-stores]
+    personas: [shopper, store-locator]
+  - resource: Category
+    operations: [getCategories]
+    workflows: [product-catalog-categories]
+    personas: [indexer]
