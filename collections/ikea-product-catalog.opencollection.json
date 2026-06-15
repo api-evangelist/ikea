@@ -1,0 +1,81 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "IKEA Product Catalog API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Stores",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "IKEA Get Information for All Stores",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.ikea.com/{country}/{language}/meta-data/informera/stores-detailed.json"
+          },
+          "docs": "Returns information about all IKEA stores in the requested region"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Categories",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "IKEA Get Categories and Subcategories",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.ikea.com/{country}/{language}/meta-data/navigation/catalog-products-slim.json"
+          },
+          "docs": "Returns the complete category hierarchy including all main categories and their nested subcategories"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Products",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "IKEA Find Product by Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.ikea.com/{country}/{language}/products/:productIdSuffix/:productId.json",
+            "params": [
+              {
+                "name": "productIdSuffix",
+                "value": "",
+                "type": "path",
+                "description": "Product ID Suffix (last 3 digits of Product ID)\nValue can be:\n  *  zero (`0`) or\n  * Product ID Suffix (`406`)\n"
+              },
+              {
+                "name": "productId",
+                "value": "",
+                "type": "path",
+                "description": "Product identifier\nValue can be:\n  *  zero (`0`),\n  * product identifier (`00263850`) or\n  * product identifier with `s` prefix (`s59047406`)\n"
+              }
+            ]
+          },
+          "docs": "Returns a single product"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

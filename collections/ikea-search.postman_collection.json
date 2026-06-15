@@ -1,0 +1,512 @@
+{
+  "item": [
+    {
+      "id": "c85a669d-0368-43fa-95dd-fe293cf8ba60",
+      "name": "Products",
+      "description": {
+        "content": "Everything about Products",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9d716be9-ea20-4971-b6aa-360ef91909e9",
+          "name": "IKEA Get a Limited Set of Filtered Products",
+          "request": {
+            "name": "IKEA Get a Limited Set of Filtered Products",
+            "description": {
+              "content": "Returns a window of products that matches the filtered criteria.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "product-list-page"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "category",
+                  "value": "<string>",
+                  "description": "(Required) Category to search for"
+                },
+                {
+                  "disabled": false,
+                  "key": "size",
+                  "value": "<integer>",
+                  "description": "Amount of products to return"
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Country code (e.g., de, gb, fr, us, no)",
+                  "type": "any",
+                  "value": "{{country}}",
+                  "key": "country"
+                },
+                {
+                  "description": "Language code (e.g., en, de, fr)",
+                  "type": "any",
+                  "value": "{{language}}",
+                  "key": "language"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8e6f6dfc-dc30-402e-990d-43d1b14549fd",
+              "name": "Lists a limited set of Products for a given category.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "product-list-page"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "category",
+                      "value": "st001"
+                    },
+                    {
+                      "key": "size",
+                      "value": "42"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Country code (e.g., de, gb, fr, us, no)",
+                      "type": "any",
+                      "value": "{{country}}",
+                      "key": "country"
+                    },
+                    {
+                      "description": "Language code (e.g., en, de, fr)",
+                      "type": "any",
+                      "value": "{{language}}",
+                      "key": "language"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"usergroup\": \"[]\",\n  \"testActivationTriggers\": {},\n  \"productListPage\": {\n    \"category\": {\n      \"name\": \"example\",\n      \"key\": \"example\",\n      \"url\": \"example\",\n      \"imageUrl\": \"example\"\n    },\n    \"productWindow\": [\n      \"example\"\n    ],\n    \"productCount\": 1,\n    \"plannerWindow\": [\n      {}\n    ],\n    \"plannerCount\": 1,\n    \"filters2\": [\n      {}\n    ],\n    \"dynamicFiltersV1\": [\n      {}\n    ],\n    \"dynamicFilters\": [\n      {}\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7c90af85-3ade-44f6-a852-110d2fa67b1c",
+              "name": "Bad Request for Listing of Products",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "product-list-page"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "category",
+                      "value": "st001"
+                    },
+                    {
+                      "key": "size",
+                      "value": "42"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Country code (e.g., de, gb, fr, us, no)",
+                      "type": "any",
+                      "value": "{{country}}",
+                      "key": "country"
+                    },
+                    {
+                      "description": "Language code (e.g., en, de, fr)",
+                      "type": "any",
+                      "value": "{{language}}",
+                      "key": "language"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "246be843-1da1-49cb-9138-72bf8e201864",
+              "name": "Product List Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "product-list-page"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "category",
+                      "value": "st001"
+                    },
+                    {
+                      "key": "size",
+                      "value": "42"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Country code (e.g., de, gb, fr, us, no)",
+                      "type": "any",
+                      "value": "{{country}}",
+                      "key": "country"
+                    },
+                    {
+                      "description": "Language code (e.g., en, de, fr)",
+                      "type": "any",
+                      "value": "{{language}}",
+                      "key": "language"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a5b0914c-342e-47f0-9238-a3e469ce186d",
+          "name": "IKEA Get a Paginated Set of Filtered Products",
+          "request": {
+            "name": "IKEA Get a Paginated Set of Filtered Products",
+            "description": {
+              "content": "Returns a window of paginated products that matches the filtered criteria.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "product-list-page",
+                "more-products"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "category",
+                  "value": "<string>",
+                  "description": "(Required) Category to search for"
+                },
+                {
+                  "disabled": false,
+                  "key": "start",
+                  "value": "<integer>",
+                  "description": "The zero-based index of the first item to include in the response. For example, `start=0` begins from the very first item. If `start` is provided but not `end`, then default for `end=24`.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "end",
+                  "value": "<integer>",
+                  "description": "The zero-based index of the last item to include **exclusive**. For example, `start=0&end=2` returns items at index 0 and 1. (2 items) If `end` is provided but not `end`, then default for `start=24`.\n"
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Country code (e.g., de, gb, fr, us, no)",
+                  "type": "any",
+                  "value": "{{country}}",
+                  "key": "country"
+                },
+                {
+                  "description": "Language code (e.g., en, de, fr)",
+                  "type": "any",
+                  "value": "{{language}}",
+                  "key": "language"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c87cb2cf-0fb5-491a-b499-82c500b1ce66",
+              "name": "Lists a paginated set of Products for a given category.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "product-list-page",
+                    "more-products"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "category",
+                      "value": "st001"
+                    },
+                    {
+                      "key": "start",
+                      "value": "0"
+                    },
+                    {
+                      "key": "end",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Country code (e.g., de, gb, fr, us, no)",
+                      "type": "any",
+                      "value": "{{country}}",
+                      "key": "country"
+                    },
+                    {
+                      "description": "Language code (e.g., en, de, fr)",
+                      "type": "any",
+                      "value": "{{language}}",
+                      "key": "language"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"usergroup\": \"[]\",\n  \"testActivationTriggers\": {},\n  \"moreProducts\": {\n    \"productWindow\": [\n      \"example\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "14c67b2d-ba77-4946-af0e-9541346621ed",
+              "name": "Bad Request for More Products",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "product-list-page",
+                    "more-products"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "category",
+                      "value": "st001"
+                    },
+                    {
+                      "key": "start",
+                      "value": "0"
+                    },
+                    {
+                      "key": "end",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Country code (e.g., de, gb, fr, us, no)",
+                      "type": "any",
+                      "value": "{{country}}",
+                      "key": "country"
+                    },
+                    {
+                      "description": "Language code (e.g., en, de, fr)",
+                      "type": "any",
+                      "value": "{{language}}",
+                      "key": "language"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "12111e96-140c-43f1-9825-792fd3f72f5f",
+              "name": "More Products Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "product-list-page",
+                    "more-products"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "category",
+                      "value": "st001"
+                    },
+                    {
+                      "key": "start",
+                      "value": "0"
+                    },
+                    {
+                      "key": "end",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Country code (e.g., de, gb, fr, us, no)",
+                      "type": "any",
+                      "value": "{{country}}",
+                      "key": "country"
+                    },
+                    {
+                      "description": "Language code (e.g., en, de, fr)",
+                      "type": "any",
+                      "value": "{{language}}",
+                      "key": "language"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Country code (e.g., de, gb, fr, us, no)",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "gb",
+      "key": "country"
+    },
+    {
+      "description": {
+        "content": "Language code (e.g., en, de, fr)",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "en",
+      "key": "language"
+    },
+    {
+      "type": "string",
+      "value": "https://sik.search.blue.cdtapps.com/{{country}}/{{language}}",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "1158ec96-f20e-4669-bb00-a04eaef4237f",
+    "name": "IKEA Search API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "This is an **unofficial** OpenAPI specification for the IKEA Search API.\n\n## FAQ\n\n**Q: Why is this API called Search?**\n\n**A:** Search is also being used in the url `sik.search.blue.cdtapps.com`\nand it allows you to find products.\n\n## Swagger UI\n\nThis API can be tested using swagger-ui at [./swagger-ui.html](swagger-ui.html) as long as the\nCORS header `Access-Control-Allow-Origin` are configured as `*`.\nAt the moment of writing this is only the case for the [IKEA Search API](../search/index.html).\n\n## Other APIs\n\n* [IKEA Product Catalog API](../product-catalog/index.html)\n* [IKEA Search API](../search/index.html)\n* [IKEA Sales Item API](../sales-item/index.html)\n* [IKEA After Purchase Ordering API](../after-purchase-ordering/index.html)\n\n## ⚠️ Disclaimer\n\n* This project is based on publicly available information and analysis of network requests.\n* It is not affiliated with, endorsed by, or supported by IKEA.\n* Endpoints, schemas, and behaviors may change at any time and may not reflect official or supported APIs.\n* Use this specification at your own risk.\n\n### See also\n\nThis section lists resources used during the creation of these APIs to exent and check validity of the API.\nThese are not in any special order but useful as references.\n\n* [OpenAPI Spec for api.salesitem.ingka.com](https://github.com/shrabdut123/cart-multi-agent/blob/a10dc96ac7a1fd98701afebe2cde585e6d9a6a08/service_coordinator_agent/salesitem_api.yaml#L13) - Very verbose OpenAPI Spec with detailed resources referring to inside IKEA knowledge.\n* [DavisChappins/ikeaStockChecker](https://github.com/DavisChappins/ikeaStockChecker/blob/45fa92f26ac2b37d03c37eb34e0c618c4a8477e8/ikea_stock_scanner.py#L11) - Use of `api.salesitem.ingka.com` endpoint.\n* [Mirzaei81/ikeaScraper](https://github.com/Mirzaei81/ikeaScraper/blob/cdeef5c9fb76660b18a8e569d7213828ffe5f9d2/app.py#L74) - Use of `api.salesitem.ingka.com` endpoint.\n* [Ephigenia/ikea-availability-checker/postman/schemas/ikea-ingka-api.yaml](https://github.com/Ephigenia/ikea-availability-checker/blob/c7fe2f9bc8306c01783f8d22329d34ed76a582c9/postman/schemas/ikea-ingka-api.yaml) - This contains resources related to the `api.salesitem.ingka.com` (Sales Item API)\n* [vrslev/ikea-api-client/src/ikea_api/endpoints/search.py](https://github.com/vrslev/ikea-api-client/blob/ce70c8d743302a465931bdb6a9f7b0bc5c1d882f/src/ikea_api/endpoints/search.py#L14C1-L14C117) - Use of the Search API and some other endpoints.\n\n\nContact Support:\n Name: Unofficial IKEA OpenAPI Maintainer",
+      "type": "text/plain"
+    }
+  }
+}
