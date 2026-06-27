@@ -100,16 +100,16 @@ apis:
       - Unofficial API
       - Opensource
     properties:
-      - type: SDK
+      - type: SDKs
         title: Python Client (Leggin/dirigera)
         url: https://github.com/Leggin/dirigera
-      - type: SDK
+      - type: SDKs
         title: TypeScript Client (lpgera/dirigera)
         url: https://github.com/lpgera/dirigera
-      - type: SDK
+      - type: SDKs
         title: Java Client (dvdgeisler/DirigeraClient)
         url: https://github.com/dvdgeisler/DirigeraClient
-      - type: SDK
+      - type: SDKs
         title: Rust Client (bombsimon/dirigera-rs)
         url: https://github.com/bombsimon/dirigera-rs
       - type: Integrations
@@ -130,7 +130,7 @@ common:
     url: https://www.ikea.com/
   - type: CorporateSite
     url: https://www.inter.ikea.com/
-  - type: SDK
+  - type: SDKs
     title: Python ikea_api (vrslev/ikea-api-client, archived)
     url: https://pypi.org/project/ikea_api/
   - type: SourceCode
