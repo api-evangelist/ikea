@@ -122,6 +122,14 @@ apis:
         title: Web UI (lpgera/dirigera-web)
         url: https://github.com/lpgera/dirigera-web
 common:
+  - type: VulnerabilityDisclosure
+    url: security/ikea-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/ikea-domain-security.yml
+  - type: Authentication
+    url: authentication/ikea-authentication.yml
+  - url: https://www.ikea.com/global/en/newsroom/
+    type: Blog
   - type: GitHubOrganization
     url: https://github.com/IKEA
   - type: LinkedIn
