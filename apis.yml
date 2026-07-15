@@ -122,6 +122,8 @@ apis:
         title: Web UI (lpgera/dirigera-web)
         url: https://github.com/lpgera/dirigera-web
 common:
+  - type: AgenticAccess
+    url: agentic-access/ikea-agentic-access.yml
   - type: VulnerabilityDisclosure
     url: security/ikea-vulnerability-disclosure.yml
   - type: DomainSecurity
