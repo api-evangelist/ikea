@@ -1,0 +1,308 @@
+openapi: 3.1.1
+info:
+  title: IKEA After Purchase Ordering Availability Stores API
+  summary: Unofficial IKEA API for After Purchase Ordering (APO) of spare parts
+  description: 'This is an **unofficial** OpenAPI specification for the IKEA After Purchase Ordering (APO) API.
+
+
+    ## FAQ
+
+
+    **Q: Why is this API called After Purchase Ordering?**
+
+
+    **A:** The URL(s) used have `apo` in the name. We are also dealing with after purchase replacement parts.
+
+    A common term for this is After Purchase Ordering (APO).
+
+
+    ## Swagger UI
+
+
+    This API can be tested using swagger-ui at [./swagger-ui.html](swagger-ui.html) as long as the
+
+    CORS header `Access-Control-Allow-Origin` are configured as `*`.
+
+    At the moment of writing this is only the case for the [IKEA Search API](../search/index.html).
+
+
+    ## Other APIs
+
+
+    * [IKEA Product Catalog API](../product-catalog/index.html)
+
+    * [IKEA Search API](../search/index.html)
+
+    * [IKEA Sales Item API](../sales-item/index.html)
+
+    * [IKEA After Purchase Ordering API](../after-purchase-ordering/index.html)
+
+
+    ## ⚠️ Disclaimer
+
+
+    * This project is based on publicly available information and analysis of network requests.
+
+    * It is not affiliated with, endorsed by, or supported by IKEA.
+
+    * Endpoints, schemas, and behaviors may change at any time and may not reflect official or supported APIs.
+
+    * Use this specification at your own risk.
+
+
+    ### See also
+
+
+    This section lists resources used during the creation of these APIs to exent and check validity of the API.
+
+    These are not in any special order but useful as references.
+
+
+    * [OpenAPI Spec for api.salesitem.ingka.com](https://github.com/shrabdut123/cart-multi-agent/blob/a10dc96ac7a1fd98701afebe2cde585e6d9a6a08/service_coordinator_agent/salesitem_api.yaml#L13) - Very verbose OpenAPI Spec with detailed resources referring to inside IKEA knowledge.
+
+    * [DavisChappins/ikeaStockChecker](https://github.com/DavisChappins/ikeaStockChecker/blob/45fa92f26ac2b37d03c37eb34e0c618c4a8477e8/ikea_stock_scanner.py#L11) - Use of `api.salesitem.ingka.com` endpoint.
+
+    * [Mirzaei81/ikeaScraper](https://github.com/Mirzaei81/ikeaScraper/blob/cdeef5c9fb76660b18a8e569d7213828ffe5f9d2/app.py#L74) - Use of `api.salesitem.ingka.com` endpoint.
+
+    * [Ephigenia/ikea-availability-checker/postman/schemas/ikea-ingka-api.yaml](https://github.com/Ephigenia/ikea-availability-checker/blob/c7fe2f9bc8306c01783f8d22329d34ed76a582c9/postman/schemas/ikea-ingka-api.yaml) - This contains resources related to the `api.salesitem.ingka.com` (Sales Item API)
+
+    * [vrslev/ikea-api-client/src/ikea_api/endpoints/search.py](https://github.com/vrslev/ikea-api-client/blob/ce70c8d743302a465931bdb6a9f7b0bc5c1d882f/src/ikea_api/endpoints/search.py#L14C1-L14C117) - Use of the Search API and some other endpoints.
+
+    '
+  version: 0.1.0
+  license:
+    name: MIT License
+    url: https://opensource.org/licenses/MIT
+  contact:
+    name: Unofficial IKEA OpenAPI Maintainer
+    url: https://github.com/idelsink/ikea-openapi
+servers:
+- url: https://api.prod.apo.ingka.com
+  description: Production (Cloudflare)
+- url: https://origin-api.prod.apo.ingka.com
+  description: Production (Google Frontend)
+- url: https://api.test.apo.ingka.com
+  description: Testing (Cloudflare)
+- url: https://origin-api.test.apo.ingka.com
+  description: Testing (Google Frontend)
+tags:
+- name: Stores
+  description: Everything about Stores
+paths:
+  /meta-data/informera/stores-detailed.json:
+    get:
+      summary: IKEA Get Information for All Stores
+      description: Returns information about all IKEA stores in the requested region
+      operationId: getStores
+      tags:
+      - Stores
+      responses:
+        '200':
+          description: Successful response with store details
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Store'
+              examples:
+                GetStores200Example:
+                  summary: Default getStores 200 response
+                  value:
+                  - name: IKEA Berlin - Tempelhof
+                    lat: '52.46958147'
+                    lng: '13.36625688'
+                    address:
+                      street: Sachsendamm 47
+                      zipCode: '10829'
+                      city: Berlin,Tempelhof
+                      timezone: Europe/Berlin
+                      stateProvinceCode: DEBE
+                      displayAddress: Sachsendamm 47, Berlin,Tempelhof
+                    homeShoppingUnit: false
+                    openCloseDates:
+                      openingDate: '2003-11-27T00:00:00Z'
+                    hours:
+                      normal:
+                      - close: '20:00'
+                        day: MON
+                        open: '10:00'
+                      - close: '20:00'
+                        day: THU
+                        open: '10:00'
+                    displayName: Berlin-Tempelhof
+                  x-microcks-default: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Store:
+      type: object
+      description: Store details
+      required:
+      - name
+      - lat
+      - lng
+      - address
+      - homeShoppingUnit
+      - openCloseDates
+      - hours
+      - displayName
+      - extras
+      - hideStore
+      - treatAsStore
+      - displayNameAlternate
+      - weekStartDay
+      - id
+      - buClassification
+      properties:
+        name:
+          type: string
+          description: Store name
+          example: IKEA Berlin - Tempelhof
+        lat:
+          type: string
+          description: Store latitude
+          example: '52.46958147'
+        lng:
+          type: string
+          description: Store longitude
+          example: '13.36625688'
+        address:
+          type: object
+          description: Store Address
+          required:
+          - street
+          - zipCode
+          - city
+          - timezone
+          - displayAddress
+          properties:
+            street:
+              type: string
+              description: Street
+              example: Sachsendamm 47
+            zipCode:
+              type: string
+              description: ZIP code / Postal code
+              example: '10829'
+            city:
+              type: string
+              description: City
+              example: Berlin,Tempelhof
+            timezone:
+              type: string
+              description: Timezone
+              example: Europe/Berlin
+            stateProvinceCode:
+              type: string
+              description: Stage and State/province code
+              example: DEBE
+            displayAddress:
+              type: string
+              description: Display Address
+              example: Sachsendamm 47, Berlin,Tempelhof
+        homeShoppingUnit:
+          type: boolean
+          example: false
+        openCloseDates:
+          type: object
+          properties:
+            openingDate:
+              type: string
+              format: date-time
+              example: '2003-11-27T00:00:00Z'
+        hours:
+          type: object
+          description: Various unit opening hours
+          additionalProperties:
+            description: "Opening hour schedule name observed values:\n  * `normal`\n  * `exceptions`\n  * `restaurant`\n  * `bistro`\n  * `cafe`\n  * `clickncollect`\n  * `swedishFoodMarket`\n  * `smaland`\n  * `closed`\n"
+            type: array
+            items:
+              type: object
+              description: Opening hours for unit
+              properties:
+                close:
+                  type: string
+                  format: time
+                  description: Closing time in HH:mm format
+                  example: '17:00'
+                day:
+                  type: string
+                  description: Day of the week (abbreviated, uppercase)
+                  enum:
+                  - MON
+                  - TUE
+                  - WED
+                  - THU
+                  - FRI
+                  - SAT
+                  - SUN
+                  example: MON
+                open:
+                  type: string
+                  format: time
+                  description: Opening time in HH:mm format
+                  example: 09:00
+          example:
+            normal:
+            - close: '20:00'
+              day: MON
+              open: '10:00'
+            - close: '20:00'
+              day: THU
+              open: '10:00'
+        displayName:
+          type: string
+          description: Store Display Name
+          example: Berlin-Tempelhof
+        externalPickupPoint:
+          type: object
+          example:
+            hours: []
+        extras:
+          type: object
+          example:
+            normal:
+              body: From September 1, 2025, our store will be open Monday through Saturday from 10:00 a.m. to 8:00 p.m.
+              heading: New opening hours from September 1, 2025..
+        hideStore:
+          type: boolean
+          description: Show or Hide the store
+          example: false
+        placeId:
+          type: string
+          description: Place ID
+          example: ChIJw7UyJQVQqEcRzw0vmZtAbTg
+        storePageUrl:
+          type: string
+          format: uri
+          description: Store Page URL
+          example: https://www.ikea.com/de/de/stores/berlin-tempelhof/
+        treatAsStore:
+          type: boolean
+          example: false
+        displayNameAlternate:
+          type: string
+          description: Alternate Store Display Name
+          example: IKEA Berlin-Tempelhof
+        weekStartDay:
+          type: string
+          example: MON
+        id:
+          type: string
+          description: Store ID
+          example: '421'
+        buClassification:
+          type: object
+          required:
+          - code
+          - name
+          properties:
+            code:
+              type: string
+              example: STORE
+            name:
+              type: string
+              example: IKEA STORE

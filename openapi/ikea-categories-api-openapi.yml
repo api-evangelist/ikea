@@ -1,0 +1,174 @@
+openapi: 3.1.1
+info:
+  title: IKEA After Purchase Ordering Availability Categories API
+  summary: Unofficial IKEA API for After Purchase Ordering (APO) of spare parts
+  description: 'This is an **unofficial** OpenAPI specification for the IKEA After Purchase Ordering (APO) API.
+
+
+    ## FAQ
+
+
+    **Q: Why is this API called After Purchase Ordering?**
+
+
+    **A:** The URL(s) used have `apo` in the name. We are also dealing with after purchase replacement parts.
+
+    A common term for this is After Purchase Ordering (APO).
+
+
+    ## Swagger UI
+
+
+    This API can be tested using swagger-ui at [./swagger-ui.html](swagger-ui.html) as long as the
+
+    CORS header `Access-Control-Allow-Origin` are configured as `*`.
+
+    At the moment of writing this is only the case for the [IKEA Search API](../search/index.html).
+
+
+    ## Other APIs
+
+
+    * [IKEA Product Catalog API](../product-catalog/index.html)
+
+    * [IKEA Search API](../search/index.html)
+
+    * [IKEA Sales Item API](../sales-item/index.html)
+
+    * [IKEA After Purchase Ordering API](../after-purchase-ordering/index.html)
+
+
+    ## ⚠️ Disclaimer
+
+
+    * This project is based on publicly available information and analysis of network requests.
+
+    * It is not affiliated with, endorsed by, or supported by IKEA.
+
+    * Endpoints, schemas, and behaviors may change at any time and may not reflect official or supported APIs.
+
+    * Use this specification at your own risk.
+
+
+    ### See also
+
+
+    This section lists resources used during the creation of these APIs to exent and check validity of the API.
+
+    These are not in any special order but useful as references.
+
+
+    * [OpenAPI Spec for api.salesitem.ingka.com](https://github.com/shrabdut123/cart-multi-agent/blob/a10dc96ac7a1fd98701afebe2cde585e6d9a6a08/service_coordinator_agent/salesitem_api.yaml#L13) - Very verbose OpenAPI Spec with detailed resources referring to inside IKEA knowledge.
+
+    * [DavisChappins/ikeaStockChecker](https://github.com/DavisChappins/ikeaStockChecker/blob/45fa92f26ac2b37d03c37eb34e0c618c4a8477e8/ikea_stock_scanner.py#L11) - Use of `api.salesitem.ingka.com` endpoint.
+
+    * [Mirzaei81/ikeaScraper](https://github.com/Mirzaei81/ikeaScraper/blob/cdeef5c9fb76660b18a8e569d7213828ffe5f9d2/app.py#L74) - Use of `api.salesitem.ingka.com` endpoint.
+
+    * [Ephigenia/ikea-availability-checker/postman/schemas/ikea-ingka-api.yaml](https://github.com/Ephigenia/ikea-availability-checker/blob/c7fe2f9bc8306c01783f8d22329d34ed76a582c9/postman/schemas/ikea-ingka-api.yaml) - This contains resources related to the `api.salesitem.ingka.com` (Sales Item API)
+
+    * [vrslev/ikea-api-client/src/ikea_api/endpoints/search.py](https://github.com/vrslev/ikea-api-client/blob/ce70c8d743302a465931bdb6a9f7b0bc5c1d882f/src/ikea_api/endpoints/search.py#L14C1-L14C117) - Use of the Search API and some other endpoints.
+
+    '
+  version: 0.1.0
+  license:
+    name: MIT License
+    url: https://opensource.org/licenses/MIT
+  contact:
+    name: Unofficial IKEA OpenAPI Maintainer
+    url: https://github.com/idelsink/ikea-openapi
+servers:
+- url: https://api.prod.apo.ingka.com
+  description: Production (Cloudflare)
+- url: https://origin-api.prod.apo.ingka.com
+  description: Production (Google Frontend)
+- url: https://api.test.apo.ingka.com
+  description: Testing (Cloudflare)
+- url: https://origin-api.test.apo.ingka.com
+  description: Testing (Google Frontend)
+tags:
+- name: Categories
+  description: Everything about Categories
+paths:
+  /meta-data/navigation/catalog-products-slim.json:
+    get:
+      summary: IKEA Get Categories and Subcategories
+      description: Returns the complete category hierarchy including all main categories and their nested subcategories
+      operationId: getCategories
+      tags:
+      - Categories
+      responses:
+        '200':
+          description: Successful response with category tree
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+              examples:
+                GetCategories200Example:
+                  summary: Default getCategories 200 response
+                  value:
+                  - id: st001
+                    name: Storage furniture
+                    url: /gb/en/cat/storage-furniture-st001/
+                    im: https://www.ikea.com/images/4e/83/4e83f2c50f6d1cf0e3d90e78662de08b.png?f=sg
+                    subs:
+                    - id: example
+                      name: Storage furniture
+                      url: /gb/en/cat/storage-furniture-st001/
+                      im: https://www.ikea.com/images/4e/83/4e83f2c50f6d1cf0e3d90e78662de08b.png?f=sg
+                      subs:
+                      - example
+                  x-microcks-default: true
+        '404':
+          description: Categories not found
+        '500':
+          description: Server error
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Category:
+      type: object
+      description: Category details
+      required:
+      - id
+      - name
+      - url
+      properties:
+        id:
+          $ref: '#/components/schemas/categoryId'
+        name:
+          type: string
+          description: Category display name
+          example: Storage furniture
+        url:
+          type: string
+          format: iri-reference
+          description: Relative path to the category
+          example: /gb/en/cat/storage-furniture-st001/
+        im:
+          type: string
+          format: uri
+          description: Category image URL
+          example: https://www.ikea.com/images/4e/83/4e83f2c50f6d1cf0e3d90e78662de08b.png?f=sg
+        subs:
+          type: array
+          description: 'Array of Category objects (recursive).
+
+            Each subcategory has the same structure as this schema.
+
+            Maximum depth observed: 4 levels.
+
+            '
+          items:
+            $ref: '#/components/schemas/Category'
+    categoryId:
+      type: string
+      description: Category identifier (UUID, code like 'st001', or numeric ID)
+      example: st001
+      examples:
+      - st001
+      - 4a552556-db67-4fab-afb0-11433eda6784
