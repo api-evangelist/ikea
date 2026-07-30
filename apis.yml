@@ -2,7 +2,19 @@ aid: ikea
 url: https://raw.githubusercontent.com/api-evangelist/ikea/refs/heads/main/apis.yml
 name: IKEA
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/ikea.png
 tags:
   - Retail
   - Home Furnishings
@@ -16,111 +28,176 @@ created: '2026-05-05'
 modified: '2026-05-30'
 specificationVersion: '0.19'
 apis:
-  - aid: ikea:product-catalog
-    name: IKEA Product Catalog API (Unofficial)
-    description: 'Unofficial reverse-engineered specification for IKEA''s public storefront product catalog. Exposes store metadata (informera/stores-detailed.json), the global category and navigation tree (catalog-products-slim.json) and per-product detail endpoints under www.ikea.com/{country}/{language}. Authored and maintained by idelsink/ikea-openapi based on observed network traffic. This is not an official IKEA developer API.'
-    humanURL: https://github.com/idelsink/ikea-openapi
-    baseURL: https://www.ikea.com/{country}/{language}
-    tags:
-      - Product Catalog
-      - Categories
-      - Stores
-      - Products
-      - Unofficial API
-      - Opensource
-    properties:
-      - type: OpenAPI
-        url: https://raw.githubusercontent.com/api-evangelist/ikea/main/openapi/ikea-product-catalog-openapi.yml
-      - type: Documentation
-        url: https://ingmar.dels.ink/ikea-openapi/product-catalog/
-      - type: SourceCode
-        url: https://github.com/idelsink/ikea-openapi/tree/main/openapi/product-catalog
-  - aid: ikea:search
-    name: IKEA Search API (Unofficial)
-    description: 'Unofficial reverse-engineered specification for IKEA''s product search service hosted at sik.search.blue.cdtapps.com. Supports paginated product list pages and filtered search across IKEA''s storefront catalogue. This is the only one of the four idelsink specs that the IKEA-hosted endpoint exposes with permissive CORS, so it is the easiest to exercise from a browser. Authored and maintained by idelsink/ikea-openapi. Not an official IKEA developer API.'
-    humanURL: https://github.com/idelsink/ikea-openapi
-    baseURL: https://sik.search.blue.cdtapps.com/{country}/{language}
-    tags:
-      - Search
-      - Products
-      - Unofficial API
-      - Opensource
-    properties:
-      - type: OpenAPI
-        url: https://raw.githubusercontent.com/api-evangelist/ikea/main/openapi/ikea-search-openapi.yml
-      - type: Documentation
-        url: https://ingmar.dels.ink/ikea-openapi/search/
-      - type: SourceCode
-        url: https://github.com/idelsink/ikea-openapi/tree/main/openapi/search
-  - aid: ikea:sales-item
-    name: IKEA Sales Item API (Unofficial)
-    description: 'Unofficial reverse-engineered specification for IKEA''s real-time availability service hosted at api.salesitem.ingka.com. Returns per-store and per-class-unit availability and packaging information for IKEA articles. Used by community projects like ikea-availability-checker and ikeaStockChecker. Authored and maintained by idelsink/ikea-openapi. Not an official IKEA developer API.'
-    humanURL: https://github.com/idelsink/ikea-openapi
-    baseURL: https://api.salesitem.ingka.com
-    tags:
-      - Availability
-      - Stock
-      - Stores
-      - Sales Items
-      - Unofficial API
-      - Opensource
-    properties:
-      - type: OpenAPI
-        url: https://raw.githubusercontent.com/api-evangelist/ikea/main/openapi/ikea-sales-item-openapi.yml
-      - type: Documentation
-        url: https://ingmar.dels.ink/ikea-openapi/sales-item/
-      - type: SourceCode
-        url: https://github.com/idelsink/ikea-openapi/tree/main/openapi/sales-item
-  - aid: ikea:after-purchase-ordering
-    name: IKEA After Purchase Ordering API (Unofficial)
-    description: 'Unofficial reverse-engineered specification for IKEA''s spare-parts and After Purchase Ordering (APO) service. Lets shoppers look up replacement parts by partial or full part ID and browse the catalogue of orderable spare parts attached to IKEA products. Authored and maintained by idelsink/ikea-openapi. Not an official IKEA developer API.'
-    humanURL: https://github.com/idelsink/ikea-openapi
-    tags:
-      - After Purchase
-      - Spare Parts
-      - Aftermarket
-      - Unofficial API
-      - Opensource
-    properties:
-      - type: OpenAPI
-        url: https://raw.githubusercontent.com/api-evangelist/ikea/main/openapi/ikea-after-purchase-ordering-openapi.yml
-      - type: Documentation
-        url: https://ingmar.dels.ink/ikea-openapi/after-purchase-ordering/
-      - type: SourceCode
-        url: https://github.com/idelsink/ikea-openapi/tree/main/openapi/after-purchase-ordering
-  - aid: ikea:dirigera-hub
-    name: IKEA DIRIGERA Smart Home Hub API (Unofficial, Local)
-    description: 'The DIRIGERA hub is IKEA''s next-generation smart home gateway (replacing TRADFRI). It exposes a private, locally-served REST API on the LAN with bearer-token authentication (token obtained by pressing the action button on the hub). There is no public OpenAPI from IKEA; the community has produced several SDKs that document and consume the surface — Leggin/dirigera (Python), lpgera/dirigera (TypeScript), dvdgeisler/DirigeraClient (Java), bombsimon/dirigera-rs (Rust). Resources include lights, outlets, blinds, air purifiers, environment sensors, motion sensors, open/close sensors, scenes, rooms and an event listener websocket. Not an official IKEA developer API.'
-    humanURL: https://github.com/Leggin/dirigera
-    tags:
-      - Smart Home
-      - DIRIGERA
-      - IoT
-      - Local API
-      - Unofficial API
-      - Opensource
-    properties:
-      - type: SDKs
-        title: Python Client (Leggin/dirigera)
-        url: https://github.com/Leggin/dirigera
-      - type: SDKs
-        title: TypeScript Client (lpgera/dirigera)
-        url: https://github.com/lpgera/dirigera
-      - type: SDKs
-        title: Java Client (dvdgeisler/DirigeraClient)
-        url: https://github.com/dvdgeisler/DirigeraClient
-      - type: SDKs
-        title: Rust Client (bombsimon/dirigera-rs)
-        url: https://github.com/bombsimon/dirigera-rs
-      - type: Integrations
-        title: Home Assistant Integration (sanjoyg/dirigera_platform)
-        url: https://github.com/sanjoyg/dirigera_platform
-      - type: Integrations
-        title: Homebridge Plugin (uboness/homebridge-dirigera)
-        url: https://github.com/uboness/homebridge-dirigera
-      - type: Tools
-        title: Web UI (lpgera/dirigera-web)
-        url: https://github.com/lpgera/dirigera-web
+- aid: ikea:dirigera-hub
+  name: IKEA DIRIGERA Smart Home Hub API (Unofficial, Local)
+  description: >-
+    The DIRIGERA hub is IKEA's next-generation smart home gateway (replacing TRADFRI). It exposes a private,
+    locally-served REST API on the LAN with bearer-token authentication (token obtained by pressing the
+    action button on the hub). There is no public OpenAPI from IKEA; the community has produced several
+    SDKs that document and consume the surface — Leggin/dirigera (Python), lpgera/dirigera (TypeScript),
+    dvdgeisler/DirigeraClient (Java), bombsimon/dirigera-rs (Rust). Resources include lights, outlets,
+    blinds, air purifiers, environment sensors, motion sensors, open/close sensors, scenes, rooms and
+    an event listener websocket. Not an official IKEA developer API.
+  humanURL: https://github.com/Leggin/dirigera
+  tags:
+  - Smart Home
+  - DIRIGERA
+  - IoT
+  - Local API
+  - Unofficial API
+  - Opensource
+  properties:
+  - type: SDKs
+    title: Python Client (Leggin/dirigera)
+    url: https://github.com/Leggin/dirigera
+  - type: SDKs
+    title: TypeScript Client (lpgera/dirigera)
+    url: https://github.com/lpgera/dirigera
+  - type: SDKs
+    title: Java Client (dvdgeisler/DirigeraClient)
+    url: https://github.com/dvdgeisler/DirigeraClient
+  - type: SDKs
+    title: Rust Client (bombsimon/dirigera-rs)
+    url: https://github.com/bombsimon/dirigera-rs
+  - type: Integrations
+    title: Home Assistant Integration (sanjoyg/dirigera_platform)
+    url: https://github.com/sanjoyg/dirigera_platform
+  - type: Integrations
+    title: Homebridge Plugin (uboness/homebridge-dirigera)
+    url: https://github.com/uboness/homebridge-dirigera
+  - type: Tools
+    title: Web UI (lpgera/dirigera-web)
+    url: https://github.com/lpgera/dirigera-web
+- aid: ikea:ikea-availability-api
+  name: IKEA Availability API
+  description: Everything about Availability
+  humanURL: https://github.com/idelsink/ikea-openapi
+  baseURL: https://www.ikea.com/{country}/{language}
+  tags:
+  - Availability
+  properties:
+  - type: OpenAPI
+    url: openapi/ikea-availability-api-openapi.yml
+  - type: Documentation
+    url: https://ingmar.dels.ink/ikea-openapi/product-catalog/
+  - type: SourceCode
+    url: https://github.com/idelsink/ikea-openapi/tree/main/openapi/product-catalog
+  - type: Documentation
+    url: https://ingmar.dels.ink/ikea-openapi/search/
+  - type: SourceCode
+    url: https://github.com/idelsink/ikea-openapi/tree/main/openapi/search
+  - type: Documentation
+    url: https://ingmar.dels.ink/ikea-openapi/sales-item/
+  - type: SourceCode
+    url: https://github.com/idelsink/ikea-openapi/tree/main/openapi/sales-item
+  - type: Documentation
+    url: https://ingmar.dels.ink/ikea-openapi/after-purchase-ordering/
+  - type: SourceCode
+    url: https://github.com/idelsink/ikea-openapi/tree/main/openapi/after-purchase-ordering
+- aid: ikea:ikea-categories-api
+  name: IKEA Categories API
+  description: Everything about Categories
+  humanURL: https://github.com/idelsink/ikea-openapi
+  baseURL: https://www.ikea.com/{country}/{language}
+  tags:
+  - Categories
+  properties:
+  - type: OpenAPI
+    url: openapi/ikea-categories-api-openapi.yml
+  - type: Documentation
+    url: https://ingmar.dels.ink/ikea-openapi/product-catalog/
+  - type: SourceCode
+    url: https://github.com/idelsink/ikea-openapi/tree/main/openapi/product-catalog
+  - type: Documentation
+    url: https://ingmar.dels.ink/ikea-openapi/search/
+  - type: SourceCode
+    url: https://github.com/idelsink/ikea-openapi/tree/main/openapi/search
+  - type: Documentation
+    url: https://ingmar.dels.ink/ikea-openapi/sales-item/
+  - type: SourceCode
+    url: https://github.com/idelsink/ikea-openapi/tree/main/openapi/sales-item
+  - type: Documentation
+    url: https://ingmar.dels.ink/ikea-openapi/after-purchase-ordering/
+  - type: SourceCode
+    url: https://github.com/idelsink/ikea-openapi/tree/main/openapi/after-purchase-ordering
+- aid: ikea:ikea-parts-api
+  name: IKEA Parts API
+  description: Everything about Parts
+  humanURL: https://github.com/idelsink/ikea-openapi
+  baseURL: https://www.ikea.com/{country}/{language}
+  tags:
+  - Parts
+  properties:
+  - type: OpenAPI
+    url: openapi/ikea-parts-api-openapi.yml
+  - type: Documentation
+    url: https://ingmar.dels.ink/ikea-openapi/product-catalog/
+  - type: SourceCode
+    url: https://github.com/idelsink/ikea-openapi/tree/main/openapi/product-catalog
+  - type: Documentation
+    url: https://ingmar.dels.ink/ikea-openapi/search/
+  - type: SourceCode
+    url: https://github.com/idelsink/ikea-openapi/tree/main/openapi/search
+  - type: Documentation
+    url: https://ingmar.dels.ink/ikea-openapi/sales-item/
+  - type: SourceCode
+    url: https://github.com/idelsink/ikea-openapi/tree/main/openapi/sales-item
+  - type: Documentation
+    url: https://ingmar.dels.ink/ikea-openapi/after-purchase-ordering/
+  - type: SourceCode
+    url: https://github.com/idelsink/ikea-openapi/tree/main/openapi/after-purchase-ordering
+- aid: ikea:ikea-products-api
+  name: IKEA Products API
+  description: Everything about Products
+  humanURL: https://github.com/idelsink/ikea-openapi
+  baseURL: https://www.ikea.com/{country}/{language}
+  tags:
+  - Products
+  properties:
+  - type: OpenAPI
+    url: openapi/ikea-products-api-openapi.yml
+  - type: Documentation
+    url: https://ingmar.dels.ink/ikea-openapi/product-catalog/
+  - type: SourceCode
+    url: https://github.com/idelsink/ikea-openapi/tree/main/openapi/product-catalog
+  - type: Documentation
+    url: https://ingmar.dels.ink/ikea-openapi/search/
+  - type: SourceCode
+    url: https://github.com/idelsink/ikea-openapi/tree/main/openapi/search
+  - type: Documentation
+    url: https://ingmar.dels.ink/ikea-openapi/sales-item/
+  - type: SourceCode
+    url: https://github.com/idelsink/ikea-openapi/tree/main/openapi/sales-item
+  - type: Documentation
+    url: https://ingmar.dels.ink/ikea-openapi/after-purchase-ordering/
+  - type: SourceCode
+    url: https://github.com/idelsink/ikea-openapi/tree/main/openapi/after-purchase-ordering
+- aid: ikea:ikea-stores-api
+  name: IKEA Stores API
+  description: Everything about Stores
+  humanURL: https://github.com/idelsink/ikea-openapi
+  baseURL: https://www.ikea.com/{country}/{language}
+  tags:
+  - Stores
+  properties:
+  - type: OpenAPI
+    url: openapi/ikea-stores-api-openapi.yml
+  - type: Documentation
+    url: https://ingmar.dels.ink/ikea-openapi/product-catalog/
+  - type: SourceCode
+    url: https://github.com/idelsink/ikea-openapi/tree/main/openapi/product-catalog
+  - type: Documentation
+    url: https://ingmar.dels.ink/ikea-openapi/search/
+  - type: SourceCode
+    url: https://github.com/idelsink/ikea-openapi/tree/main/openapi/search
+  - type: Documentation
+    url: https://ingmar.dels.ink/ikea-openapi/sales-item/
+  - type: SourceCode
+    url: https://github.com/idelsink/ikea-openapi/tree/main/openapi/sales-item
+  - type: Documentation
+    url: https://ingmar.dels.ink/ikea-openapi/after-purchase-ordering/
+  - type: SourceCode
+    url: https://github.com/idelsink/ikea-openapi/tree/main/openapi/after-purchase-ordering
 common:
   - type: AgenticAccess
     url: agentic-access/ikea-agentic-access.yml
