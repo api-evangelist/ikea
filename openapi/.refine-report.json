@@ -1,0 +1,22 @@
+{
+  "provider": "ikea",
+  "sources": [
+    "ikea-availability-api-openapi.yml",
+    "ikea-categories-api-openapi.yml",
+    "ikea-parts-api-openapi.yml",
+    "ikea-products-api-openapi.yml",
+    "ikea-stores-api-openapi.yml"
+  ],
+  "outputs": [
+    "ikea-availability-api-openapi.yml",
+    "ikea-categories-api-openapi.yml",
+    "ikea-parts-api-openapi.yml",
+    "ikea-products-api-openapi.yml",
+    "ikea-stores-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

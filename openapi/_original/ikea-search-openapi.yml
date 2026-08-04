@@ -1,0 +1,716 @@
+openapi: 3.1.1
+info:
+  title: IKEA Search API
+  summary: Unofficial API for searching and listing IKEA products
+  description: |
+    This is an **unofficial** OpenAPI specification for the IKEA Search API.
+
+    ## FAQ
+
+    **Q: Why is this API called Search?**
+
+    **A:** Search is also being used in the url `sik.search.blue.cdtapps.com`
+    and it allows you to find products.
+
+    ## Swagger UI
+
+    This API can be tested using swagger-ui at [./swagger-ui.html](swagger-ui.html) as long as the
+    CORS header `Access-Control-Allow-Origin` are configured as `*`.
+    At the moment of writing this is only the case for the [IKEA Search API](../search/index.html).
+
+    ## Other APIs
+
+    * [IKEA Product Catalog API](../product-catalog/index.html)
+    * [IKEA Search API](../search/index.html)
+    * [IKEA Sales Item API](../sales-item/index.html)
+    * [IKEA After Purchase Ordering API](../after-purchase-ordering/index.html)
+
+    ## ⚠️ Disclaimer
+
+    * This project is based on publicly available information and analysis of network requests.
+    * It is not affiliated with, endorsed by, or supported by IKEA.
+    * Endpoints, schemas, and behaviors may change at any time and may not reflect official or supported APIs.
+    * Use this specification at your own risk.
+
+    ### See also
+
+    This section lists resources used during the creation of these APIs to exent and check validity of the API.
+    These are not in any special order but useful as references.
+
+    * [OpenAPI Spec for api.salesitem.ingka.com](https://github.com/shrabdut123/cart-multi-agent/blob/a10dc96ac7a1fd98701afebe2cde585e6d9a6a08/service_coordinator_agent/salesitem_api.yaml#L13) - Very verbose OpenAPI Spec with detailed resources referring to inside IKEA knowledge.
+    * [DavisChappins/ikeaStockChecker](https://github.com/DavisChappins/ikeaStockChecker/blob/45fa92f26ac2b37d03c37eb34e0c618c4a8477e8/ikea_stock_scanner.py#L11) - Use of `api.salesitem.ingka.com` endpoint.
+    * [Mirzaei81/ikeaScraper](https://github.com/Mirzaei81/ikeaScraper/blob/cdeef5c9fb76660b18a8e569d7213828ffe5f9d2/app.py#L74) - Use of `api.salesitem.ingka.com` endpoint.
+    * [Ephigenia/ikea-availability-checker/postman/schemas/ikea-ingka-api.yaml](https://github.com/Ephigenia/ikea-availability-checker/blob/c7fe2f9bc8306c01783f8d22329d34ed76a582c9/postman/schemas/ikea-ingka-api.yaml) - This contains resources related to the `api.salesitem.ingka.com` (Sales Item API)
+    * [vrslev/ikea-api-client/src/ikea_api/endpoints/search.py](https://github.com/vrslev/ikea-api-client/blob/ce70c8d743302a465931bdb6a9f7b0bc5c1d882f/src/ikea_api/endpoints/search.py#L14C1-L14C117) - Use of the Search API and some other endpoints.
+  version: 0.1.0
+  license:
+    name: MIT License
+    url: https://opensource.org/licenses/MIT
+  contact:
+    name: Unofficial IKEA OpenAPI Maintainer
+    url: https://github.com/idelsink/ikea-openapi
+servers:
+- url: https://sik.search.blue.cdtapps.com/{country}/{language}
+  description: IKEA Search API
+  variables:
+    country:
+      default: gb
+      description: Country code (e.g., de, gb, fr, us, no)
+    language:
+      default: en
+      description: Language code (e.g., en, de, fr)
+tags:
+- name: Products
+  description: Everything about Products
+paths:
+  /product-list-page:
+    get:
+      summary: IKEA Get a Limited Set of Filtered Products
+      description: Returns a window of products that matches the filtered criteria.
+      operationId: findProducts
+      tags:
+      - Products
+      parameters:
+      - $ref: '#/components/parameters/category'
+      - $ref: '#/components/parameters/size'
+      responses:
+        '200':
+          description: Lists a limited set of Products for a given category.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductListPage'
+              examples:
+                FindProducts200Example:
+                  summary: Default findProducts 200 response
+                  value:
+                    usergroup: '[]'
+                    testActivationTriggers: &id001 {}
+                    productListPage:
+                      category:
+                        name: example
+                        key: example
+                        url: example
+                        imageUrl: example
+                      productWindow:
+                      - example
+                      productCount: 1
+                      plannerWindow:
+                      - {}
+                      plannerCount: 1
+                      filters2:
+                      - {}
+                      dynamicFiltersV1:
+                      - {}
+                      dynamicFilters:
+                      - {}
+                  x-microcks-default: true
+        '400':
+          description: Bad Request for Listing of Products
+        '404':
+          description: Product List Not Found
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /product-list-page/more-products:
+    get:
+      summary: IKEA Get a Paginated Set of Filtered Products
+      description: Returns a window of paginated products that matches the filtered criteria.
+      operationId: findProductsPaginated
+      tags:
+      - Products
+      parameters:
+      - $ref: '#/components/parameters/category'
+      - $ref: '#/components/parameters/start'
+      - $ref: '#/components/parameters/end'
+      responses:
+        '200':
+          description: Lists a paginated set of Products for a given category.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MoreProducts'
+              examples:
+                FindProductsPaginated200Example:
+                  summary: Default findProductsPaginated 200 response
+                  value:
+                    usergroup: '[]'
+                    testActivationTriggers: *id001
+                    moreProducts:
+                      productWindow:
+                      - example
+                  x-microcks-default: true
+        '400':
+          description: Bad Request for More Products
+        '404':
+          description: More Products Not Found
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    categoryId:
+      type: string
+      description: Category identifier (UUID, code like 'st001', or numeric ID)
+      example: st001
+      examples:
+      - st001
+      - 4a552556-db67-4fab-afb0-11433eda6784
+    CommonProperties:
+      type: object
+      description: Common properties returned in search responses
+      required:
+      - usergroup
+      - testActivationTriggers
+      properties:
+        usergroup:
+          type: string
+          example: '[]'
+        testActivationTriggers:
+          type: object
+          example: *id001
+    Category:
+      type: object
+      description: Product Category
+      required:
+      - name
+      - key
+      properties:
+        name:
+          type: string
+          description: Category name
+          example: Sofa
+        key:
+          $ref: '#/components/schemas/categoryId'
+        url:
+          type: string
+          description: URL to category
+          example: https://www.ikea.com/gb/en/cat/sofa-fu003/
+        imageUrl:
+          type: string
+          description: Image for the category
+          example: https://www.ikea.com/global/assets/range-categorisation/images/sofas-fu003.jpeg
+    productId:
+      type: string
+      description: Product identifier
+      example: '00263850'
+    itemType:
+      type: string
+      description: |
+        Item type code
+      enum:
+      - ART
+      - SPR
+      example: SPR
+    Product:
+      type: object
+      description: Project details
+      required:
+      - name
+      - typeName
+      - itemMeasureReferenceText
+      - mainImageUrl
+      - pipUrl
+      - allProductImage
+      - id
+      - itemNoGlobal
+      - onlineSellable
+      - lastChance
+      - gprDescription
+      - colors
+      - tag
+      - quickFacts
+      - features
+      - availability
+      - itemNo
+      - itemType
+      - salesPrice
+      - contextualImageUrl
+      - contextualImageAlt
+      - mainImageAlt
+      - businessStructure
+      - categoryPath
+      - heroBackoffData
+      - optimizelyAttributes
+      properties:
+        name:
+          type: string
+          description: Product name
+          example: PLATSA
+        typeName:
+          type: string
+          description: Product type description
+          example: Wardrobe with 8 doors+3 drawers
+        itemMeasureReferenceText:
+          type: string
+          description: Dimensions of the product in centimeters
+          example: 240x57x221 cm
+        mainImageUrl:
+          type: string
+          format: uri
+          description: URL of the main product image
+          example: https://www.ikea.com/gb/en/images/products/platsa-wardrobe-with-8-doors-3-drawers-white-straumen-mirror-glass-sannidal-white__1017864_pe830974_s5.jpg
+        pipUrl:
+          type: string
+          format: uri
+          description: Product information page URL
+          example: https://www.ikea.com/gb/en/p/platsa-wardrobe-with-8-doors-3-drawers-white-straumen-mirror-glass-sannidal-white-s39424871/
+        filterClass:
+          type: string
+          description: Product filter classification
+          example: wardrobes
+        allProductImage:
+          type: array
+          description: List of product images
+          items:
+            type: object
+            required:
+            - altText
+            - type
+            - url
+            properties:
+              altText:
+                type: string
+                description: Alt text of the product image
+                example: White PLATSA storage system with multiple open shelves and a section with hanging rail and baskets.
+              type:
+                type: string
+                description: Type of product image
+                example: MAIN_PRODUCT_IMAGE
+              url:
+                type: string
+                format: uri
+                description: URL of the product image
+                example: https://www.ikea.com/gb/en/images/products/platsa-wardrobe.jpg
+        id:
+          $ref: '#/components/schemas/productId'
+        itemNoGlobal:
+          $ref: '#/components/schemas/productId'
+        onlineSellable:
+          type: boolean
+          description: Whether the product is available for online purchase
+          example: true
+        lastChance:
+          type: boolean
+          description: Whether the product is in last chance clearance
+          example: false
+        gprDescription:
+          type: object
+          description: Product variants information
+          required:
+          - numberOfVariants
+          - variants
+          properties:
+            numberOfVariants:
+              type: integer
+              example: 0
+            variants:
+              type: array
+              items:
+                type: object
+                description: Variants of a product. This will contain a list of Product items.
+                example: {}
+        colors:
+          type: array
+          description: Available colors
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: white
+              id:
+                type: string
+                example: '10156'
+              hex:
+                type: string
+                example: ffffff
+        tag:
+          type: string
+          description: Promotional tag
+          example: FAMILY_PRICE
+        tagText:
+          type: string
+          description: Promotional tag text
+          example: IKEA Family price
+        quickFacts:
+          type: array
+          description: 'Quick facts about the product (Note: Type if items is unknown at the time of writing)'
+          items:
+            type: object
+            example:
+              type: KEY_BENEFITS
+              id: '100'
+              name: Large drawers
+              typeName: Key benefits
+        features:
+          type: array
+          description: 'Product features (Note: Type if items is unknown at the time of writing)'
+          items:
+            type: string
+            example: 'Note: Type if items is unknown at the time of writing'
+        availability:
+          type: array
+          description: 'Availability information (Note: Type if items is unknown at the time of writing)'
+          items:
+            type: string
+            example: 'Note: Type if items is unknown at the time of writing'
+        ratingValue:
+          type: number
+          format: float
+          description: Average rating value
+          example: 2.3
+        ratingCount:
+          type: integer
+          description: Number of ratings
+          example: 4
+        itemNo:
+          $ref: '#/components/schemas/productId'
+        itemType:
+          $ref: '#/components/schemas/itemType'
+        salesPrice:
+          type: object
+          description: Pricing information
+          properties:
+            currencyCode:
+              type: string
+              example: EUR
+            numeral:
+              type: number
+              format: float
+              example: 836.5
+            current:
+              type: object
+              properties:
+                prefix:
+                  type: string
+                  example: ''
+                wholeNumber:
+                  type: string
+                  example: '836'
+                separator:
+                  type: string
+                  example: .
+                decimals:
+                  type: string
+                  example: '50'
+                suffix:
+                  type: string
+                  example: €
+                isRegularCurrency:
+                  type: boolean
+                  example: true
+                style:
+                  type: string
+                  example: BASE
+            previous:
+              type: object
+              properties:
+                prefix:
+                  type: string
+                  example: ''
+                wholeNumber:
+                  type: string
+                  example: '963'
+                separator:
+                  type: string
+                  example: .
+                decimals:
+                  type: string
+                  example: '50'
+                suffix:
+                  type: string
+                  example: €
+                isRegularCurrency:
+                  type: boolean
+                  example: true
+                style:
+                  type: string
+                  example: BASE
+            lowestPreviousSalesPrice:
+              type: object
+              properties:
+                prefix:
+                  type: string
+                  example: ''
+                wholeNumber:
+                  type: string
+                  example: '963'
+                separator:
+                  type: string
+                  example: .
+                decimals:
+                  type: string
+                  example: '50'
+                suffix:
+                  type: string
+                  example: €
+                isRegularCurrency:
+                  type: boolean
+                  example: true
+                style:
+                  type: string
+                  example: BASE
+            isBreathTaking:
+              type: boolean
+              example: false
+            discount:
+              type: string
+              example: ''
+            prevPriceLabel:
+              type: string
+              example: Normal price
+            lowestPreviousSalesPriceLabel:
+              type: string
+              example: Lowest price in the last 30 days
+            validFrom:
+              type: string
+              format: date
+              example: '2025-08-29'
+            validTo:
+              type: string
+              format: date
+              example: '2025-09-30'
+            experimentalDiscountAmount:
+              type: number
+              example: 127
+            experimentalDiscountPercentage:
+              type: integer
+              example: 13
+            availabilityDisclaimer:
+              type: string
+              example: Price valid 29. August 2025 - 30. September 2025 or while supply lasts
+            tag:
+              type: string
+              example: FAMILY_PRICE
+            tagText:
+              type: string
+              example: IKEA Family price
+            priceText:
+              type: string
+              example: Price
+            tags:
+              type: array
+              items:
+                type: string
+                example: FAMILY_PRICE
+            tagWithText:
+              type: object
+              properties:
+                tag:
+                  type: string
+                  example: FAMILY_PRICE
+                text:
+                  type: string
+                  example: IKEA Family price
+        contextualImageUrl:
+          type: string
+          format: uri
+          description: Contextual product image URL
+          example: https://www.ikea.com/gb/en/images/products/platsa-contextual.jpg
+        contextualImageAlt:
+          type: string
+          description: Alt text for contextual image
+          example: PLATSA wardrobe with mirrors, next to bed, mirror, and basket.
+        mainImageAlt:
+          type: string
+          description: Alt text for main product image
+          example: White PLATSA storage system with multiple open shelves and a section with hanging rail and baskets.
+        businessStructure:
+          type: object
+          description: Product business categorization
+          properties:
+            homeFurnishingBusinessName:
+              type: string
+              example: Bedroom furniture
+            homeFurnishingBusinessNo:
+              type: string
+              example: '04'
+            productAreaName:
+              type: string
+              example: System wardrobes
+            productAreaNo:
+              type: string
+              example: '0421'
+            productRangeAreaName:
+              type: string
+              example: Wardrobes
+            productRangeAreaNo:
+              type: string
+              example: '042'
+        categoryPath:
+          type: array
+          description: Category hierarchy
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: Storage furniture
+              key:
+                type: string
+                example: st001
+        validDesignText:
+          type: string
+          description: Product design variant description
+          example: white STRAUMEN mirror glass/SANNIDAL white
+        heroBackoffData:
+          type: object
+          additionalProperties: true
+        optimizelyAttributes:
+          type: object
+          properties:
+            PRODUCT_TYPE:
+              type: string
+              example: standard
+    ProductListPageEnvelope:
+      type: object
+      description: Product List Page envelope containing a limited set of Products for a given category.
+      required:
+      - category
+      - productWindow
+      - productCount
+      - plannerWindow
+      - plannerCount
+      - filters2
+      - dynamicFiltersV1
+      - dynamicFilters
+      - sortOrders
+      properties:
+        category:
+          $ref: '#/components/schemas/Category'
+        productWindow:
+          description: Window of filtered products
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+        productCount:
+          description: Amount of products in this category
+          type: integer
+          example: 1
+        plannerWindow:
+          description: Window of filtered windows
+          type: array
+          items:
+            type: object
+        plannerCount:
+          description: Amount of planner entries
+          type: integer
+          example: 1
+        filters2:
+          type: array
+          items:
+            type: object
+        dynamicFiltersV1:
+          type: array
+          items:
+            type: object
+        dynamicFilters:
+          type: array
+          items:
+            type: object
+        sortOrders:
+          description: What sorting is enabled
+          type: object
+          required:
+          - name
+          - values
+          properties:
+            name:
+              type: string
+              example: Sort
+            values:
+              type: array
+              items:
+                type: object
+                required:
+                - id
+                - name
+                - eventAction
+                - selected
+                properties:
+                  id:
+                    type: string
+                    example: RELEVANCE
+                    description: Filter identifier
+                  name:
+                    type: string
+                    example: Best match
+                    description: Name of the filter
+                  eventAction:
+                    type: string
+                    example: sort_by_relevance
+                  selected:
+                    description: Whether or not this sorting option is selected
+                    type: boolean
+                    example: true
+    ProductListPage:
+      description: Page with Product List
+      allOf:
+      - $ref: '#/components/schemas/CommonProperties'
+      - type: object
+        required:
+        - productListPage
+        properties:
+          productListPage:
+            $ref: '#/components/schemas/ProductListPageEnvelope'
+    MoreProductsEnvelope:
+      type: object
+      description: More Products Page envelope containing a window of paginated products that matches the filtered criteria.
+      required:
+      - productWindow
+      properties:
+        productWindow:
+          description: Window of paginated products
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+    MoreProducts:
+      description: Page with More Products
+      allOf:
+      - $ref: '#/components/schemas/CommonProperties'
+      - type: object
+        required:
+        - moreProducts
+        properties:
+          moreProducts:
+            $ref: '#/components/schemas/MoreProductsEnvelope'
+  parameters:
+    category:
+      name: category
+      in: query
+      description: Category to search for
+      required: true
+      schema:
+        $ref: '#/components/schemas/categoryId'
+      example: st001
+    size:
+      name: size
+      in: query
+      required: false
+      description: Amount of products to return
+      schema:
+        type: integer
+        minimum: 0
+        maximum: 1000
+      example: 42
+    start:
+      name: start
+      in: query
+      required: false
+      description: |
+        The zero-based index of the first item to include in the response. For example, `start=0` begins from the very first item. If `start` is provided but not `end`, then default for `end=24`.
+      schema:
+        type: integer
+        minimum: 0
+      example: 0
+    end:
+      name: end
+      in: query
+      required: false
+      description: |
+        The zero-based index of the last item to include **exclusive**. For example, `start=0&end=2` returns items at index 0 and 1. (2 items) If `end` is provided but not `end`, then default for `start=24`.
+      schema:
+        type: integer
+        minimum: 0
+      example: 0
