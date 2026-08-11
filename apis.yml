@@ -199,6 +199,11 @@ apis:
   - type: SourceCode
     url: https://github.com/idelsink/ikea-openapi/tree/main/openapi/after-purchase-ordering
 common:
+  - type: IssueTracker
+    url: https://github.com/idelsink/ikea-openapi/issues
+  - type: License
+    name: MIT
+    url: https://github.com/idelsink/ikea-openapi/blob/main/LICENSE
   - type: AgenticAccess
     url: agentic-access/ikea-agentic-access.yml
   - type: VulnerabilityDisclosure
