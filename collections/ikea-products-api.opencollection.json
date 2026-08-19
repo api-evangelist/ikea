@@ -1,0 +1,99 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "IKEA After Purchase Ordering Availability Products API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Products",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "IKEA Find Product by Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prod.apo.ingka.com/products/:productIdSuffix/:productId.json",
+            "params": [
+              {
+                "name": "productIdSuffix",
+                "value": "",
+                "type": "path",
+                "description": "Product ID Suffix (last 3 digits of Product ID)\nValue can be:\n  *  zero (`0`) or\n  * Product ID Suffix (`406`)\n"
+              },
+              {
+                "name": "productId",
+                "value": "",
+                "type": "path",
+                "description": "Product identifier\nValue can be:\n  *  zero (`0`),\n  * product identifier (`00263850`) or\n  * product identifier with `s` prefix (`s59047406`)\n"
+              }
+            ]
+          },
+          "docs": "Returns a single product"
+        },
+        {
+          "info": {
+            "name": "IKEA Get a Limited Set of Filtered Products",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prod.apo.ingka.com/product-list-page",
+            "params": [
+              {
+                "name": "category",
+                "value": "st001",
+                "type": "query",
+                "description": "Category to search for"
+              },
+              {
+                "name": "size",
+                "value": "42",
+                "type": "query",
+                "description": "Amount of products to return"
+              }
+            ]
+          },
+          "docs": "Returns a window of products that matches the filtered criteria."
+        },
+        {
+          "info": {
+            "name": "IKEA Get a Paginated Set of Filtered Products",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prod.apo.ingka.com/product-list-page/more-products",
+            "params": [
+              {
+                "name": "category",
+                "value": "st001",
+                "type": "query",
+                "description": "Category to search for"
+              },
+              {
+                "name": "start",
+                "value": "0",
+                "type": "query",
+                "description": "The zero-based index of the first item to include in the response. For example, `start=0` begins from the very first item. If `start` is provided but not `end`, then default for `end=24`.\n"
+              },
+              {
+                "name": "end",
+                "value": "0",
+                "type": "query",
+                "description": "The zero-based index of the last item to include **exclusive**. For example, `start=0&end=2` returns items at index 0 and 1. (2 items) If `end` is provided but not `end`, then default for `start=24`.\n"
+              }
+            ]
+          },
+          "docs": "Returns a window of paginated products that matches the filtered criteria."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

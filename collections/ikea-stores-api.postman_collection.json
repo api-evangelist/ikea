@@ -1,0 +1,106 @@
+{
+  "item": [
+    {
+      "id": "0c7c21f4-82a2-4200-be02-cbd3edb20bf7",
+      "name": "Stores",
+      "description": {
+        "content": "Everything about Stores",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ff7d3e74-4966-409b-af85-68925779d2cd",
+          "name": "IKEA Get Information for All Stores",
+          "request": {
+            "name": "IKEA Get Information for All Stores",
+            "description": {
+              "content": "Returns information about all IKEA stores in the requested region",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "meta-data",
+                "informera",
+                "stores-detailed.json"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c1250d23-02c1-441d-a92e-776c117dfa66",
+              "name": "Successful response with store details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "meta-data",
+                    "informera",
+                    "stores-detailed.json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"name\": \"IKEA Berlin - Tempelhof\",\n    \"lat\": \"52.46958147\",\n    \"lng\": \"13.36625688\",\n    \"address\": {\n      \"street\": \"Sachsendamm 47\",\n      \"zipCode\": \"10829\",\n      \"city\": \"Berlin,Tempelhof\",\n      \"timezone\": \"Europe/Berlin\",\n      \"stateProvinceCode\": \"DEBE\",\n      \"displayAddress\": \"Sachsendamm 47, Berlin,Tempelhof\"\n    },\n    \"homeShoppingUnit\": false,\n    \"openCloseDates\": {\n      \"openingDate\": \"2003-11-27T00:00:00Z\"\n    },\n    \"hours\": {\n      \"normal\": [\n        {\n          \"close\": \"20:00\",\n          \"day\": \"MON\",\n          \"open\": \"10:00\"\n        },\n        {\n          \"close\": \"20:00\",\n          \"day\": \"THU\",\n          \"open\": \"10:00\"\n        }\n      ]\n    },\n    \"displayName\": \"Berlin-Tempelhof\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.prod.apo.ingka.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "16f94a32-7b6c-4b0e-af51-1e018b3fe1b2",
+    "name": "IKEA After Purchase Ordering Availability Stores API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "This is an **unofficial** OpenAPI specification for the IKEA After Purchase Ordering (APO) API.\n\n## FAQ\n\n**Q: Why is this API called After Purchase Ordering?**\n\n**A:** The URL(s) used have `apo` in the name. We are also dealing with after purchase replacement parts.\nA common term for this is After Purchase Ordering (APO).\n\n## Swagger UI\n\nThis API can be tested using swagger-ui at [./swagger-ui.html](swagger-ui.html) as long as the\nCORS header `Access-Control-Allow-Origin` are configured as `*`.\nAt the moment of writing this is only the case for the [IKEA Search API](../search/index.html).\n\n## Other APIs\n\n* [IKEA Product Catalog API](../product-catalog/index.html)\n* [IKEA Search API](../search/index.html)\n* [IKEA Sales Item API](../sales-item/index.html)\n* [IKEA After Purchase Ordering API](../after-purchase-ordering/index.html)\n\n## ⚠️ Disclaimer\n\n* This project is based on publicly available information and analysis of network requests.\n* It is not affiliated with, endorsed by, or supported by IKEA.\n* Endpoints, schemas, and behaviors may change at any time and may not reflect official or supported APIs.\n* Use this specification at your own risk.\n\n### See also\n\nThis section lists resources used during the creation of these APIs to exent and check validity of the API.\nThese are not in any special order but useful as references.\n\n* [OpenAPI Spec for api.salesitem.ingka.com](https://github.com/shrabdut123/cart-multi-agent/blob/a10dc96ac7a1fd98701afebe2cde585e6d9a6a08/service_coordinator_agent/salesitem_api.yaml#L13) - Very verbose OpenAPI Spec with detailed resources referring to inside IKEA knowledge.\n* [DavisChappins/ikeaStockChecker](https://github.com/DavisChappins/ikeaStockChecker/blob/45fa92f26ac2b37d03c37eb34e0c618c4a8477e8/ikea_stock_scanner.py#L11) - Use of `api.salesitem.ingka.com` endpoint.\n* [Mirzaei81/ikeaScraper](https://github.com/Mirzaei81/ikeaScraper/blob/cdeef5c9fb76660b18a8e569d7213828ffe5f9d2/app.py#L74) - Use of `api.salesitem.ingka.com` endpoint.\n* [Ephigenia/ikea-availability-checker/postman/schemas/ikea-ingka-api.yaml](https://github.com/Ephigenia/ikea-availability-checker/blob/c7fe2f9bc8306c01783f8d22329d34ed76a582c9/postman/schemas/ikea-ingka-api.yaml) - This contains resources related to the `api.salesitem.ingka.com` (Sales Item API)\n* [vrslev/ikea-api-client/src/ikea_api/endpoints/search.py](https://github.com/vrslev/ikea-api-client/blob/ce70c8d743302a465931bdb6a9f7b0bc5c1d882f/src/ikea_api/endpoints/search.py#L14C1-L14C117) - Use of the Search API and some other endpoints.\n\n\nContact Support:\n Name: Unofficial IKEA OpenAPI Maintainer",
+      "type": "text/plain"
+    }
+  }
+}

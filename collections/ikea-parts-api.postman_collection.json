@@ -1,0 +1,552 @@
+{
+  "item": [
+    {
+      "id": "586e08e9-b16a-4b0e-915a-8109dcadfd94",
+      "name": "Parts",
+      "description": {
+        "content": "Everything about Parts",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1fb8c1e2-d30c-48c4-a724-8bf4901e810c",
+          "name": "IKEA Find Part by Id",
+          "request": {
+            "name": "IKEA Find Part by Id",
+            "description": {
+              "content": "Returns a single replacement part",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "part",
+                ":partId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "partId",
+                  "description": "(Required) What item to find"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) Country and Language selection of returned data. in format of language-COUNTRY.",
+                "key": "Accept-Language",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "dfa14438-1902-4d87-8590-ab054ce93d86",
+              "name": "Part details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "part",
+                    ":partId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "partId",
+                      "description": "(Required) What item to find"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) Country and Language selection of returned data. in format of language-COUNTRY.",
+                    "key": "Accept-Language",
+                    "value": "en-GB"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"itemId\": \"100001\",\n  \"partName\": \"KEY HEXAGON 4MM SSH L48 ZN\",\n  \"partDescription\": \"S-SHAPE, WIDTH=20, LENGTH=48, HARDENED HRC 52 +5/-10\",\n  \"categoryId\": \"P1201\",\n  \"subCategoryId\": \"12101\",\n  \"replacementId\": \"100001\",\n  \"stock\": 352,\n  \"status\": \"AVAILABLE\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0e0a3550-1bf2-43ce-8dd9-de7eb3dfc2ca",
+              "name": "Bad Request for part",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "part",
+                    ":partId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "partId",
+                      "description": "(Required) What item to find"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) Country and Language selection of returned data. in format of language-COUNTRY.",
+                    "key": "Accept-Language",
+                    "value": "en-GB"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c8eb7740-2041-4e84-b046-c3f0d8044f72",
+              "name": "Part not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "part",
+                    ":partId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "partId",
+                      "description": "(Required) What item to find"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) Country and Language selection of returned data. in format of language-COUNTRY.",
+                    "key": "Accept-Language",
+                    "value": "en-GB"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4c9d4184-77ec-4cb2-b6d3-81e7900fb1b8",
+          "name": "IKEA Find Parts",
+          "request": {
+            "name": "IKEA Find Parts",
+            "description": {
+              "content": "Returns multiple parts matching the provided id",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "search",
+                ":partialPartId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<byte>",
+                  "key": "partialPartId",
+                  "description": "(Required) Partial Part identifier. A Part ID is typically 5-8 digit number, may include suffix like `/1` or `-1`\nAccepts any URL-encoded byte sequence, including invalid UTF-8\n"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) Country and Language selection of returned data. in format of language-COUNTRY.",
+                "key": "Accept-Language",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3aa21042-d6b4-48a0-9a6e-c86424fc415b",
+              "name": "Found Parts",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "search",
+                    ":partialPartId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<byte>",
+                      "key": "partialPartId",
+                      "description": "(Required) Partial Part identifier. A Part ID is typically 5-8 digit number, may include suffix like `/1` or `-1`\nAccepts any URL-encoded byte sequence, including invalid UTF-8\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) Country and Language selection of returned data. in format of language-COUNTRY.",
+                    "key": "Accept-Language",
+                    "value": "en-GB"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"itemId\": \"100001\",\n    \"partName\": \"KEY HEXAGON 4MM SSH L48 ZN\",\n    \"partDescription\": \"S-SHAPE, WIDTH=20, LENGTH=48, HARDENED HRC 52 +5/-10\",\n    \"categoryId\": \"P1201\",\n    \"subCategoryId\": \"12101\",\n    \"stock\": 352,\n    \"status\": \"AVAILABLE\",\n    \"partColor\": \"Grey\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "88ada3c9-6373-4334-8e37-425d0b87dfe0",
+              "name": "Bad search request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "search",
+                    ":partialPartId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<byte>",
+                      "key": "partialPartId",
+                      "description": "(Required) Partial Part identifier. A Part ID is typically 5-8 digit number, may include suffix like `/1` or `-1`\nAccepts any URL-encoded byte sequence, including invalid UTF-8\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) Country and Language selection of returned data. in format of language-COUNTRY.",
+                    "key": "Accept-Language",
+                    "value": "en-GB"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8da24d58-eec5-46d6-bfd8-fef101699073",
+              "name": "Part(s) not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "search",
+                    ":partialPartId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<byte>",
+                      "key": "partialPartId",
+                      "description": "(Required) Partial Part identifier. A Part ID is typically 5-8 digit number, may include suffix like `/1` or `-1`\nAccepts any URL-encoded byte sequence, including invalid UTF-8\n"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) Country and Language selection of returned data. in format of language-COUNTRY.",
+                    "key": "Accept-Language",
+                    "value": "en-GB"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2e645077-8583-4a92-be76-f899e1ad6dab",
+          "name": "IKEA Find Parts for Product(s)",
+          "request": {
+            "name": "IKEA Find Parts for Product(s)",
+            "description": {
+              "content": "Returns replacement parts information for one or more products",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "products"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "ids",
+                  "value": "<string>,<string>",
+                  "description": "(Required) Find parts for the following productIds"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) Country and Language selection of returned data. in format of language-COUNTRY.",
+                "key": "Accept-Language",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "58199061-4b47-4a47-95ed-cfa0a27d1dc0",
+              "name": "Product parts information",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "60505511"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) Country and Language selection of returned data. in format of language-COUNTRY.",
+                    "key": "Accept-Language",
+                    "value": "en-GB"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 263850,\n    \"productDesc\": \"BILLY\",\n    \"imageUrl\": \"https://www.ikea.com/gb/en/images/products/billy-bookcase-white__0625599_pe692385_s2.jpg\",\n    \"type\": \"bookcase\",\n    \"items\": [\n      {\n        \"itemId\": \"example\",\n        \"partName\": \"example\",\n        \"partDescription\": \"example\",\n        \"categoryId\": \"example\",\n        \"subCategoryId\": \"example\",\n        \"replacementId\": \"example\",\n        \"stock\": \"example\",\n        \"status\": \"example\"\n      }\n    ]\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6818312c-33cf-4461-ab7a-b66574825866",
+              "name": "Bad request for product(s)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ids",
+                      "value": "60505511"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) Country and Language selection of returned data. in format of language-COUNTRY.",
+                    "key": "Accept-Language",
+                    "value": "en-GB"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.prod.apo.ingka.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "9645283a-cda2-46da-9fab-ec82a7e7010d",
+    "name": "IKEA After Purchase Ordering Availability Parts API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "This is an **unofficial** OpenAPI specification for the IKEA After Purchase Ordering (APO) API.\n\n## FAQ\n\n**Q: Why is this API called After Purchase Ordering?**\n\n**A:** The URL(s) used have `apo` in the name. We are also dealing with after purchase replacement parts.\nA common term for this is After Purchase Ordering (APO).\n\n## Swagger UI\n\nThis API can be tested using swagger-ui at [./swagger-ui.html](swagger-ui.html) as long as the\nCORS header `Access-Control-Allow-Origin` are configured as `*`.\nAt the moment of writing this is only the case for the [IKEA Search API](../search/index.html).\n\n## Other APIs\n\n* [IKEA Product Catalog API](../product-catalog/index.html)\n* [IKEA Search API](../search/index.html)\n* [IKEA Sales Item API](../sales-item/index.html)\n* [IKEA After Purchase Ordering API](../after-purchase-ordering/index.html)\n\n## ⚠️ Disclaimer\n\n* This project is based on publicly available information and analysis of network requests.\n* It is not affiliated with, endorsed by, or supported by IKEA.\n* Endpoints, schemas, and behaviors may change at any time and may not reflect official or supported APIs.\n* Use this specification at your own risk.\n\n### See also\n\nThis section lists resources used during the creation of these APIs to exent and check validity of the API.\nThese are not in any special order but useful as references.\n\n* [OpenAPI Spec for api.salesitem.ingka.com](https://github.com/shrabdut123/cart-multi-agent/blob/a10dc96ac7a1fd98701afebe2cde585e6d9a6a08/service_coordinator_agent/salesitem_api.yaml#L13) - Very verbose OpenAPI Spec with detailed resources referring to inside IKEA knowledge.\n* [DavisChappins/ikeaStockChecker](https://github.com/DavisChappins/ikeaStockChecker/blob/45fa92f26ac2b37d03c37eb34e0c618c4a8477e8/ikea_stock_scanner.py#L11) - Use of `api.salesitem.ingka.com` endpoint.\n* [Mirzaei81/ikeaScraper](https://github.com/Mirzaei81/ikeaScraper/blob/cdeef5c9fb76660b18a8e569d7213828ffe5f9d2/app.py#L74) - Use of `api.salesitem.ingka.com` endpoint.\n* [Ephigenia/ikea-availability-checker/postman/schemas/ikea-ingka-api.yaml](https://github.com/Ephigenia/ikea-availability-checker/blob/c7fe2f9bc8306c01783f8d22329d34ed76a582c9/postman/schemas/ikea-ingka-api.yaml) - This contains resources related to the `api.salesitem.ingka.com` (Sales Item API)\n* [vrslev/ikea-api-client/src/ikea_api/endpoints/search.py](https://github.com/vrslev/ikea-api-client/blob/ce70c8d743302a465931bdb6a9f7b0bc5c1d882f/src/ikea_api/endpoints/search.py#L14C1-L14C117) - Use of the Search API and some other endpoints.\n\n\nContact Support:\n Name: Unofficial IKEA OpenAPI Maintainer",
+      "type": "text/plain"
+    }
+  }
+}

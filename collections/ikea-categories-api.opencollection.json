@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "IKEA After Purchase Ordering Availability Categories API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Categories",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "IKEA Get Categories and Subcategories",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prod.apo.ingka.com/meta-data/navigation/catalog-products-slim.json"
+          },
+          "docs": "Returns the complete category hierarchy including all main categories and their nested subcategories"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
