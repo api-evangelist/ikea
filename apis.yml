@@ -19,6 +19,14 @@ tags:
   - Retail
   - Home Furnishings
   - Consumer Products
+  - Open-Source
+  - Community
+  - Unofficial API
+  - Smart Home
+tags_raw:
+  - Retail
+  - Home Furnishings
+  - Consumer Products
   - Opensource
   - Community
   - Unofficial API
@@ -40,6 +48,13 @@ apis:
     an event listener websocket. Not an official IKEA developer API.
   humanURL: https://github.com/Leggin/dirigera
   tags:
+  - Smart Home
+  - DIRIGERA
+  - IoT
+  - Local API
+  - Unofficial API
+  - Open-Source
+  tags_raw:
   - Smart Home
   - DIRIGERA
   - IoT
@@ -152,6 +167,8 @@ apis:
   humanURL: https://github.com/idelsink/ikea-openapi
   baseURL: https://www.ikea.com/{country}/{language}
   tags:
+  - Product
+  tags_raw:
   - Products
   properties:
   - type: OpenAPI
