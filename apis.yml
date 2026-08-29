@@ -230,6 +230,9 @@ apis:
   - type: SourceCode
     url: https://github.com/idelsink/ikea-openapi/tree/main/openapi/after-purchase-ordering
 common:
+  - type: CapabilityMap
+    url: capabilities/ikea-capability-edges.yml
+    name: IKEA Business Capability Map
   - type: IssueTracker
     url: https://github.com/idelsink/ikea-openapi/issues
   - type: License
