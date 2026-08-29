@@ -1,6 +1,6 @@
-openapi: 3.1.1
+openapi: 3.2.0
 info:
-  title: IKEA After Purchase Ordering Availability Parts API
+  title: IKEA After Purchase Ordering Parts API
   summary: Unofficial IKEA API for After Purchase Ordering (APO) of spare parts
   description: 'This is an **unofficial** OpenAPI specification for the IKEA After Purchase Ordering (APO) API.
 
@@ -209,14 +209,6 @@ paths:
         dispatcher: FALLBACK
 components:
   examples:
-    itemIdJimmysTestPart:
-      summary: Jimmy test part in production
-      description: "Example of one of the \"test\" parts in the database.\nOthers include (partID, Part Name, Part Description):\n  * `10002250` - `Jimmy test part in production`\n  * `10050287` - `Test M3 upgrade` - `Testar radbrytsom dennahär`\n  * `10067568` - `Test M3 upgrade copied` - `Testar radbrytsom dennahär`\n  * `10066501` - `ALAS TEST` - `Testar description för att se om det rtar bort radbrytningar`\n  * `10092540` - `TestUpgrade`\n  * `10119359` - `test`\n  * `10117240` - `Test Edgeband`\n"
-      value: '10002250'
-    itemIdReplacement:
-      summary: Replacement part for 10032311
-      description: Example of replacement part for part `10032311`.
-      value: 10032311/1
     itemIdDiscontinued:
       summary: Discontinued item with replacement item provided
       description: Example of discontinued item with replacement item provided - replacement ID is `10032311/1`
@@ -225,7 +217,153 @@ components:
       summary: Match single part 'Key Hexagon'
       description: Simple example for simple part.
       value: '100001'
+    itemIdReplacement:
+      summary: Replacement part for 10032311
+      description: Example of replacement part for part `10032311`.
+      value: 10032311/1
+    itemIdJimmysTestPart:
+      summary: Jimmy test part in production
+      description: "Example of one of the \"test\" parts in the database.\nOthers include (partID, Part Name, Part Description):\n  * `10002250` - `Jimmy test part in production`\n  * `10050287` - `Test M3 upgrade` - `Testar radbrytsom dennahär`\n  * `10067568` - `Test M3 upgrade copied` - `Testar radbrytsom dennahär`\n  * `10066501` - `ALAS TEST` - `Testar description för att se om det rtar bort radbrytningar`\n  * `10092540` - `TestUpgrade`\n  * `10119359` - `test`\n  * `10117240` - `Test Edgeband`\n"
+      value: '10002250'
+  schemas:
+    productId:
+      type: string
+      description: Product identifier
+      example: 00263850
+    itemId:
+      type: string
+      description: Part identifier - typically 5-8 digit number, may include suffix like `/1` or `-1`
+      example: '100001'
+    subCategoryId:
+      type: string
+      description: Subcategory identifier
+      example: '12101'
+    status:
+      type: string
+      enum:
+      - AVAILABLE
+      - NOT_AVAILABLE
+      - ORDER_AT_CSC
+      - OUT_OF_STOCK
+      - DISCONTINUED_WITH_REPLACEMENTID
+      description: "Part Status:\n  * `AVAILABLE` - Part is available\n  * `NOT_AVAILABLE` - Part is not available\n  * `ORDER_AT_CSC` - Order at the Customer Service Center\n  * `OUT_OF_STOCK` - Part is out of stock\n  * `DISCONTINUED_WITH_REPLACEMENTID` - Part is discontinued and replaced by provided id.\n"
+      example: AVAILABLE
+    partName:
+      type: string
+      description: Part name
+      example: KEY HEXAGON 4MM SSH L48 ZN
+    categoryId:
+      type: string
+      description: Category identifier
+      example: P1201
+    partColor:
+      type: string
+      description: Part Color
+      example: Grey
+    Part:
+      type: object
+      description: Replacement part
+      required:
+      - itemId
+      - partName
+      - categoryId
+      - subCategoryId
+      - replacementId
+      - status
+      properties:
+        itemId:
+          $ref: '#/components/schemas/itemId'
+        partName:
+          $ref: '#/components/schemas/partName'
+        partDescription:
+          $ref: '#/components/schemas/partDescription'
+        categoryId:
+          $ref: '#/components/schemas/categoryId'
+        subCategoryId:
+          $ref: '#/components/schemas/subCategoryId'
+        replacementId:
+          $ref: '#/components/schemas/itemId'
+        stock:
+          $ref: '#/components/schemas/stock'
+        status:
+          $ref: '#/components/schemas/status'
+    partDescription:
+      type: string
+      description: Part description
+      example: S-SHAPE, WIDTH=20, LENGTH=48, HARDENED HRC 52 +5/-10
+    ProductParts:
+      type: object
+      description: Parts in product
+      required:
+      - id
+      - productDesc
+      - imageUrl
+      - type
+      properties:
+        id:
+          $ref: '#/components/schemas/productId'
+        productDesc:
+          type: string
+          description: Product description
+          example: BILLY
+        imageUrl:
+          type: string
+          description: Image URL
+          format: uri
+          example: https://www.ikea.com/gb/en/images/products/billy-bookcase-white__0625599_pe692385_s2.jpg
+        type:
+          type: string
+          description: Product type
+          example: bookcase
+        items:
+          type: array
+          description: List pf parts
+          items:
+            $ref: '#/components/schemas/Part'
+    stock:
+      type: integer
+      description: Stock status
+      example: 352
+    SearchPart:
+      type: object
+      description: Replacement part (returned in search results)
+      required:
+      - itemId
+      - partName
+      - categoryId
+      - subCategoryId
+      - stock
+      - status
+      - partColor
+      - partReplaceId
+      properties:
+        itemId:
+          $ref: '#/components/schemas/itemId'
+        partName:
+          $ref: '#/components/schemas/partName'
+        partDescription:
+          $ref: '#/components/schemas/partDescription'
+        categoryId:
+          $ref: '#/components/schemas/categoryId'
+        subCategoryId:
+          $ref: '#/components/schemas/subCategoryId'
+        stock:
+          $ref: '#/components/schemas/stock'
+        status:
+          $ref: '#/components/schemas/status'
+        partColor:
+          $ref: '#/components/schemas/partColor'
+        partReplaceId:
+          $ref: '#/components/schemas/itemId'
   parameters:
+    Accept-Language:
+      name: Accept-Language
+      in: header
+      description: Country and Language selection of returned data. in format of language-COUNTRY.
+      required: true
+      schema:
+        type: string
+      example: en-GB
     partialPartId:
       name: partialPartId
       in: path
@@ -297,141 +435,3 @@ components:
           value:
           - 00324518
           - '39424871'
-    Accept-Language:
-      name: Accept-Language
-      in: header
-      description: Country and Language selection of returned data. in format of language-COUNTRY.
-      required: true
-      schema:
-        type: string
-      example: en-GB
-  schemas:
-    subCategoryId:
-      type: string
-      description: Subcategory identifier
-      example: '12101'
-    status:
-      type: string
-      enum:
-      - AVAILABLE
-      - NOT_AVAILABLE
-      - ORDER_AT_CSC
-      - OUT_OF_STOCK
-      - DISCONTINUED_WITH_REPLACEMENTID
-      description: "Part Status:\n  * `AVAILABLE` - Part is available\n  * `NOT_AVAILABLE` - Part is not available\n  * `ORDER_AT_CSC` - Order at the Customer Service Center\n  * `OUT_OF_STOCK` - Part is out of stock\n  * `DISCONTINUED_WITH_REPLACEMENTID` - Part is discontinued and replaced by provided id.\n"
-      example: AVAILABLE
-    productId:
-      type: string
-      description: Product identifier
-      example: 00263850
-    ProductParts:
-      type: object
-      description: Parts in product
-      required:
-      - id
-      - productDesc
-      - imageUrl
-      - type
-      properties:
-        id:
-          $ref: '#/components/schemas/productId'
-        productDesc:
-          type: string
-          description: Product description
-          example: BILLY
-        imageUrl:
-          type: string
-          description: Image URL
-          format: uri
-          example: https://www.ikea.com/gb/en/images/products/billy-bookcase-white__0625599_pe692385_s2.jpg
-        type:
-          type: string
-          description: Product type
-          example: bookcase
-        items:
-          type: array
-          description: List pf parts
-          items:
-            $ref: '#/components/schemas/Part'
-    partColor:
-      type: string
-      description: Part Color
-      example: Grey
-    partName:
-      type: string
-      description: Part name
-      example: KEY HEXAGON 4MM SSH L48 ZN
-    partDescription:
-      type: string
-      description: Part description
-      example: S-SHAPE, WIDTH=20, LENGTH=48, HARDENED HRC 52 +5/-10
-    stock:
-      type: integer
-      description: Stock status
-      example: 352
-    itemId:
-      type: string
-      description: Part identifier - typically 5-8 digit number, may include suffix like `/1` or `-1`
-      example: '100001'
-    Part:
-      type: object
-      description: Replacement part
-      required:
-      - itemId
-      - partName
-      - categoryId
-      - subCategoryId
-      - replacementId
-      - status
-      properties:
-        itemId:
-          $ref: '#/components/schemas/itemId'
-        partName:
-          $ref: '#/components/schemas/partName'
-        partDescription:
-          $ref: '#/components/schemas/partDescription'
-        categoryId:
-          $ref: '#/components/schemas/categoryId'
-        subCategoryId:
-          $ref: '#/components/schemas/subCategoryId'
-        replacementId:
-          $ref: '#/components/schemas/itemId'
-        stock:
-          $ref: '#/components/schemas/stock'
-        status:
-          $ref: '#/components/schemas/status'
-    categoryId:
-      type: string
-      description: Category identifier
-      example: P1201
-    SearchPart:
-      type: object
-      description: Replacement part (returned in search results)
-      required:
-      - itemId
-      - partName
-      - categoryId
-      - subCategoryId
-      - stock
-      - status
-      - partColor
-      - partReplaceId
-      properties:
-        itemId:
-          $ref: '#/components/schemas/itemId'
-        partName:
-          $ref: '#/components/schemas/partName'
-        partDescription:
-          $ref: '#/components/schemas/partDescription'
-        categoryId:
-          $ref: '#/components/schemas/categoryId'
-        subCategoryId:
-          $ref: '#/components/schemas/subCategoryId'
-        stock:
-          $ref: '#/components/schemas/stock'
-        status:
-          $ref: '#/components/schemas/status'
-        partColor:
-          $ref: '#/components/schemas/partColor'
-        partReplaceId:
-          $ref: '#/components/schemas/itemId'

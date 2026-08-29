@@ -1,19 +1,27 @@
-openapi: 3.1.1
+openapi: 3.2.0
 info:
-  title: IKEA After Purchase Ordering Availability API
-  summary: Unofficial IKEA API for After Purchase Ordering (APO) of spare parts
-  description: 'This is an **unofficial** OpenAPI specification for the IKEA After Purchase Ordering (APO) API.
+  title: IKEA Sales Item Availability API
+  summary: Unofficial API for fetching IKEA product availability information and packaging information
+  description: 'This is an **unofficial** OpenAPI specification for the IKEA Sales Item API.
+
+    Get information for items in different contexts.
 
 
     ## FAQ
 
 
-    **Q: Why is this API called After Purchase Ordering?**
+    **Q: Why is this API called Sales Item?**
 
 
-    **A:** The URL(s) used have `apo` in the name. We are also dealing with after purchase replacement parts.
+    **A:** That is what the API endpoint is called `api.salesitem.ingka.com` and what is being used in
 
-    A common term for this is After Purchase Ordering (APO).
+    other API resources that were found.
+
+
+    ## Authentication
+
+
+    This API requires authentication, make sure to provide the required headers.
 
 
     ## Swagger UI
@@ -77,14 +85,9 @@ info:
     name: Unofficial IKEA OpenAPI Maintainer
     url: https://github.com/idelsink/ikea-openapi
 servers:
-- url: https://api.prod.apo.ingka.com
-  description: Production (Cloudflare)
-- url: https://origin-api.prod.apo.ingka.com
-  description: Production (Google Frontend)
-- url: https://api.test.apo.ingka.com
-  description: Testing (Cloudflare)
-- url: https://origin-api.test.apo.ingka.com
-  description: Testing (Google Frontend)
+- url: https://api.salesitem.ingka.com
+  description: IKEA Sales Item Availability API (Production Global)
+security: []
 tags:
 - name: Availability
   description: Everything about Availability
@@ -140,7 +143,7 @@ paths:
                         itemType: example
                     errors:
                     - code: 404
-                      details: &id001
+                      details:
                         classUnitCode: DE
                         classUnitType: RU
                         itemNo: s59047406
@@ -159,27 +162,41 @@ paths:
                   summary: Default getProductAvailability 422 response
                   value:
                     code: 404
-                    details: *id001
+                    details:
+                      classUnitCode: DE
+                      classUnitType: RU
+                      itemNo: s59047406
                     message: Not found
       x-microcks-operation:
         delay: 0
         dispatcher: FALLBACK
 components:
   schemas:
-    expandOption:
-      type: string
-      description: "On the returned data, expand:\n  * `ChildItems` - Child items, e.g. multiple packages that are part of the parent package\n  * `Restocks` - Restock items\n  * `StoresList` - List of stores\n  * `SalesLocations` - Sale locations\n  * `DeliveryPrice` - Deliver Price\n  * `CollectPrice` - Collect Price\n  * `DisplayLocations` - Display locations\n  * `DeliveryTime` - Delivery time\n  * `FoodAvailabilities` - Food availability\n"
-      enum:
-      - ChildItems
-      - Restocks
-      - StoresList
-      - SalesLocations
-      - DeliveryPrice
-      - CollectPrice
-      - DisplayLocations
-      - DeliveryTime
-      - FoodAvailabilities
-      example: ChildItems
+    Availability:
+      type: object
+      description: Availability of a Product
+      properties:
+        availableForCashCarry:
+          type: boolean
+          example: true
+        availableForClickCollect:
+          type: boolean
+          example: false
+        buyingOption:
+          type: object
+          example:
+            clickCollect:
+              range:
+                inRange: true
+        childAvailabilities:
+          type: array
+          items:
+            $ref: '#/components/schemas/Availability'
+          example: []
+        classUnitKey:
+          $ref: '#/components/schemas/ClassUnitKey'
+        itemKey:
+          $ref: '#/components/schemas/ItemKey'
     AvailabilityError:
       type: object
       required:
@@ -202,43 +219,29 @@ components:
           type: string
           description: Error message indicating the failure
           example: Not found
-    ClassUnitKey:
-      type: object
-      description: 'Class Unit Key gives context when invoking the AvailabilityClassifications API.
+    itemType:
+      type: string
+      description: 'Item type code
 
         '
-      properties:
-        classUnitCode:
-          type: string
-          minLength: 2
-          maxLength: 5
-          description: '`classUnitCode` is the unique identifier of a Class Unit when
-
-            combined with a `classUnitType`.
-
-
-            A valid `classUnitCode` always has a pattern like `^([A-Z]|[0-9]){2,5}$`.
-
-
-            This can either be a:
-
-
-            * **Retail Unit** - Retail Unit must be combined with a valid `classUnitCode`. For example, `SE` for Sweden or `DE` for Germany. A list of valid Class Units can be found [in CBD](https://iwww.cbdview.ikea.com/) (requires VPN or internal network).
-
-            * **Store ID** - The 3-digit store ID. E.g. `066`.
-
-            '
-          examples:
-          - GB
-          - DE
-          - '066'
-        classUnitType:
-          type: string
-          description: "Class Unit Type:\n  * `RU` - Retail Unit - Retail Unit must be combined with a valid `classUnitCode`. For example, `SE` for Sweden or `DE` for Germany. A list of valid Retail Units can be found [in CBD](https://iwww.cbdview.ikea.com/) (requires VPN or internal network).\n  * `STO` - Store - The store availability for a given store\n"
-          enum:
-          - RU
-          - STO
-          example: RU
+      enum:
+      - ART
+      - SPR
+      example: SPR
+    expandOption:
+      type: string
+      description: "On the returned data, expand:\n  * `ChildItems` - Child items, e.g. multiple packages that are part of the parent package\n  * `Restocks` - Restock items\n  * `StoresList` - List of stores\n  * `SalesLocations` - Sale locations\n  * `DeliveryPrice` - Deliver Price\n  * `CollectPrice` - Collect Price\n  * `DisplayLocations` - Display locations\n  * `DeliveryTime` - Delivery time\n  * `FoodAvailabilities` - Food availability\n"
+      enum:
+      - ChildItems
+      - Restocks
+      - StoresList
+      - SalesLocations
+      - DeliveryPrice
+      - CollectPrice
+      - DisplayLocations
+      - DeliveryTime
+      - FoodAvailabilities
+      example: ChildItems
     AvailabilityEnvelope:
       type: object
       description: Availability envelope containing availabilities, sales Sales Locations and errors.
@@ -297,6 +300,47 @@ components:
           $ref: '#/components/schemas/ClassUnitKey'
         itemKey:
           $ref: '#/components/schemas/ItemKey'
+    productId:
+      type: string
+      description: Product identifier
+      example: 00263850
+    ClassUnitKey:
+      type: object
+      description: 'Class Unit Key gives context when invoking the AvailabilityClassifications API.
+
+        '
+      properties:
+        classUnitCode:
+          type: string
+          minLength: 2
+          maxLength: 5
+          description: '`classUnitCode` is the unique identifier of a Class Unit when
+
+            combined with a `classUnitType`.
+
+
+            A valid `classUnitCode` always has a pattern like `^([A-Z]|[0-9]){2,5}$`.
+
+
+            This can either be a:
+
+
+            * **Retail Unit** - Retail Unit must be combined with a valid `classUnitCode`. For example, `SE` for Sweden or `DE` for Germany. A list of valid Class Units can be found [in CBD](https://iwww.cbdview.ikea.com/) (requires VPN or internal network).
+
+            * **Store ID** - The 3-digit store ID. E.g. `066`.
+
+            '
+          examples:
+          - GB
+          - DE
+          - '066'
+        classUnitType:
+          type: string
+          description: "Class Unit Type:\n  * `RU` - Retail Unit - Retail Unit must be combined with a valid `classUnitCode`. For example, `SE` for Sweden or `DE` for Germany. A list of valid Retail Units can be found [in CBD](https://iwww.cbdview.ikea.com/) (requires VPN or internal network).\n  * `STO` - Store - The store availability for a given store\n"
+          enum:
+          - RU
+          - STO
+          example: RU
     ItemKey:
       type: object
       description: Item key (Product ID and Item type)
@@ -305,45 +349,24 @@ components:
           $ref: '#/components/schemas/productId'
         itemType:
           $ref: '#/components/schemas/itemType'
-    itemType:
-      type: string
-      description: 'Item type code
+  parameters:
+    expand:
+      name: expand
+      in: query
+      required: false
+      style: form
+      explode: false
+      description: 'List of expandOption(s), see expandOption for values.
 
         '
-      enum:
-      - ART
-      - SPR
-      example: SPR
-    Availability:
-      type: object
-      description: Availability of a Product
-      properties:
-        availableForCashCarry:
-          type: boolean
-          example: true
-        availableForClickCollect:
-          type: boolean
-          example: false
-        buyingOption:
-          type: object
-          example:
-            clickCollect:
-              range:
-                inRange: true
-        childAvailabilities:
-          type: array
-          items:
-            $ref: '#/components/schemas/Availability'
-          example: []
-        classUnitKey:
-          $ref: '#/components/schemas/ClassUnitKey'
-        itemKey:
-          $ref: '#/components/schemas/ItemKey'
-    productId:
-      type: string
-      description: Product identifier
-      example: 00263850
-  parameters:
+      example:
+      - ChildItems
+      - SalesLocations
+      schema:
+        type: array
+        items:
+          $ref: '#/components/schemas/expandOption'
+        minItems: 0
     itemNos:
       name: itemNos
       in: query
@@ -410,20 +433,38 @@ components:
         - sto
         example: ru
       example: ru
-    expand:
-      name: expand
-      in: query
-      required: false
-      style: form
-      explode: false
-      description: 'List of expandOption(s), see expandOption for values.
+  securitySchemes:
+    X-Client-ID:
+      type: apiKey
+      in: header
+      name: X-Client-ID
+      description: 'Client specific identifier (Akamai API Gateway) required for API access
+
+
+        ## Available Client IDs
+
+
+        The following public client IDs are available:
+
+
+        - `ef382663-a2a5-40d4-8afe-f0634821c0ed`
+
+        - `b6c117e5-ae61-4ef5-b4cc-e0b1e37f0631`
+
+        - `da465052-7912-43b2-82fa-9dc39cdccef8`
+
+
+
+        ## How to Find Client IDs
+
+
+        Visit any IKEA product page (e.g., [BILLY Bookcase](https://www.ikea.com/gb/en/p/billy-bookcase-white-00263850/))
+
+        and inspect the network requests in browser DevTools. Look for API calls to `api.salesitem.ingka.com`
+
+        and check the `X-Client-ID` header value.
+
+
+        Alternatively, search for `ciaApiClientKey` in the page''s JavaScript bundles.
 
         '
-      example:
-      - ChildItems
-      - SalesLocations
-      schema:
-        type: array
-        items:
-          $ref: '#/components/schemas/expandOption'
-        minItems: 0

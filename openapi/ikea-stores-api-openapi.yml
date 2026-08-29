@@ -1,19 +1,21 @@
-openapi: 3.1.1
+openapi: 3.2.0
 info:
-  title: IKEA After Purchase Ordering Availability Stores API
-  summary: Unofficial IKEA API for After Purchase Ordering (APO) of spare parts
-  description: 'This is an **unofficial** OpenAPI specification for the IKEA After Purchase Ordering (APO) API.
+  title: IKEA Product Catalog Stores API
+  summary: Unofficial API for fetching IKEA categories and navigation data
+  description: 'This is an **unofficial** OpenAPI specification for the IKEA Product Catalog API.
 
 
     ## FAQ
 
 
-    **Q: Why is this API called After Purchase Ordering?**
+    **Q: Why is this API called Product Catalog?**
 
 
-    **A:** The URL(s) used have `apo` in the name. We are also dealing with after purchase replacement parts.
+    **A:** The API described here is referring to the products and categories of the
 
-    A common term for this is After Purchase Ordering (APO).
+    main IKEA website. In one if the API responses, `catalogRefs` was returned,
+
+    so using this seemed like a good match for the name.
 
 
     ## Swagger UI
@@ -77,14 +79,15 @@ info:
     name: Unofficial IKEA OpenAPI Maintainer
     url: https://github.com/idelsink/ikea-openapi
 servers:
-- url: https://api.prod.apo.ingka.com
-  description: Production (Cloudflare)
-- url: https://origin-api.prod.apo.ingka.com
-  description: Production (Google Frontend)
-- url: https://api.test.apo.ingka.com
-  description: Testing (Cloudflare)
-- url: https://origin-api.test.apo.ingka.com
-  description: Testing (Google Frontend)
+- url: https://www.ikea.com/{country}/{language}
+  description: IKEA main website
+  variables:
+    country:
+      default: gb
+      description: Country code (e.g., de, gb, fr, us)
+    language:
+      default: en
+      description: Language code (e.g., en, de, fr)
 tags:
 - name: Stores
   description: Everything about Stores
