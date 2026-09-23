@@ -22,7 +22,8 @@
     "ikea-product-catalog-openapi.yml: upgraded openapi 3.1.1 -> OpenAPI 3.2.0",
     "ikea-sales-item-openapi.yml: upgraded openapi 3.1.3 -> OpenAPI 3.2.0",
     "ikea-search-openapi.yml: upgraded openapi 3.1.1 -> OpenAPI 3.2.0",
-    "tag 'Products' spans 2 source specs (ikea-product-catalog-openapi.yml, ikea-search-openapi.yml): per-path servers applied"
+    "tag 'Products' spans 2 source specs (ikea-product-catalog-openapi.yml, ikea-search-openapi.yml): per-path servers applied",
+    "apis.yml register: already-registered"
   ],
   "skipped": [
     "ikea-availability-api-openapi.yml: previously refined output, superseded by openapi/_original/",

@@ -198,6 +198,10 @@ paths:
           description: Language code (e.g., en, de, fr)
 components:
   schemas:
+    productId:
+      type: string
+      description: Product identifier
+      example: 00263850
     ProductDetails:
       type: object
       description: 'Product details
@@ -329,10 +333,13 @@ components:
         validDesignText:
           type: string
           example: white/white
-    productId:
+    categoryId:
       type: string
-      description: Product identifier
-      example: 00263850
+      description: Category identifier (UUID, code like 'st001', or numeric ID)
+      example: st001
+      examples:
+      - st001
+      - 4a552556-db67-4fab-afb0-11433eda6784
     Product:
       type: object
       description: Project details
@@ -694,6 +701,16 @@ components:
             PRODUCT_TYPE:
               type: string
               example: standard
+    MoreProducts:
+      description: Page with More Products
+      allOf:
+      - $ref: '#/components/schemas/CommonProperties'
+      - type: object
+        required:
+        - moreProducts
+        properties:
+          moreProducts:
+            $ref: '#/components/schemas/MoreProductsEnvelope'
     ProductListPage:
       description: Page with Product List
       allOf:
@@ -704,28 +721,6 @@ components:
         properties:
           productListPage:
             $ref: '#/components/schemas/ProductListPageEnvelope'
-    CommonProperties:
-      type: object
-      description: Common properties returned in search responses
-      required:
-      - usergroup
-      - testActivationTriggers
-      properties:
-        usergroup:
-          type: string
-          example: '[]'
-        testActivationTriggers:
-          type: object
-          example: {}
-    itemType:
-      type: string
-      description: 'Item type code
-
-        '
-      enum:
-      - ART
-      - SPR
-      example: SPR
     MoreProductsEnvelope:
       type: object
       description: More Products Page envelope containing a window of paginated products that matches the filtered criteria.
@@ -737,44 +732,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Product'
-    Category:
-      type: object
-      description: Product Category
-      required:
-      - name
-      - key
-      properties:
-        name:
-          type: string
-          description: Category name
-          example: Sofa
-        key:
-          $ref: '#/components/schemas/categoryId'
-        url:
-          type: string
-          description: URL to category
-          example: https://www.ikea.com/gb/en/cat/sofa-fu003/
-        imageUrl:
-          type: string
-          description: Image for the category
-          example: https://www.ikea.com/global/assets/range-categorisation/images/sofas-fu003.jpeg
-    categoryId:
-      type: string
-      description: Category identifier (UUID, code like 'st001', or numeric ID)
-      example: st001
-      examples:
-      - st001
-      - 4a552556-db67-4fab-afb0-11433eda6784
-    MoreProducts:
-      description: Page with More Products
-      allOf:
-      - $ref: '#/components/schemas/CommonProperties'
-      - type: object
-        required:
-        - moreProducts
-        properties:
-          moreProducts:
-            $ref: '#/components/schemas/MoreProductsEnvelope'
     ProductListPageEnvelope:
       type: object
       description: Product List Page envelope containing a limited set of Products for a given category.
@@ -856,26 +813,50 @@ components:
                     description: Whether or not this sorting option is selected
                     type: boolean
                     example: true
+    CommonProperties:
+      type: object
+      description: Common properties returned in search responses
+      required:
+      - usergroup
+      - testActivationTriggers
+      properties:
+        usergroup:
+          type: string
+          example: '[]'
+        testActivationTriggers:
+          type: object
+          example: {}
+    itemType:
+      type: string
+      description: 'Item type code
+
+        '
+      enum:
+      - ART
+      - SPR
+      example: SPR
+    Category:
+      type: object
+      description: Product Category
+      required:
+      - name
+      - key
+      properties:
+        name:
+          type: string
+          description: Category name
+          example: Sofa
+        key:
+          $ref: '#/components/schemas/categoryId'
+        url:
+          type: string
+          description: URL to category
+          example: https://www.ikea.com/gb/en/cat/sofa-fu003/
+        imageUrl:
+          type: string
+          description: Image for the category
+          example: https://www.ikea.com/global/assets/range-categorisation/images/sofas-fu003.jpeg
   parameters:
-    productId:
-      name: productId
-      in: path
-      required: true
-      description: "Product identifier\nValue can be:\n  *  zero (`0`),\n  * product identifier (`00263850`) or\n  * product identifier with `s` prefix (`s59047406`)\n"
-      schema:
-        type: string
-        pattern: ^(0|s[0-9]{8}|[0-9]{8})$
-        maxLength: 9
-      examples:
-        empty:
-          summary: Empty value (0)
-          value: '0'
-        billy:
-          summary: BILLY Bookcase (00263850)
-          value: 00263850
-        besta:
-          summary: BESTÅ Shelf unit with doors (s59047406)
-          value: s59047406
     productIdSuffix:
       in: path
       name: productIdSuffix
@@ -895,6 +876,33 @@ components:
         besta:
           summary: BESTÅ Shelf unit with doors (s59047406)
           value: '406'
+    productId:
+      name: productId
+      in: path
+      required: true
+      description: "Product identifier\nValue can be:\n  *  zero (`0`),\n  * product identifier (`00263850`) or\n  * product identifier with `s` prefix (`s59047406`)\n"
+      schema:
+        type: string
+        pattern: ^(0|s[0-9]{8}|[0-9]{8})$
+        maxLength: 9
+      examples:
+        empty:
+          summary: Empty value (0)
+          value: '0'
+        billy:
+          summary: BILLY Bookcase (00263850)
+          value: 00263850
+        besta:
+          summary: BESTÅ Shelf unit with doors (s59047406)
+          value: s59047406
+    category:
+      name: category
+      in: query
+      description: Category to search for
+      required: true
+      schema:
+        $ref: '#/components/schemas/categoryId'
+      example: st001
     end:
       name: end
       in: query
@@ -906,14 +914,6 @@ components:
         type: integer
         minimum: 0
       example: 0
-    category:
-      name: category
-      in: query
-      description: Category to search for
-      required: true
-      schema:
-        $ref: '#/components/schemas/categoryId'
-      example: st001
     start:
       name: start
       in: query
