@@ -333,13 +333,6 @@ components:
         validDesignText:
           type: string
           example: white/white
-    categoryId:
-      type: string
-      description: Category identifier (UUID, code like 'st001', or numeric ID)
-      example: st001
-      examples:
-      - st001
-      - 4a552556-db67-4fab-afb0-11433eda6784
     Product:
       type: object
       description: Project details
@@ -701,26 +694,19 @@ components:
             PRODUCT_TYPE:
               type: string
               example: standard
-    MoreProducts:
-      description: Page with More Products
-      allOf:
-      - $ref: '#/components/schemas/CommonProperties'
-      - type: object
-        required:
-        - moreProducts
-        properties:
-          moreProducts:
-            $ref: '#/components/schemas/MoreProductsEnvelope'
-    ProductListPage:
-      description: Page with Product List
-      allOf:
-      - $ref: '#/components/schemas/CommonProperties'
-      - type: object
-        required:
-        - productListPage
-        properties:
-          productListPage:
-            $ref: '#/components/schemas/ProductListPageEnvelope'
+    CommonProperties:
+      type: object
+      description: Common properties returned in search responses
+      required:
+      - usergroup
+      - testActivationTriggers
+      properties:
+        usergroup:
+          type: string
+          example: '[]'
+        testActivationTriggers:
+          type: object
+          example: {}
     MoreProductsEnvelope:
       type: object
       description: More Products Page envelope containing a window of paginated products that matches the filtered criteria.
@@ -732,6 +718,46 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Product'
+    Category:
+      type: object
+      description: Product Category
+      required:
+      - name
+      - key
+      properties:
+        name:
+          type: string
+          description: Category name
+          example: Sofa
+        key:
+          $ref: '#/components/schemas/categoryId'
+        url:
+          type: string
+          description: URL to category
+          example: https://www.ikea.com/gb/en/cat/sofa-fu003/
+        imageUrl:
+          type: string
+          description: Image for the category
+          example: https://www.ikea.com/global/assets/range-categorisation/images/sofas-fu003.jpeg
+    itemType:
+      type: string
+      description: 'Item type code
+
+        '
+      enum:
+      - ART
+      - SPR
+      example: SPR
+    ProductListPage:
+      description: Page with Product List
+      allOf:
+      - $ref: '#/components/schemas/CommonProperties'
+      - type: object
+        required:
+        - productListPage
+        properties:
+          productListPage:
+            $ref: '#/components/schemas/ProductListPageEnvelope'
     ProductListPageEnvelope:
       type: object
       description: Product List Page envelope containing a limited set of Products for a given category.
@@ -813,69 +839,24 @@ components:
                     description: Whether or not this sorting option is selected
                     type: boolean
                     example: true
-    CommonProperties:
-      type: object
-      description: Common properties returned in search responses
-      required:
-      - usergroup
-      - testActivationTriggers
-      properties:
-        usergroup:
-          type: string
-          example: '[]'
-        testActivationTriggers:
-          type: object
-          example: {}
-    itemType:
+    MoreProducts:
+      description: Page with More Products
+      allOf:
+      - $ref: '#/components/schemas/CommonProperties'
+      - type: object
+        required:
+        - moreProducts
+        properties:
+          moreProducts:
+            $ref: '#/components/schemas/MoreProductsEnvelope'
+    categoryId:
       type: string
-      description: 'Item type code
-
-        '
-      enum:
-      - ART
-      - SPR
-      example: SPR
-    Category:
-      type: object
-      description: Product Category
-      required:
-      - name
-      - key
-      properties:
-        name:
-          type: string
-          description: Category name
-          example: Sofa
-        key:
-          $ref: '#/components/schemas/categoryId'
-        url:
-          type: string
-          description: URL to category
-          example: https://www.ikea.com/gb/en/cat/sofa-fu003/
-        imageUrl:
-          type: string
-          description: Image for the category
-          example: https://www.ikea.com/global/assets/range-categorisation/images/sofas-fu003.jpeg
-  parameters:
-    productIdSuffix:
-      in: path
-      name: productIdSuffix
-      required: true
-      description: "Product ID Suffix (last 3 digits of Product ID)\nValue can be:\n  *  zero (`0`) or\n  * Product ID Suffix (`406`)\n"
-      schema:
-        type: string
-        pattern: ^(0|[0-9]{3})$
-        maxLength: 3
+      description: Category identifier (UUID, code like 'st001', or numeric ID)
+      example: st001
       examples:
-        empty:
-          summary: Empty value (0)
-          value: '0'
-        billy:
-          summary: BILLY Bookcase (00263850)
-          value: '850'
-        besta:
-          summary: BESTÅ Shelf unit with doors (s59047406)
-          value: '406'
+      - st001
+      - 4a552556-db67-4fab-afb0-11433eda6784
+  parameters:
     productId:
       name: productId
       in: path
@@ -895,14 +876,25 @@ components:
         besta:
           summary: BESTÅ Shelf unit with doors (s59047406)
           value: s59047406
-    category:
-      name: category
-      in: query
-      description: Category to search for
+    productIdSuffix:
+      in: path
+      name: productIdSuffix
       required: true
+      description: "Product ID Suffix (last 3 digits of Product ID)\nValue can be:\n  *  zero (`0`) or\n  * Product ID Suffix (`406`)\n"
       schema:
-        $ref: '#/components/schemas/categoryId'
-      example: st001
+        type: string
+        pattern: ^(0|[0-9]{3})$
+        maxLength: 3
+      examples:
+        empty:
+          summary: Empty value (0)
+          value: '0'
+        billy:
+          summary: BILLY Bookcase (00263850)
+          value: '850'
+        besta:
+          summary: BESTÅ Shelf unit with doors (s59047406)
+          value: '406'
     end:
       name: end
       in: query
@@ -914,6 +906,14 @@ components:
         type: integer
         minimum: 0
       example: 0
+    category:
+      name: category
+      in: query
+      description: Category to search for
+      required: true
+      schema:
+        $ref: '#/components/schemas/categoryId'
+      example: st001
     start:
       name: start
       in: query

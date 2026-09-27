@@ -33,7 +33,7 @@ tags:
   - Retail
   - Home Furnishings
   - Consumer Products
-  - Open-Source
+  - Open Source
   - Community
   - Unofficial API
   - Smart Home
@@ -45,6 +45,7 @@ tags_raw:
   - Community
   - Unofficial API
   - Smart Home
+  - Open-Source
 description: 'A Swedish multinational furniture and home goods retailer known for its affordable, ready-to-assemble products. Operates hundreds of stores worldwide and is the world''s largest furniture retailer with a distinctive showroom-based shopping experience. IKEA does not publish an official public developer API or developer portal; the surfaces profiled here are community reverse-engineered specs of the IKEA storefront (Product Catalog, Search, Sales Item availability, After Purchase Ordering / spare parts) plus the local-network API of the DIRIGERA smart home hub. All artifacts are community-built and unofficial — they may change at any time and are not affiliated with, endorsed by, or supported by IKEA.'
 created: '2026-05-05'
 modified: '2026-05-30'
@@ -67,7 +68,7 @@ apis:
   - IoT
   - Local API
   - Unofficial API
-  - Open-Source
+  - Open Source
   tags_raw:
   - Smart Home
   - DIRIGERA
@@ -75,6 +76,7 @@ apis:
   - Local API
   - Unofficial API
   - Opensource
+  - Open-Source
   properties:
   - type: SDKs
     title: Python Client (Leggin/dirigera)
