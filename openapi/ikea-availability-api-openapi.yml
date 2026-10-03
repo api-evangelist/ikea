@@ -97,6 +97,184 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  schemas:
+    AvailabilityError:
+      type: object
+      required:
+      - code
+      - message
+      description: Error object describing the reason of failure
+      properties:
+        code:
+          type: integer
+          description: "Error Codes:\n  * `404` - Not found\n  * `405` - ClassUnitCode doesn't exist\n  * `602` - itemNos in query is required\n  * `604` - itemNos.`n` in query should be at least 8 chars long. Where `n` is the positional indicator for the parameter.\n  * `606` - expand.`n` in query should be one of [ChildItems Restocks StoresList SalesLocations DeliveryPrice CollectPrice DisplayLocations DeliveryTime FoodAvailabilities]. Where `n` is the positional indicator for the parameter.\n"
+          example: 404
+        details:
+          type: object
+          description: Additional error details. These change depending on the context of the query.
+          example:
+            classUnitCode: DE
+            classUnitType: RU
+            itemNo: s59047406
+        message:
+          type: string
+          description: Error message indicating the failure
+          example: Not found
+    itemType:
+      type: string
+      description: 'Item type code
+
+        '
+      enum:
+      - ART
+      - SPR
+      example: SPR
+    AvailabilityEnvelope:
+      type: object
+      description: Availability envelope containing availabilities, sales Sales Locations and errors.
+      required:
+      - availabilities
+      - timestamp
+      - traceId
+      properties:
+        availabilities:
+          type: array
+          description: List of product availabilities
+          items:
+            $ref: '#/components/schemas/Availability'
+        salesLocations:
+          type: array
+          items:
+            $ref: '#/components/schemas/SalesLocation'
+        errors:
+          type: array
+          description: List of errors
+          items:
+            $ref: '#/components/schemas/AvailabilityError'
+        timestamp:
+          type: string
+          description: ISO 8601 formatted timestamp with timezone
+          format: date-time
+          example: '2025-09-10T14:23:33.956Z'
+        traceId:
+          type: string
+          description: Unique trace identifier for debugging and log correlation
+          example: '4119683959736817039'
+    Availability:
+      type: object
+      description: Availability of a Product
+      properties:
+        availableForCashCarry:
+          type: boolean
+          example: true
+        availableForClickCollect:
+          type: boolean
+          example: false
+        buyingOption:
+          type: object
+          example:
+            clickCollect:
+              range:
+                inRange: true
+        childAvailabilities:
+          type: array
+          items:
+            $ref: '#/components/schemas/Availability'
+          example: []
+        classUnitKey:
+          $ref: '#/components/schemas/ClassUnitKey'
+        itemKey:
+          $ref: '#/components/schemas/ItemKey'
+    ClassUnitKey:
+      type: object
+      description: 'Class Unit Key gives context when invoking the AvailabilityClassifications API.
+
+        '
+      properties:
+        classUnitCode:
+          type: string
+          minLength: 2
+          maxLength: 5
+          description: '`classUnitCode` is the unique identifier of a Class Unit when
+
+            combined with a `classUnitType`.
+
+
+            A valid `classUnitCode` always has a pattern like `^([A-Z]|[0-9]){2,5}$`.
+
+
+            This can either be a:
+
+
+            * **Retail Unit** - Retail Unit must be combined with a valid `classUnitCode`. For example, `SE` for Sweden or `DE` for Germany. A list of valid Class Units can be found [in CBD](https://iwww.cbdview.ikea.com/) (requires VPN or internal network).
+
+            * **Store ID** - The 3-digit store ID. E.g. `066`.
+
+            '
+          examples:
+          - GB
+          - DE
+          - '066'
+        classUnitType:
+          type: string
+          description: "Class Unit Type:\n  * `RU` - Retail Unit - Retail Unit must be combined with a valid `classUnitCode`. For example, `SE` for Sweden or `DE` for Germany. A list of valid Retail Units can be found [in CBD](https://iwww.cbdview.ikea.com/) (requires VPN or internal network).\n  * `STO` - Store - The store availability for a given store\n"
+          enum:
+          - RU
+          - STO
+          example: RU
+    SalesLocation:
+      type: object
+      description: null
+      properties:
+        childItems:
+          type: array
+          items:
+            type: object
+            properties:
+              itemKey:
+                $ref: '#/components/schemas/ItemKey'
+              salesLocations:
+                type: array
+                items:
+                  type: object
+                  example:
+                    aisleAndBin:
+                      aisle: '06'
+                      bin: '01'
+                    division: SELF_SERVE
+                    id: '060100'
+                    recommendationRank: 1
+                    type: AISLE_AND_BIN
+        classUnitKey:
+          $ref: '#/components/schemas/ClassUnitKey'
+        itemKey:
+          $ref: '#/components/schemas/ItemKey'
+    ItemKey:
+      type: object
+      description: Item key (Product ID and Item type)
+      properties:
+        itemNo:
+          $ref: '#/components/schemas/productId'
+        itemType:
+          $ref: '#/components/schemas/itemType'
+    expandOption:
+      type: string
+      description: "On the returned data, expand:\n  * `ChildItems` - Child items, e.g. multiple packages that are part of the parent package\n  * `Restocks` - Restock items\n  * `StoresList` - List of stores\n  * `SalesLocations` - Sale locations\n  * `DeliveryPrice` - Deliver Price\n  * `CollectPrice` - Collect Price\n  * `DisplayLocations` - Display locations\n  * `DeliveryTime` - Delivery time\n  * `FoodAvailabilities` - Food availability\n"
+      enum:
+      - ChildItems
+      - Restocks
+      - StoresList
+      - SalesLocations
+      - DeliveryPrice
+      - CollectPrice
+      - DisplayLocations
+      - DeliveryTime
+      - FoodAvailabilities
+      example: ChildItems
+    productId:
+      type: string
+      description: Product identifier
+      example: 00263850
   parameters:
     itemNos:
       name: itemNos
@@ -124,6 +302,23 @@ components:
         - sto
         example: ru
       example: ru
+    expand:
+      name: expand
+      in: query
+      required: false
+      style: form
+      explode: false
+      description: 'List of expandOption(s), see expandOption for values.
+
+        '
+      example:
+      - ChildItems
+      - SalesLocations
+      schema:
+        type: array
+        items:
+          $ref: '#/components/schemas/expandOption'
+        minItems: 0
     classUnitCode:
       name: classUnitCode
       in: path
@@ -164,201 +359,6 @@ components:
         storeBerlin:
           summary: Store ID for Berlin
           value: '066'
-    expand:
-      name: expand
-      in: query
-      required: false
-      style: form
-      explode: false
-      description: 'List of expandOption(s), see expandOption for values.
-
-        '
-      example:
-      - ChildItems
-      - SalesLocations
-      schema:
-        type: array
-        items:
-          $ref: '#/components/schemas/expandOption'
-        minItems: 0
-  schemas:
-    AvailabilityEnvelope:
-      type: object
-      description: Availability envelope containing availabilities, sales Sales Locations and errors.
-      required:
-      - availabilities
-      - timestamp
-      - traceId
-      properties:
-        availabilities:
-          type: array
-          description: List of product availabilities
-          items:
-            $ref: '#/components/schemas/Availability'
-        salesLocations:
-          type: array
-          items:
-            $ref: '#/components/schemas/SalesLocation'
-        errors:
-          type: array
-          description: List of errors
-          items:
-            $ref: '#/components/schemas/AvailabilityError'
-        timestamp:
-          type: string
-          description: ISO 8601 formatted timestamp with timezone
-          format: date-time
-          example: '2025-09-10T14:23:33.956Z'
-        traceId:
-          type: string
-          description: Unique trace identifier for debugging and log correlation
-          example: '4119683959736817039'
-    ClassUnitKey:
-      type: object
-      description: 'Class Unit Key gives context when invoking the AvailabilityClassifications API.
-
-        '
-      properties:
-        classUnitCode:
-          type: string
-          minLength: 2
-          maxLength: 5
-          description: '`classUnitCode` is the unique identifier of a Class Unit when
-
-            combined with a `classUnitType`.
-
-
-            A valid `classUnitCode` always has a pattern like `^([A-Z]|[0-9]){2,5}$`.
-
-
-            This can either be a:
-
-
-            * **Retail Unit** - Retail Unit must be combined with a valid `classUnitCode`. For example, `SE` for Sweden or `DE` for Germany. A list of valid Class Units can be found [in CBD](https://iwww.cbdview.ikea.com/) (requires VPN or internal network).
-
-            * **Store ID** - The 3-digit store ID. E.g. `066`.
-
-            '
-          examples:
-          - GB
-          - DE
-          - '066'
-        classUnitType:
-          type: string
-          description: "Class Unit Type:\n  * `RU` - Retail Unit - Retail Unit must be combined with a valid `classUnitCode`. For example, `SE` for Sweden or `DE` for Germany. A list of valid Retail Units can be found [in CBD](https://iwww.cbdview.ikea.com/) (requires VPN or internal network).\n  * `STO` - Store - The store availability for a given store\n"
-          enum:
-          - RU
-          - STO
-          example: RU
-    AvailabilityError:
-      type: object
-      required:
-      - code
-      - message
-      description: Error object describing the reason of failure
-      properties:
-        code:
-          type: integer
-          description: "Error Codes:\n  * `404` - Not found\n  * `405` - ClassUnitCode doesn't exist\n  * `602` - itemNos in query is required\n  * `604` - itemNos.`n` in query should be at least 8 chars long. Where `n` is the positional indicator for the parameter.\n  * `606` - expand.`n` in query should be one of [ChildItems Restocks StoresList SalesLocations DeliveryPrice CollectPrice DisplayLocations DeliveryTime FoodAvailabilities]. Where `n` is the positional indicator for the parameter.\n"
-          example: 404
-        details:
-          type: object
-          description: Additional error details. These change depending on the context of the query.
-          example:
-            classUnitCode: DE
-            classUnitType: RU
-            itemNo: s59047406
-        message:
-          type: string
-          description: Error message indicating the failure
-          example: Not found
-    itemType:
-      type: string
-      description: 'Item type code
-
-        '
-      enum:
-      - ART
-      - SPR
-      example: SPR
-    productId:
-      type: string
-      description: Product identifier
-      example: 00263850
-    Availability:
-      type: object
-      description: Availability of a Product
-      properties:
-        availableForCashCarry:
-          type: boolean
-          example: true
-        availableForClickCollect:
-          type: boolean
-          example: false
-        buyingOption:
-          type: object
-          example:
-            clickCollect:
-              range:
-                inRange: true
-        childAvailabilities:
-          type: array
-          items:
-            $ref: '#/components/schemas/Availability'
-          example: []
-        classUnitKey:
-          $ref: '#/components/schemas/ClassUnitKey'
-        itemKey:
-          $ref: '#/components/schemas/ItemKey'
-    SalesLocation:
-      type: object
-      description: null
-      properties:
-        childItems:
-          type: array
-          items:
-            type: object
-            properties:
-              itemKey:
-                $ref: '#/components/schemas/ItemKey'
-              salesLocations:
-                type: array
-                items:
-                  type: object
-                  example:
-                    aisleAndBin:
-                      aisle: '06'
-                      bin: '01'
-                    division: SELF_SERVE
-                    id: '060100'
-                    recommendationRank: 1
-                    type: AISLE_AND_BIN
-        classUnitKey:
-          $ref: '#/components/schemas/ClassUnitKey'
-        itemKey:
-          $ref: '#/components/schemas/ItemKey'
-    expandOption:
-      type: string
-      description: "On the returned data, expand:\n  * `ChildItems` - Child items, e.g. multiple packages that are part of the parent package\n  * `Restocks` - Restock items\n  * `StoresList` - List of stores\n  * `SalesLocations` - Sale locations\n  * `DeliveryPrice` - Deliver Price\n  * `CollectPrice` - Collect Price\n  * `DisplayLocations` - Display locations\n  * `DeliveryTime` - Delivery time\n  * `FoodAvailabilities` - Food availability\n"
-      enum:
-      - ChildItems
-      - Restocks
-      - StoresList
-      - SalesLocations
-      - DeliveryPrice
-      - CollectPrice
-      - DisplayLocations
-      - DeliveryTime
-      - FoodAvailabilities
-      example: ChildItems
-    ItemKey:
-      type: object
-      description: Item key (Product ID and Item type)
-      properties:
-        itemNo:
-          $ref: '#/components/schemas/productId'
-        itemType:
-          $ref: '#/components/schemas/itemType'
   securitySchemes:
     X-Client-ID:
       type: apiKey

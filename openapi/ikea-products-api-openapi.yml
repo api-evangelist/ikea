@@ -198,10 +198,6 @@ paths:
           description: Language code (e.g., en, de, fr)
 components:
   schemas:
-    productId:
-      type: string
-      description: Product identifier
-      example: 00263850
     ProductDetails:
       type: object
       description: 'Product details
@@ -333,6 +329,148 @@ components:
         validDesignText:
           type: string
           example: white/white
+    productId:
+      type: string
+      description: Product identifier
+      example: 00263850
+    ProductListPage:
+      description: Page with Product List
+      allOf:
+      - $ref: '#/components/schemas/CommonProperties'
+      - type: object
+        required:
+        - productListPage
+        properties:
+          productListPage:
+            $ref: '#/components/schemas/ProductListPageEnvelope'
+    ProductListPageEnvelope:
+      type: object
+      description: Product List Page envelope containing a limited set of Products for a given category.
+      required:
+      - category
+      - productWindow
+      - productCount
+      - plannerWindow
+      - plannerCount
+      - filters2
+      - dynamicFiltersV1
+      - dynamicFilters
+      - sortOrders
+      properties:
+        category:
+          $ref: '#/components/schemas/Category'
+        productWindow:
+          description: Window of filtered products
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+        productCount:
+          description: Amount of products in this category
+          type: integer
+          example: 1
+        plannerWindow:
+          description: Window of filtered windows
+          type: array
+          items:
+            type: object
+        plannerCount:
+          description: Amount of planner entries
+          type: integer
+          example: 1
+        filters2:
+          type: array
+          items:
+            type: object
+        dynamicFiltersV1:
+          type: array
+          items:
+            type: object
+        dynamicFilters:
+          type: array
+          items:
+            type: object
+        sortOrders:
+          description: What sorting is enabled
+          type: object
+          required:
+          - name
+          - values
+          properties:
+            name:
+              type: string
+              example: Sort
+            values:
+              type: array
+              items:
+                type: object
+                required:
+                - id
+                - name
+                - eventAction
+                - selected
+                properties:
+                  id:
+                    type: string
+                    example: RELEVANCE
+                    description: Filter identifier
+                  name:
+                    type: string
+                    example: Best match
+                    description: Name of the filter
+                  eventAction:
+                    type: string
+                    example: sort_by_relevance
+                  selected:
+                    description: Whether or not this sorting option is selected
+                    type: boolean
+                    example: true
+    categoryId:
+      type: string
+      description: Category identifier (UUID, code like 'st001', or numeric ID)
+      example: st001
+      examples:
+      - st001
+      - 4a552556-db67-4fab-afb0-11433eda6784
+    MoreProducts:
+      description: Page with More Products
+      allOf:
+      - $ref: '#/components/schemas/CommonProperties'
+      - type: object
+        required:
+        - moreProducts
+        properties:
+          moreProducts:
+            $ref: '#/components/schemas/MoreProductsEnvelope'
+    itemType:
+      type: string
+      description: 'Item type code
+
+        '
+      enum:
+      - ART
+      - SPR
+      example: SPR
+    Category:
+      type: object
+      description: Product Category
+      required:
+      - name
+      - key
+      properties:
+        name:
+          type: string
+          description: Category name
+          example: Sofa
+        key:
+          $ref: '#/components/schemas/categoryId'
+        url:
+          type: string
+          description: URL to category
+          example: https://www.ikea.com/gb/en/cat/sofa-fu003/
+        imageUrl:
+          type: string
+          description: Image for the category
+          example: https://www.ikea.com/global/assets/range-categorisation/images/sofas-fu003.jpeg
     Product:
       type: object
       description: Project details
@@ -718,164 +856,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Product'
-    Category:
-      type: object
-      description: Product Category
-      required:
-      - name
-      - key
-      properties:
-        name:
-          type: string
-          description: Category name
-          example: Sofa
-        key:
-          $ref: '#/components/schemas/categoryId'
-        url:
-          type: string
-          description: URL to category
-          example: https://www.ikea.com/gb/en/cat/sofa-fu003/
-        imageUrl:
-          type: string
-          description: Image for the category
-          example: https://www.ikea.com/global/assets/range-categorisation/images/sofas-fu003.jpeg
-    itemType:
-      type: string
-      description: 'Item type code
-
-        '
-      enum:
-      - ART
-      - SPR
-      example: SPR
-    ProductListPage:
-      description: Page with Product List
-      allOf:
-      - $ref: '#/components/schemas/CommonProperties'
-      - type: object
-        required:
-        - productListPage
-        properties:
-          productListPage:
-            $ref: '#/components/schemas/ProductListPageEnvelope'
-    ProductListPageEnvelope:
-      type: object
-      description: Product List Page envelope containing a limited set of Products for a given category.
-      required:
-      - category
-      - productWindow
-      - productCount
-      - plannerWindow
-      - plannerCount
-      - filters2
-      - dynamicFiltersV1
-      - dynamicFilters
-      - sortOrders
-      properties:
-        category:
-          $ref: '#/components/schemas/Category'
-        productWindow:
-          description: Window of filtered products
-          type: array
-          items:
-            $ref: '#/components/schemas/Product'
-        productCount:
-          description: Amount of products in this category
-          type: integer
-          example: 1
-        plannerWindow:
-          description: Window of filtered windows
-          type: array
-          items:
-            type: object
-        plannerCount:
-          description: Amount of planner entries
-          type: integer
-          example: 1
-        filters2:
-          type: array
-          items:
-            type: object
-        dynamicFiltersV1:
-          type: array
-          items:
-            type: object
-        dynamicFilters:
-          type: array
-          items:
-            type: object
-        sortOrders:
-          description: What sorting is enabled
-          type: object
-          required:
-          - name
-          - values
-          properties:
-            name:
-              type: string
-              example: Sort
-            values:
-              type: array
-              items:
-                type: object
-                required:
-                - id
-                - name
-                - eventAction
-                - selected
-                properties:
-                  id:
-                    type: string
-                    example: RELEVANCE
-                    description: Filter identifier
-                  name:
-                    type: string
-                    example: Best match
-                    description: Name of the filter
-                  eventAction:
-                    type: string
-                    example: sort_by_relevance
-                  selected:
-                    description: Whether or not this sorting option is selected
-                    type: boolean
-                    example: true
-    MoreProducts:
-      description: Page with More Products
-      allOf:
-      - $ref: '#/components/schemas/CommonProperties'
-      - type: object
-        required:
-        - moreProducts
-        properties:
-          moreProducts:
-            $ref: '#/components/schemas/MoreProductsEnvelope'
-    categoryId:
-      type: string
-      description: Category identifier (UUID, code like 'st001', or numeric ID)
-      example: st001
-      examples:
-      - st001
-      - 4a552556-db67-4fab-afb0-11433eda6784
   parameters:
-    productId:
-      name: productId
-      in: path
-      required: true
-      description: "Product identifier\nValue can be:\n  *  zero (`0`),\n  * product identifier (`00263850`) or\n  * product identifier with `s` prefix (`s59047406`)\n"
-      schema:
-        type: string
-        pattern: ^(0|s[0-9]{8}|[0-9]{8})$
-        maxLength: 9
-      examples:
-        empty:
-          summary: Empty value (0)
-          value: '0'
-        billy:
-          summary: BILLY Bookcase (00263850)
-          value: 00263850
-        besta:
-          summary: BESTÅ Shelf unit with doors (s59047406)
-          value: s59047406
     productIdSuffix:
       in: path
       name: productIdSuffix
@@ -895,6 +876,43 @@ components:
         besta:
           summary: BESTÅ Shelf unit with doors (s59047406)
           value: '406'
+    productId:
+      name: productId
+      in: path
+      required: true
+      description: "Product identifier\nValue can be:\n  *  zero (`0`),\n  * product identifier (`00263850`) or\n  * product identifier with `s` prefix (`s59047406`)\n"
+      schema:
+        type: string
+        pattern: ^(0|s[0-9]{8}|[0-9]{8})$
+        maxLength: 9
+      examples:
+        empty:
+          summary: Empty value (0)
+          value: '0'
+        billy:
+          summary: BILLY Bookcase (00263850)
+          value: 00263850
+        besta:
+          summary: BESTÅ Shelf unit with doors (s59047406)
+          value: s59047406
+    size:
+      name: size
+      in: query
+      required: false
+      description: Amount of products to return
+      schema:
+        type: integer
+        minimum: 0
+        maximum: 1000
+      example: 42
+    category:
+      name: category
+      in: query
+      description: Category to search for
+      required: true
+      schema:
+        $ref: '#/components/schemas/categoryId'
+      example: st001
     end:
       name: end
       in: query
@@ -906,14 +924,6 @@ components:
         type: integer
         minimum: 0
       example: 0
-    category:
-      name: category
-      in: query
-      description: Category to search for
-      required: true
-      schema:
-        $ref: '#/components/schemas/categoryId'
-      example: st001
     start:
       name: start
       in: query
@@ -925,16 +935,6 @@ components:
         type: integer
         minimum: 0
       example: 0
-    size:
-      name: size
-      in: query
-      required: false
-      description: Amount of products to return
-      schema:
-        type: integer
-        minimum: 0
-        maximum: 1000
-      example: 42
 x-refined-from:
 - ikea-product-catalog-openapi.yml
 - ikea-search-openapi.yml
