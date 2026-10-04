@@ -98,68 +98,10 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    AvailabilityError:
-      type: object
-      required:
-      - code
-      - message
-      description: Error object describing the reason of failure
-      properties:
-        code:
-          type: integer
-          description: "Error Codes:\n  * `404` - Not found\n  * `405` - ClassUnitCode doesn't exist\n  * `602` - itemNos in query is required\n  * `604` - itemNos.`n` in query should be at least 8 chars long. Where `n` is the positional indicator for the parameter.\n  * `606` - expand.`n` in query should be one of [ChildItems Restocks StoresList SalesLocations DeliveryPrice CollectPrice DisplayLocations DeliveryTime FoodAvailabilities]. Where `n` is the positional indicator for the parameter.\n"
-          example: 404
-        details:
-          type: object
-          description: Additional error details. These change depending on the context of the query.
-          example:
-            classUnitCode: DE
-            classUnitType: RU
-            itemNo: s59047406
-        message:
-          type: string
-          description: Error message indicating the failure
-          example: Not found
-    itemType:
+    productId:
       type: string
-      description: 'Item type code
-
-        '
-      enum:
-      - ART
-      - SPR
-      example: SPR
-    AvailabilityEnvelope:
-      type: object
-      description: Availability envelope containing availabilities, sales Sales Locations and errors.
-      required:
-      - availabilities
-      - timestamp
-      - traceId
-      properties:
-        availabilities:
-          type: array
-          description: List of product availabilities
-          items:
-            $ref: '#/components/schemas/Availability'
-        salesLocations:
-          type: array
-          items:
-            $ref: '#/components/schemas/SalesLocation'
-        errors:
-          type: array
-          description: List of errors
-          items:
-            $ref: '#/components/schemas/AvailabilityError'
-        timestamp:
-          type: string
-          description: ISO 8601 formatted timestamp with timezone
-          format: date-time
-          example: '2025-09-10T14:23:33.956Z'
-        traceId:
-          type: string
-          description: Unique trace identifier for debugging and log correlation
-          example: '4119683959736817039'
+      description: Product identifier
+      example: 00263850
     Availability:
       type: object
       description: Availability of a Product
@@ -222,6 +164,60 @@ components:
           - RU
           - STO
           example: RU
+    itemType:
+      type: string
+      description: 'Item type code
+
+        '
+      enum:
+      - ART
+      - SPR
+      example: SPR
+    AvailabilityEnvelope:
+      type: object
+      description: Availability envelope containing availabilities, sales Sales Locations and errors.
+      required:
+      - availabilities
+      - timestamp
+      - traceId
+      properties:
+        availabilities:
+          type: array
+          description: List of product availabilities
+          items:
+            $ref: '#/components/schemas/Availability'
+        salesLocations:
+          type: array
+          items:
+            $ref: '#/components/schemas/SalesLocation'
+        errors:
+          type: array
+          description: List of errors
+          items:
+            $ref: '#/components/schemas/AvailabilityError'
+        timestamp:
+          type: string
+          description: ISO 8601 formatted timestamp with timezone
+          format: date-time
+          example: '2025-09-10T14:23:33.956Z'
+        traceId:
+          type: string
+          description: Unique trace identifier for debugging and log correlation
+          example: '4119683959736817039'
+    expandOption:
+      type: string
+      description: "On the returned data, expand:\n  * `ChildItems` - Child items, e.g. multiple packages that are part of the parent package\n  * `Restocks` - Restock items\n  * `StoresList` - List of stores\n  * `SalesLocations` - Sale locations\n  * `DeliveryPrice` - Deliver Price\n  * `CollectPrice` - Collect Price\n  * `DisplayLocations` - Display locations\n  * `DeliveryTime` - Delivery time\n  * `FoodAvailabilities` - Food availability\n"
+      enum:
+      - ChildItems
+      - Restocks
+      - StoresList
+      - SalesLocations
+      - DeliveryPrice
+      - CollectPrice
+      - DisplayLocations
+      - DeliveryTime
+      - FoodAvailabilities
+      example: ChildItems
     SalesLocation:
       type: object
       description: null
@@ -249,6 +245,28 @@ components:
           $ref: '#/components/schemas/ClassUnitKey'
         itemKey:
           $ref: '#/components/schemas/ItemKey'
+    AvailabilityError:
+      type: object
+      required:
+      - code
+      - message
+      description: Error object describing the reason of failure
+      properties:
+        code:
+          type: integer
+          description: "Error Codes:\n  * `404` - Not found\n  * `405` - ClassUnitCode doesn't exist\n  * `602` - itemNos in query is required\n  * `604` - itemNos.`n` in query should be at least 8 chars long. Where `n` is the positional indicator for the parameter.\n  * `606` - expand.`n` in query should be one of [ChildItems Restocks StoresList SalesLocations DeliveryPrice CollectPrice DisplayLocations DeliveryTime FoodAvailabilities]. Where `n` is the positional indicator for the parameter.\n"
+          example: 404
+        details:
+          type: object
+          description: Additional error details. These change depending on the context of the query.
+          example:
+            classUnitCode: DE
+            classUnitType: RU
+            itemNo: s59047406
+        message:
+          type: string
+          description: Error message indicating the failure
+          example: Not found
     ItemKey:
       type: object
       description: Item key (Product ID and Item type)
@@ -257,39 +275,7 @@ components:
           $ref: '#/components/schemas/productId'
         itemType:
           $ref: '#/components/schemas/itemType'
-    expandOption:
-      type: string
-      description: "On the returned data, expand:\n  * `ChildItems` - Child items, e.g. multiple packages that are part of the parent package\n  * `Restocks` - Restock items\n  * `StoresList` - List of stores\n  * `SalesLocations` - Sale locations\n  * `DeliveryPrice` - Deliver Price\n  * `CollectPrice` - Collect Price\n  * `DisplayLocations` - Display locations\n  * `DeliveryTime` - Delivery time\n  * `FoodAvailabilities` - Food availability\n"
-      enum:
-      - ChildItems
-      - Restocks
-      - StoresList
-      - SalesLocations
-      - DeliveryPrice
-      - CollectPrice
-      - DisplayLocations
-      - DeliveryTime
-      - FoodAvailabilities
-      example: ChildItems
-    productId:
-      type: string
-      description: Product identifier
-      example: 00263850
   parameters:
-    itemNos:
-      name: itemNos
-      in: query
-      required: true
-      style: form
-      explode: false
-      description: Product identifier(s)
-      example:
-      - 00263850
-      schema:
-        type: array
-        items:
-          $ref: '#/components/schemas/productId'
-        minItems: 1
     classUnitType:
       name: classUnitType
       in: path
@@ -302,23 +288,6 @@ components:
         - sto
         example: ru
       example: ru
-    expand:
-      name: expand
-      in: query
-      required: false
-      style: form
-      explode: false
-      description: 'List of expandOption(s), see expandOption for values.
-
-        '
-      example:
-      - ChildItems
-      - SalesLocations
-      schema:
-        type: array
-        items:
-          $ref: '#/components/schemas/expandOption'
-        minItems: 0
     classUnitCode:
       name: classUnitCode
       in: path
@@ -359,6 +328,37 @@ components:
         storeBerlin:
           summary: Store ID for Berlin
           value: '066'
+    itemNos:
+      name: itemNos
+      in: query
+      required: true
+      style: form
+      explode: false
+      description: Product identifier(s)
+      example:
+      - 00263850
+      schema:
+        type: array
+        items:
+          $ref: '#/components/schemas/productId'
+        minItems: 1
+    expand:
+      name: expand
+      in: query
+      required: false
+      style: form
+      explode: false
+      description: 'List of expandOption(s), see expandOption for values.
+
+        '
+      example:
+      - ChildItems
+      - SalesLocations
+      schema:
+        type: array
+        items:
+          $ref: '#/components/schemas/expandOption'
+        minItems: 0
   securitySchemes:
     X-Client-ID:
       type: apiKey

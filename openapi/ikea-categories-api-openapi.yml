@@ -65,6 +65,13 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    categoryId:
+      type: string
+      description: Category identifier (UUID, code like 'st001', or numeric ID)
+      example: st001
+      examples:
+      - st001
+      - 4a552556-db67-4fab-afb0-11433eda6784
     Category:
       type: object
       description: Category details
@@ -100,10 +107,3 @@ components:
             '
           items:
             $ref: '#/components/schemas/Category'
-    categoryId:
-      type: string
-      description: Category identifier (UUID, code like 'st001', or numeric ID)
-      example: st001
-      examples:
-      - st001
-      - 4a552556-db67-4fab-afb0-11433eda6784
