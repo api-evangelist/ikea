@@ -197,85 +197,6 @@ paths:
           default: en
           description: Language code (e.g., en, de, fr)
 components:
-  parameters:
-    productId:
-      name: productId
-      in: path
-      required: true
-      description: "Product identifier\nValue can be:\n  *  zero (`0`),\n  * product identifier (`00263850`) or\n  * product identifier with `s` prefix (`s59047406`)\n"
-      schema:
-        type: string
-        pattern: ^(0|s[0-9]{8}|[0-9]{8})$
-        maxLength: 9
-      examples:
-        empty:
-          summary: Empty value (0)
-          value: '0'
-        billy:
-          summary: BILLY Bookcase (00263850)
-          value: 00263850
-        besta:
-          summary: BESTÅ Shelf unit with doors (s59047406)
-          value: s59047406
-    productIdSuffix:
-      in: path
-      name: productIdSuffix
-      required: true
-      description: "Product ID Suffix (last 3 digits of Product ID)\nValue can be:\n  *  zero (`0`) or\n  * Product ID Suffix (`406`)\n"
-      schema:
-        type: string
-        pattern: ^(0|[0-9]{3})$
-        maxLength: 3
-      examples:
-        empty:
-          summary: Empty value (0)
-          value: '0'
-        billy:
-          summary: BILLY Bookcase (00263850)
-          value: '850'
-        besta:
-          summary: BESTÅ Shelf unit with doors (s59047406)
-          value: '406'
-    size:
-      name: size
-      in: query
-      required: false
-      description: Amount of products to return
-      schema:
-        type: integer
-        minimum: 0
-        maximum: 1000
-      example: 42
-    end:
-      name: end
-      in: query
-      required: false
-      description: 'The zero-based index of the last item to include **exclusive**. For example, `start=0&end=2` returns items at index 0 and 1. (2 items) If `end` is provided but not `end`, then default for `start=24`.
-
-        '
-      schema:
-        type: integer
-        minimum: 0
-      example: 0
-    category:
-      name: category
-      in: query
-      description: Category to search for
-      required: true
-      schema:
-        $ref: '#/components/schemas/categoryId'
-      example: st001
-    start:
-      name: start
-      in: query
-      required: false
-      description: 'The zero-based index of the first item to include in the response. For example, `start=0` begins from the very first item. If `start` is provided but not `end`, then default for `end=24`.
-
-        '
-      schema:
-        type: integer
-        minimum: 0
-      example: 0
   schemas:
     productId:
       type: string
@@ -433,36 +354,19 @@ components:
           type: string
           description: Image for the category
           example: https://www.ikea.com/global/assets/range-categorisation/images/sofas-fu003.jpeg
-    MoreProducts:
-      description: Page with More Products
-      allOf:
-      - $ref: '#/components/schemas/CommonProperties'
-      - type: object
-        required:
-        - moreProducts
-        properties:
-          moreProducts:
-            $ref: '#/components/schemas/MoreProductsEnvelope'
-    MoreProductsEnvelope:
+    CommonProperties:
       type: object
-      description: More Products Page envelope containing a window of paginated products that matches the filtered criteria.
+      description: Common properties returned in search responses
       required:
-      - productWindow
+      - usergroup
+      - testActivationTriggers
       properties:
-        productWindow:
-          description: Window of paginated products
-          type: array
-          items:
-            $ref: '#/components/schemas/Product'
-    itemType:
-      type: string
-      description: 'Item type code
-
-        '
-      enum:
-      - ART
-      - SPR
-      example: SPR
+        usergroup:
+          type: string
+          example: '[]'
+        testActivationTriggers:
+          type: object
+          example: {}
     Product:
       type: object
       description: Project details
@@ -824,36 +728,6 @@ components:
             PRODUCT_TYPE:
               type: string
               example: standard
-    ProductListPage:
-      description: Page with Product List
-      allOf:
-      - $ref: '#/components/schemas/CommonProperties'
-      - type: object
-        required:
-        - productListPage
-        properties:
-          productListPage:
-            $ref: '#/components/schemas/ProductListPageEnvelope'
-    CommonProperties:
-      type: object
-      description: Common properties returned in search responses
-      required:
-      - usergroup
-      - testActivationTriggers
-      properties:
-        usergroup:
-          type: string
-          example: '[]'
-        testActivationTriggers:
-          type: object
-          example: {}
-    categoryId:
-      type: string
-      description: Category identifier (UUID, code like 'st001', or numeric ID)
-      example: st001
-      examples:
-      - st001
-      - 4a552556-db67-4fab-afb0-11433eda6784
     ProductListPageEnvelope:
       type: object
       description: Product List Page envelope containing a limited set of Products for a given category.
@@ -935,6 +809,132 @@ components:
                     description: Whether or not this sorting option is selected
                     type: boolean
                     example: true
+    MoreProductsEnvelope:
+      type: object
+      description: More Products Page envelope containing a window of paginated products that matches the filtered criteria.
+      required:
+      - productWindow
+      properties:
+        productWindow:
+          description: Window of paginated products
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+    itemType:
+      type: string
+      description: 'Item type code
+
+        '
+      enum:
+      - ART
+      - SPR
+      example: SPR
+    ProductListPage:
+      description: Page with Product List
+      allOf:
+      - $ref: '#/components/schemas/CommonProperties'
+      - type: object
+        required:
+        - productListPage
+        properties:
+          productListPage:
+            $ref: '#/components/schemas/ProductListPageEnvelope'
+    categoryId:
+      type: string
+      description: Category identifier (UUID, code like 'st001', or numeric ID)
+      example: st001
+      examples:
+      - st001
+      - 4a552556-db67-4fab-afb0-11433eda6784
+    MoreProducts:
+      description: Page with More Products
+      allOf:
+      - $ref: '#/components/schemas/CommonProperties'
+      - type: object
+        required:
+        - moreProducts
+        properties:
+          moreProducts:
+            $ref: '#/components/schemas/MoreProductsEnvelope'
+  parameters:
+    productId:
+      name: productId
+      in: path
+      required: true
+      description: "Product identifier\nValue can be:\n  *  zero (`0`),\n  * product identifier (`00263850`) or\n  * product identifier with `s` prefix (`s59047406`)\n"
+      schema:
+        type: string
+        pattern: ^(0|s[0-9]{8}|[0-9]{8})$
+        maxLength: 9
+      examples:
+        empty:
+          summary: Empty value (0)
+          value: '0'
+        billy:
+          summary: BILLY Bookcase (00263850)
+          value: 00263850
+        besta:
+          summary: BESTÅ Shelf unit with doors (s59047406)
+          value: s59047406
+    productIdSuffix:
+      in: path
+      name: productIdSuffix
+      required: true
+      description: "Product ID Suffix (last 3 digits of Product ID)\nValue can be:\n  *  zero (`0`) or\n  * Product ID Suffix (`406`)\n"
+      schema:
+        type: string
+        pattern: ^(0|[0-9]{3})$
+        maxLength: 3
+      examples:
+        empty:
+          summary: Empty value (0)
+          value: '0'
+        billy:
+          summary: BILLY Bookcase (00263850)
+          value: '850'
+        besta:
+          summary: BESTÅ Shelf unit with doors (s59047406)
+          value: '406'
+    start:
+      name: start
+      in: query
+      required: false
+      description: 'The zero-based index of the first item to include in the response. For example, `start=0` begins from the very first item. If `start` is provided but not `end`, then default for `end=24`.
+
+        '
+      schema:
+        type: integer
+        minimum: 0
+      example: 0
+    category:
+      name: category
+      in: query
+      description: Category to search for
+      required: true
+      schema:
+        $ref: '#/components/schemas/categoryId'
+      example: st001
+    size:
+      name: size
+      in: query
+      required: false
+      description: Amount of products to return
+      schema:
+        type: integer
+        minimum: 0
+        maximum: 1000
+      example: 42
+    end:
+      name: end
+      in: query
+      required: false
+      description: 'The zero-based index of the last item to include **exclusive**. For example, `start=0&end=2` returns items at index 0 and 1. (2 items) If `end` is provided but not `end`, then default for `start=24`.
+
+        '
+      schema:
+        type: integer
+        minimum: 0
+      example: 0
 x-refined-from:
 - ikea-product-catalog-openapi.yml
 - ikea-search-openapi.yml

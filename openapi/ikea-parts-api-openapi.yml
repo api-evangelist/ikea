@@ -142,95 +142,67 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  parameters:
-    Accept-Language:
-      name: Accept-Language
-      in: header
-      description: Country and Language selection of returned data. in format of language-COUNTRY.
-      required: true
-      schema:
-        type: string
-      example: en-GB
-    productIds:
-      name: ids
-      in: query
-      required: true
-      description: Find parts for the following productIds
-      schema:
-        type: array
-        items:
-          $ref: '#/components/schemas/productId'
-        minItems: 0
-      style: form
-      explode: false
-      allowEmptyValue: true
-      examples:
-        singleWithParts:
-          summary: Single Product (HJÄLPA) with parts
-          value:
-          - '60505511'
-        singleWithoutPart:
-          summary: Single Product (PLATSA) without parts
-          value:
-          - '39424871'
-        multipleIds:
-          summary: Multiple Product IDs (Kallax, Billy)
-          value:
-          - 00324518
-          - '39424871'
-    partialPartId:
-      name: partialPartId
-      in: path
-      required: true
-      description: 'Partial Part identifier. A Part ID is typically 5-8 digit number, may include suffix like `/1` or `-1`
-
-        Accepts any URL-encoded byte sequence, including invalid UTF-8
-
-        '
-      schema:
-        type: string
-        format: byte
-      example: '1'
-      examples:
-        partial:
-          summary: Simple example that will match multiple parts
-          value: '10000'
-        simple:
-          $ref: '#/components/examples/itemIdSimple'
-        discontinued:
-          $ref: '#/components/examples/itemIdDiscontinued'
-        replacement:
-          $ref: '#/components/examples/itemIdReplacement'
-        jimmyTestPart:
-          $ref: '#/components/examples/itemIdJimmysTestPart'
-    partId:
-      name: partId
-      in: path
-      required: true
-      description: What item to find
-      schema:
-        allOf:
-        - $ref: '#/components/schemas/itemId'
-        - type: string
-          pattern: ^[^%]*$
-      examples:
-        simple:
-          $ref: '#/components/examples/itemIdSimple'
-        discontinued:
-          $ref: '#/components/examples/itemIdDiscontinued'
-        replacement:
-          $ref: '#/components/examples/itemIdReplacement'
-        jimmyTestPart:
-          $ref: '#/components/examples/itemIdJimmysTestPart'
+  examples:
+    itemIdDiscontinued:
+      summary: Discontinued item with replacement item provided
+      description: Example of discontinued item with replacement item provided - replacement ID is `10032311/1`
+      value: '10032311'
+    itemIdReplacement:
+      summary: Replacement part for 10032311
+      description: Example of replacement part for part `10032311`.
+      value: 10032311/1
+    itemIdJimmysTestPart:
+      summary: Jimmy test part in production
+      description: "Example of one of the \"test\" parts in the database.\nOthers include (partID, Part Name, Part Description):\n  * `10002250` - `Jimmy test part in production`\n  * `10050287` - `Test M3 upgrade` - `Testar radbrytsom dennahär`\n  * `10067568` - `Test M3 upgrade copied` - `Testar radbrytsom dennahär`\n  * `10066501` - `ALAS TEST` - `Testar description för att se om det rtar bort radbrytningar`\n  * `10092540` - `TestUpgrade`\n  * `10119359` - `test`\n  * `10117240` - `Test Edgeband`\n"
+      value: '10002250'
+    itemIdSimple:
+      summary: Match single part 'Key Hexagon'
+      description: Simple example for simple part.
+      value: '100001'
   schemas:
+    categoryId:
+      type: string
+      description: Category identifier
+      example: P1201
+    partColor:
+      type: string
+      description: Part Color
+      example: Grey
+    partDescription:
+      type: string
+      description: Part description
+      example: S-SHAPE, WIDTH=20, LENGTH=48, HARDENED HRC 52 +5/-10
+    Part:
+      type: object
+      description: Replacement part
+      required:
+      - itemId
+      - partName
+      - categoryId
+      - subCategoryId
+      - replacementId
+      - status
+      properties:
+        itemId:
+          $ref: '#/components/schemas/itemId'
+        partName:
+          $ref: '#/components/schemas/partName'
+        partDescription:
+          $ref: '#/components/schemas/partDescription'
+        categoryId:
+          $ref: '#/components/schemas/categoryId'
+        subCategoryId:
+          $ref: '#/components/schemas/subCategoryId'
+        replacementId:
+          $ref: '#/components/schemas/itemId'
+        stock:
+          $ref: '#/components/schemas/stock'
+        status:
+          $ref: '#/components/schemas/status'
     productId:
       type: string
       description: Product identifier
       example: 00263850
-    stock:
-      type: integer
-      description: Stock status
-      example: 352
     ProductParts:
       type: object
       description: Parts in product
@@ -260,63 +232,10 @@ components:
           description: List pf parts
           items:
             $ref: '#/components/schemas/Part'
-    partColor:
-      type: string
-      description: Part Color
-      example: Grey
-    itemId:
-      type: string
-      description: Part identifier - typically 5-8 digit number, may include suffix like `/1` or `-1`
-      example: '100001'
-    categoryId:
-      type: string
-      description: Category identifier
-      example: P1201
-    status:
-      type: string
-      enum:
-      - AVAILABLE
-      - NOT_AVAILABLE
-      - ORDER_AT_CSC
-      - OUT_OF_STOCK
-      - DISCONTINUED_WITH_REPLACEMENTID
-      description: "Part Status:\n  * `AVAILABLE` - Part is available\n  * `NOT_AVAILABLE` - Part is not available\n  * `ORDER_AT_CSC` - Order at the Customer Service Center\n  * `OUT_OF_STOCK` - Part is out of stock\n  * `DISCONTINUED_WITH_REPLACEMENTID` - Part is discontinued and replaced by provided id.\n"
-      example: AVAILABLE
-    Part:
-      type: object
-      description: Replacement part
-      required:
-      - itemId
-      - partName
-      - categoryId
-      - subCategoryId
-      - replacementId
-      - status
-      properties:
-        itemId:
-          $ref: '#/components/schemas/itemId'
-        partName:
-          $ref: '#/components/schemas/partName'
-        partDescription:
-          $ref: '#/components/schemas/partDescription'
-        categoryId:
-          $ref: '#/components/schemas/categoryId'
-        subCategoryId:
-          $ref: '#/components/schemas/subCategoryId'
-        replacementId:
-          $ref: '#/components/schemas/itemId'
-        stock:
-          $ref: '#/components/schemas/stock'
-        status:
-          $ref: '#/components/schemas/status'
-    subCategoryId:
-      type: string
-      description: Subcategory identifier
-      example: '12101'
-    partName:
-      type: string
-      description: Part name
-      example: KEY HEXAGON 4MM SSH L48 ZN
+    stock:
+      type: integer
+      description: Stock status
+      example: 352
     SearchPart:
       type: object
       description: Replacement part (returned in search results)
@@ -348,24 +267,105 @@ components:
           $ref: '#/components/schemas/partColor'
         partReplaceId:
           $ref: '#/components/schemas/itemId'
-    partDescription:
+    status:
       type: string
-      description: Part description
-      example: S-SHAPE, WIDTH=20, LENGTH=48, HARDENED HRC 52 +5/-10
-  examples:
-    itemIdDiscontinued:
-      summary: Discontinued item with replacement item provided
-      description: Example of discontinued item with replacement item provided - replacement ID is `10032311/1`
-      value: '10032311'
-    itemIdJimmysTestPart:
-      summary: Jimmy test part in production
-      description: "Example of one of the \"test\" parts in the database.\nOthers include (partID, Part Name, Part Description):\n  * `10002250` - `Jimmy test part in production`\n  * `10050287` - `Test M3 upgrade` - `Testar radbrytsom dennahär`\n  * `10067568` - `Test M3 upgrade copied` - `Testar radbrytsom dennahär`\n  * `10066501` - `ALAS TEST` - `Testar description för att se om det rtar bort radbrytningar`\n  * `10092540` - `TestUpgrade`\n  * `10119359` - `test`\n  * `10117240` - `Test Edgeband`\n"
-      value: '10002250'
-    itemIdReplacement:
-      summary: Replacement part for 10032311
-      description: Example of replacement part for part `10032311`.
-      value: 10032311/1
-    itemIdSimple:
-      summary: Match single part 'Key Hexagon'
-      description: Simple example for simple part.
-      value: '100001'
+      enum:
+      - AVAILABLE
+      - NOT_AVAILABLE
+      - ORDER_AT_CSC
+      - OUT_OF_STOCK
+      - DISCONTINUED_WITH_REPLACEMENTID
+      description: "Part Status:\n  * `AVAILABLE` - Part is available\n  * `NOT_AVAILABLE` - Part is not available\n  * `ORDER_AT_CSC` - Order at the Customer Service Center\n  * `OUT_OF_STOCK` - Part is out of stock\n  * `DISCONTINUED_WITH_REPLACEMENTID` - Part is discontinued and replaced by provided id.\n"
+      example: AVAILABLE
+    itemId:
+      type: string
+      description: Part identifier - typically 5-8 digit number, may include suffix like `/1` or `-1`
+      example: '100001'
+    subCategoryId:
+      type: string
+      description: Subcategory identifier
+      example: '12101'
+    partName:
+      type: string
+      description: Part name
+      example: KEY HEXAGON 4MM SSH L48 ZN
+  parameters:
+    partialPartId:
+      name: partialPartId
+      in: path
+      required: true
+      description: 'Partial Part identifier. A Part ID is typically 5-8 digit number, may include suffix like `/1` or `-1`
+
+        Accepts any URL-encoded byte sequence, including invalid UTF-8
+
+        '
+      schema:
+        type: string
+        format: byte
+      example: '1'
+      examples:
+        partial:
+          summary: Simple example that will match multiple parts
+          value: '10000'
+        simple:
+          $ref: '#/components/examples/itemIdSimple'
+        discontinued:
+          $ref: '#/components/examples/itemIdDiscontinued'
+        replacement:
+          $ref: '#/components/examples/itemIdReplacement'
+        jimmyTestPart:
+          $ref: '#/components/examples/itemIdJimmysTestPart'
+    productIds:
+      name: ids
+      in: query
+      required: true
+      description: Find parts for the following productIds
+      schema:
+        type: array
+        items:
+          $ref: '#/components/schemas/productId'
+        minItems: 0
+      style: form
+      explode: false
+      allowEmptyValue: true
+      examples:
+        singleWithParts:
+          summary: Single Product (HJÄLPA) with parts
+          value:
+          - '60505511'
+        singleWithoutPart:
+          summary: Single Product (PLATSA) without parts
+          value:
+          - '39424871'
+        multipleIds:
+          summary: Multiple Product IDs (Kallax, Billy)
+          value:
+          - 00324518
+          - '39424871'
+    partId:
+      name: partId
+      in: path
+      required: true
+      description: What item to find
+      schema:
+        allOf:
+        - $ref: '#/components/schemas/itemId'
+        - type: string
+          pattern: ^[^%]*$
+      examples:
+        simple:
+          $ref: '#/components/examples/itemIdSimple'
+        discontinued:
+          $ref: '#/components/examples/itemIdDiscontinued'
+        replacement:
+          $ref: '#/components/examples/itemIdReplacement'
+        jimmyTestPart:
+          $ref: '#/components/examples/itemIdJimmysTestPart'
+    Accept-Language:
+      name: Accept-Language
+      in: header
+      description: Country and Language selection of returned data. in format of language-COUNTRY.
+      required: true
+      schema:
+        type: string
+      example: en-GB
