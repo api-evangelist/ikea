@@ -1,4 +1,4 @@
-# IKEA (ikea)
+# IKEA
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,192 +66,194 @@
 
 A Swedish multinational furniture and home goods retailer known for its affordable, ready-to-assemble products. Operates hundreds of stores worldwide and is the world's largest furniture retailer with a distinctive showroom-based shopping experience. IKEA does not publish an official public developer API or developer portal; the surfaces profiled here are community reverse-engineered specs of the IKEA storefront (Product Catalog, Search, Sales Item availability, After Purchase Ordering / spare parts) plus the local-network API of the DIRIGERA smart home hub. All artifacts are community-built and unofficial — they may change at any time and are not affiliated with, endorsed by, or supported by IKEA.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/ikea/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/ikea/refs/heads/main/apis.yml)
+**Areas:** Retail · Home Furnishings · Consumer Products · Open Source · Community · Unofficial API · Smart Home
 
-## Scope
+## IKEA on APIs.io
 
-- **Type:** Index
+Everything profiled for IKEA is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/ikea/](https://apis.io/providers/ikea/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (6)
 
-- Retail
-- Home Furnishings
-- Consumer Products
-- Opensource
-- Community
-- Unofficial API
-- Smart Home
+- [IKEA DIRIGERA Smart Home Hub API (Unofficial, Local)](https://apis.io/apis/ikea/dirigera-hub/) — The DIRIGERA hub is IKEA's next-generation smart home gateway (replacing TRADFRI). It exposes a private, locally-served REST API on the LAN with…
+- [IKEA Availability API](https://apis.io/apis/ikea/ikea-availability-api/) — Everything about Availability
+- [IKEA Categories API](https://apis.io/apis/ikea/ikea-categories-api/) — Everything about Categories
+- [IKEA Parts API](https://apis.io/apis/ikea/ikea-parts-api/) — Everything about Parts
+- [IKEA Products API](https://apis.io/apis/ikea/ikea-products-api/) — Everything about Products
+- [IKEA Stores API](https://apis.io/apis/ikea/ikea-stores-api/) — Everything about Stores
 
-## Timestamps
+### Published properties
 
-- **Created:** 2026-05-05
-- **Modified:** 2026-05-30
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### Agentic access (1)
 
-### IKEA Product Catalog API (Unofficial)
+Which operations an agent can call, which act, and which need a human in the loop.
 
-Unofficial reverse-engineered specification for IKEA's public storefront product catalog. Exposes store metadata (informera/stores-detailed.json), the global category and navigation tree (catalog-products-slim.json) and per-product detail endpoints under www.ikea.com/{country}/{language}. Authored and maintained by idelsink/ikea-openapi based on observed network traffic. This is not an official IKEA developer API.
+- [Ikea Agentic Access](https://apis.io/agentic-access/ikea/ikea-agentic-access/)
 
-- **Human URL:** [https://github.com/idelsink/ikea-openapi](https://github.com/idelsink/ikea-openapi)
-- **Base URL:** `https://www.ikea.com/{country}/{language}`
+#### JSON Schema (21)
 
-#### Tags
+The data models the API reads and writes.
 
-- Product Catalog
-- Categories
-- Stores
-- Products
-- Unofficial API
-- Opensource
+- [Part](https://apis.io/schemas/ikea/ikea-after-purchase-ordering-part/)
+- [ProductParts](https://apis.io/schemas/ikea/ikea-after-purchase-ordering-product-parts/)
+- [SearchPart](https://apis.io/schemas/ikea/ikea-after-purchase-ordering-search-part/)
+- [status](https://apis.io/schemas/ikea/ikea-after-purchase-ordering-status/)
+- [Category](https://apis.io/schemas/ikea/ikea-product-catalog-category/)
+- [ProductDetails](https://apis.io/schemas/ikea/ikea-product-catalog-product-details/)
+- [Store](https://apis.io/schemas/ikea/ikea-product-catalog-store/)
+- [Availability](https://apis.io/schemas/ikea/ikea-sales-item-availability/)
+- [AvailabilityEnvelope](https://apis.io/schemas/ikea/ikea-sales-item-availability-envelope/)
+- [AvailabilityError](https://apis.io/schemas/ikea/ikea-sales-item-availability-error/)
+- [ClassUnitKey](https://apis.io/schemas/ikea/ikea-sales-item-class-unit-key/)
+- [expandOption](https://apis.io/schemas/ikea/ikea-sales-item-expand-option/)
+- [ItemKey](https://apis.io/schemas/ikea/ikea-sales-item-item-key/)
+- [itemType](https://apis.io/schemas/ikea/ikea-sales-item-item-type/)
+- [SalesLocation](https://apis.io/schemas/ikea/ikea-sales-item-sales-location/)
+- [Category](https://apis.io/schemas/ikea/ikea-search-category/)
+- [CommonProperties](https://apis.io/schemas/ikea/ikea-search-common-properties/)
+- [itemType](https://apis.io/schemas/ikea/ikea-search-item-type/)
+- [MoreProductsEnvelope](https://apis.io/schemas/ikea/ikea-search-more-products-envelope/)
+- [Product](https://apis.io/schemas/ikea/ikea-search-product/)
+- [ProductListPageEnvelope](https://apis.io/schemas/ikea/ikea-search-product-list-page-envelope/)
 
-#### Properties
+#### JSON Structure (21)
 
-- [OpenAPI](https://raw.githubusercontent.com/api-evangelist/ikea/main/openapi/ikea-product-catalog-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Documentation](https://ingmar.dels.ink/ikea-openapi/product-catalog/)
-- [Source Code](https://github.com/idelsink/ikea-openapi/tree/main/openapi/product-catalog)
-- [Postman Collection](collections/ikea-after-purchase-ordering.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/ikea-after-purchase-ordering.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/ikea-product-catalog.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/ikea-product-catalog.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/ikea-sales-item.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/ikea-sales-item.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/ikea-search.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/ikea-search.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Data models expressed in JSON Structure.
 
-### IKEA Search API (Unofficial)
+- [Ikea After Purchase Ordering Part Structure](https://apis.io/json-structure/ikea/ikea-after-purchase-ordering-part-structure/)
+- [Ikea After Purchase Ordering Product Parts Structure](https://apis.io/json-structure/ikea/ikea-after-purchase-ordering-product-parts-structure/)
+- [Ikea After Purchase Ordering Search Part Structure](https://apis.io/json-structure/ikea/ikea-after-purchase-ordering-search-part-structure/)
+- [Ikea After Purchase Ordering Status Structure](https://apis.io/json-structure/ikea/ikea-after-purchase-ordering-status-structure/)
+- [Ikea Product Catalog Category Structure](https://apis.io/json-structure/ikea/ikea-product-catalog-category-structure/)
+- [Ikea Product Catalog Product Details Structure](https://apis.io/json-structure/ikea/ikea-product-catalog-product-details-structure/)
+- [Ikea Product Catalog Store Structure](https://apis.io/json-structure/ikea/ikea-product-catalog-store-structure/)
+- [Ikea Sales Item Availability Envelope Structure](https://apis.io/json-structure/ikea/ikea-sales-item-availability-envelope-structure/)
+- [Ikea Sales Item Availability Error Structure](https://apis.io/json-structure/ikea/ikea-sales-item-availability-error-structure/)
+- [Ikea Sales Item Availability Structure](https://apis.io/json-structure/ikea/ikea-sales-item-availability-structure/)
+- [Ikea Sales Item Class Unit Key Structure](https://apis.io/json-structure/ikea/ikea-sales-item-class-unit-key-structure/)
+- [Ikea Sales Item Expand Option Structure](https://apis.io/json-structure/ikea/ikea-sales-item-expand-option-structure/)
+- [Ikea Sales Item Item Key Structure](https://apis.io/json-structure/ikea/ikea-sales-item-item-key-structure/)
+- [Ikea Sales Item Item Type Structure](https://apis.io/json-structure/ikea/ikea-sales-item-item-type-structure/)
+- [Ikea Sales Item Sales Location Structure](https://apis.io/json-structure/ikea/ikea-sales-item-sales-location-structure/)
+- [Ikea Search Category Structure](https://apis.io/json-structure/ikea/ikea-search-category-structure/)
+- [Ikea Search Common Properties Structure](https://apis.io/json-structure/ikea/ikea-search-common-properties-structure/)
+- [Ikea Search Item Type Structure](https://apis.io/json-structure/ikea/ikea-search-item-type-structure/)
+- [Ikea Search More Products Envelope Structure](https://apis.io/json-structure/ikea/ikea-search-more-products-envelope-structure/)
+- [Ikea Search Product List Page Envelope Structure](https://apis.io/json-structure/ikea/ikea-search-product-list-page-envelope-structure/)
+- [Ikea Search Product Structure](https://apis.io/json-structure/ikea/ikea-search-product-structure/)
 
-Unofficial reverse-engineered specification for IKEA's product search service hosted at sik.search.blue.cdtapps.com. Supports paginated product list pages and filtered search across IKEA's storefront catalogue. This is the only one of the four idelsink specs that the IKEA-hosted endpoint exposes with permissive CORS, so it is the easiest to exercise from a browser. Authored and maintained by idelsink/ikea-openapi. Not an official IKEA developer API.
+#### JSON-LD (4)
 
-- **Human URL:** [https://github.com/idelsink/ikea-openapi](https://github.com/idelsink/ikea-openapi)
-- **Base URL:** `https://sik.search.blue.cdtapps.com/{country}/{language}`
+Linked-data contexts for the provider's vocabulary.
 
-#### Tags
+- [Ikea After Purchase Ordering Context](https://apis.io/jsonld/ikea/ikea-after-purchase-ordering-context/)
+- [Ikea Product Catalog Context](https://apis.io/jsonld/ikea/ikea-product-catalog-context/)
+- [Ikea Sales Item Context](https://apis.io/jsonld/ikea/ikea-sales-item-context/)
+- [Ikea Search Context](https://apis.io/jsonld/ikea/ikea-search-context/)
 
-- Search
-- Products
-- Unofficial API
-- Opensource
+#### Vocabulary (1)
 
-#### Properties
+The provider's domain terms, defined.
 
-- [OpenAPI](https://raw.githubusercontent.com/api-evangelist/ikea/main/openapi/ikea-search-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Documentation](https://ingmar.dels.ink/ikea-openapi/search/)
-- [Source Code](https://github.com/idelsink/ikea-openapi/tree/main/openapi/search)
-- [Postman Collection](collections/ikea-after-purchase-ordering.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/ikea-after-purchase-ordering.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/ikea-product-catalog.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/ikea-product-catalog.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/ikea-sales-item.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/ikea-sales-item.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/ikea-search.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/ikea-search.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Ikea Vocabulary](https://apis.io/vocabularies/ikea/ikea-vocabulary/)
 
-### IKEA Sales Item API (Unofficial)
+#### Examples (5)
 
-Unofficial reverse-engineered specification for IKEA's real-time availability service hosted at api.salesitem.ingka.com. Returns per-store and per-class-unit availability and packaging information for IKEA articles. Used by community projects like ikea-availability-checker and ikeaStockChecker. Authored and maintained by idelsink/ikea-openapi. Not an official IKEA developer API.
+Example requests and responses.
 
-- **Human URL:** [https://github.com/idelsink/ikea-openapi](https://github.com/idelsink/ikea-openapi)
-- **Base URL:** `https://api.salesitem.ingka.com`
+- [Ikea After Purchase Ordering Get Part By Id Example](https://apis.io/examples/ikea/ikea-after-purchase-ordering-get-part-by-id-example/)
+- [Ikea Product Catalog Get Product By Id Example](https://apis.io/examples/ikea/ikea-product-catalog-get-product-by-id-example/)
+- [Ikea Sales Item Get Product Availability Example](https://apis.io/examples/ikea/ikea-sales-item-get-product-availability-example/)
+- [Ikea Search Find Products Example](https://apis.io/examples/ikea/ikea-search-find-products-example/)
+- [Ikea Search Find Products Paginated Example](https://apis.io/examples/ikea/ikea-search-find-products-paginated-example/)
 
-#### Tags
+#### Collections (9)
 
-- Availability
-- Stock
-- Stores
-- Sales Items
-- Unofficial API
-- Opensource
+Postman and Open Collection request collections.
 
-#### Properties
+- [IKEA After Purchase Ordering API](https://apis.io/collections/ikea/open-ikea-after-purchase-ordering/)
+- [IKEA After Purchase Ordering Availability API](https://apis.io/collections/ikea/open-ikea-availability-api/)
+- [IKEA After Purchase Ordering Availability Categories API](https://apis.io/collections/ikea/open-ikea-categories-api/)
+- [IKEA After Purchase Ordering Availability Parts API](https://apis.io/collections/ikea/open-ikea-parts-api/)
+- [IKEA Product Catalog API](https://apis.io/collections/ikea/open-ikea-product-catalog/)
+- [IKEA After Purchase Ordering Availability Products API](https://apis.io/collections/ikea/open-ikea-products-api/)
+- [IKEA Sales Item API](https://apis.io/collections/ikea/open-ikea-sales-item/)
+- [IKEA Search API](https://apis.io/collections/ikea/open-ikea-search/)
+- [IKEA After Purchase Ordering Availability Stores API](https://apis.io/collections/ikea/open-ikea-stores-api/)
 
-- [OpenAPI](https://raw.githubusercontent.com/api-evangelist/ikea/main/openapi/ikea-sales-item-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Documentation](https://ingmar.dels.ink/ikea-openapi/sales-item/)
-- [Source Code](https://github.com/idelsink/ikea-openapi/tree/main/openapi/sales-item)
-- [Postman Collection](collections/ikea-after-purchase-ordering.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/ikea-after-purchase-ordering.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/ikea-product-catalog.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/ikea-product-catalog.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/ikea-sales-item.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/ikea-sales-item.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/ikea-search.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/ikea-search.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### Governance rules (2)
 
-### IKEA After Purchase Ordering API (Unofficial)
+Spectral rulesets for the provider's contracts.
 
-Unofficial reverse-engineered specification for IKEA's spare-parts and After Purchase Ordering (APO) service. Lets shoppers look up replacement parts by partial or full part ID and browse the catalogue of orderable spare parts attached to IKEA products. Authored and maintained by idelsink/ikea-openapi. Not an official IKEA developer API.
+- [IKEA — jsonschema rules](https://apis.io/rules/ikea/ikea-jsonschema-spectral-rules/)
+- [IKEA API Rules](https://apis.io/rules/ikea/ikea-rules/)
 
-- **Human URL:** [https://github.com/idelsink/ikea-openapi](https://github.com/idelsink/ikea-openapi)
+#### Security (3)
 
-#### Tags
+Authentication, trust centre, and vulnerability disclosure.
 
-- After Purchase
-- Spare Parts
-- Aftermarket
-- Unofficial API
-- Opensource
+- [Ikea Authentication](https://apis.io/security/ikea/ikea-authentication/)
+- [Ikea Domain Security](https://apis.io/security/ikea/ikea-domain-security/)
+- [Ikea Vulnerability Disclosure](https://apis.io/security/ikea/ikea-vulnerability-disclosure/)
 
-#### Properties
+## Where to find this API
 
-- [OpenAPI](https://raw.githubusercontent.com/api-evangelist/ikea/main/openapi/ikea-after-purchase-ordering-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Documentation](https://ingmar.dels.ink/ikea-openapi/after-purchase-ordering/)
-- [Source Code](https://github.com/idelsink/ikea-openapi/tree/main/openapi/after-purchase-ordering)
-- [Postman Collection](collections/ikea-after-purchase-ordering.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/ikea-after-purchase-ordering.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/ikea-product-catalog.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/ikea-product-catalog.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/ikea-sales-item.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/ikea-sales-item.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/ikea-search.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/ikea-search.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-### IKEA DIRIGERA Smart Home Hub API (Unofficial, Local)
-
-The DIRIGERA hub is IKEA's next-generation smart home gateway (replacing TRADFRI). It exposes a private, locally-served REST API on the LAN with bearer-token authentication (token obtained by pressing the action button on the hub). There is no public OpenAPI from IKEA; the community has produced several SDKs that document and consume the surface — Leggin/dirigera (Python), lpgera/dirigera (TypeScript), dvdgeisler/DirigeraClient (Java), bombsimon/dirigera-rs (Rust). Resources include lights, outlets, blinds, air purifiers, environment sensors, motion sensors, open/close sensors, scenes, rooms and an event listener websocket. Not an official IKEA developer API.
-
-- **Human URL:** [https://github.com/Leggin/dirigera](https://github.com/Leggin/dirigera)
-
-#### Tags
-
-- Smart Home
-- DIRIGERA
-- IoT
-- Local API
-- Unofficial API
-- Opensource
-
-#### Properties
-
-- [SDK](https://github.com/Leggin/dirigera)
-- [SDK](https://github.com/lpgera/dirigera)
-- [SDK](https://github.com/dvdgeisler/DirigeraClient)
-- [SDK](https://github.com/bombsimon/dirigera-rs)
-- [Integrations](https://github.com/sanjoyg/dirigera_platform)
-- [Integrations](https://github.com/uboness/homebridge-dirigera)
-- [Tools](https://github.com/lpgera/dirigera-web)
-- [Postman Collection](collections/ikea-after-purchase-ordering.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/ikea-after-purchase-ordering.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/ikea-product-catalog.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/ikea-product-catalog.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/ikea-sales-item.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/ikea-sales-item.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/ikea-search.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/ikea-search.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-## Common Properties
-
-- [GitHub Organization](https://github.com/IKEA)
-- [LinkedIn](https://www.linkedin.com/company/ikea)
 - [Website](https://www.ikea.com/)
-- [Corporate Site](https://www.inter.ikea.com/)
-- [SDK](https://pypi.org/project/ikea_api/)
-- [Source Code](https://github.com/idelsink/ikea-openapi)
-- [Source Code](https://github.com/IKEA/IKEA3DAssemblyDataset)
-- [Code Examples](https://github.com/Ephigenia/ikea-availability-checker)
-- [Code Examples](https://github.com/DavisChappins/ikeaStockChecker)
-- [Code Examples](https://github.com/Mirzaei81/ikeaScraper)
+- [Blog](https://www.ikea.com/global/en/newsroom/)
+- [GitHub](https://github.com/IKEA)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 32.8** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 62.5 |
+| Contract quality | 61.3 |
+| Contract governance | 13.6 |
+| Operational transparency | 2.6 |
+| Developer ergonomics | 40.5 |
+| Access clarity | 0.0 |
+
+**Agent readiness 25.8** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | na |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | na |
+| Error Semantics | — |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | — |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | na |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 22.5** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/ikea/](https://apis.io/providers/ikea/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for IKEA: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/ikea/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
